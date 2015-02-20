@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="orgpm-ear">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="orgpm-data-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/orgpm-data/orgpm-data">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jboss-logging-3.2.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/logging/jboss-logging/3.2.0.Final/jboss-logging-3.2.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="orgpm-business-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/orgpm-business/orgpm-business">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="orgpm-web-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/orgpm-web/orgpm-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="orgpm-ear"/>
+        <property name="java-output-path" value="/orgpm-ear/build/classes"/>
+    </wb-module>
+</project-modules>
