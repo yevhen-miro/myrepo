@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Table (name = "mitarbeiter")
 @NamedQueries({
 	@NamedQuery(name="mitarbeiter.delete.all",query="DELETE FROM MitarbeiterEntity"),
-	@NamedQuery(name="mitarbeiter.find.all",query="FROM MitarbeiterEntity AS m"),
-	@NamedQuery(name="mitarbeiter.find.by.lastName",query="FROM MitarbeiterEntity AS m WHERE m.vorname= :vorname")
+	@NamedQuery(name="mitarbeiter.find.all",query="SELECT m FROM MitarbeiterEntity AS m"),
+	@NamedQuery(name="mitarbeiter.find.by.lastName",query="SELECT m FROM MitarbeiterEntity AS m WHERE m.vorname= :vorname")
 })
 public class Mitarbeiter implements Serializable {
 
