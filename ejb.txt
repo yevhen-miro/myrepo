@@ -1,0 +1,19 @@
+CDI 2,9
+Bean Validation 3,11
+Persistence 4,13
+OR Mapping, 5
+Managing Persistent Objects 6,
+EJB 7,8
+Callbacks,timers, authorization, 8,
+transactions, 9,12
+JSF 10,3
+XML JSON 12, 6
+Messaging 13, 14
+SOAP 14, 5
+RESTful WS 15,4
+
+Processing navigation 11,
+web socket
+concurrency
+batch processing
+build application
