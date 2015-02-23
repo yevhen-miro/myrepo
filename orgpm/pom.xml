@@ -65,6 +65,11 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
+			<dependency>
+				<groupId>org.wildfly</groupId>
+				<artifactId>wildfly-arquillian-common</artifactId>
+				<version>8.2.0.Final</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build><!-- Maven will append the version to the finalName (which is the 

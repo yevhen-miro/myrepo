@@ -20,6 +20,8 @@ import javax.persistence.Table;
 })
 public class Mitarbeiter implements Serializable {
 
+	private static final long serialVersionUID = 7859236877492083050L;
+	
 	@Id
 	@GeneratedValue
 	@Column(name="pk")

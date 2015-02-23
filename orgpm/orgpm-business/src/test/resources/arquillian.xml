@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian>
+	<container qualifier="jbossas-managed-wildfly-8" default="true">
+		<configuration>
+			<property name="managementAddress">localhost</property>
+			<property name="managementPort">9990</property>
+			<property name ="username">admin</property>
+			<property name="password">adminadmin</property>
+		</configuration>
+	</container>
+</arquillian>
