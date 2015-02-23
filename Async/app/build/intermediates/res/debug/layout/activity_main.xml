@@ -3,4 +3,4 @@
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:background="@android:color/white"/><!-- From: file:/home/yevhen/AndroidstudioProjects/Async/app/src/main/res/layout/activity_main.xml -->
+    android:background="@android:color/white"/><!-- From: file:/C:/workspace/myrepo/Async/app/src/main/res/layout/activity_main.xml -->

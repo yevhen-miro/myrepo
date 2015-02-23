@@ -202,6 +202,7 @@ public class MainActivity extends Activity implements SelectionListener,
 			}
 
 			String name = "";
+
 			String tweet = "";
 			JSONArray tmp = JSONFeeds[i];
 
