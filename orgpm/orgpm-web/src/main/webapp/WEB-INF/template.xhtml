@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+<h:head>
+<h:outputStylesheet library="scripts/css" name="styles.css"></h:outputStylesheet>
+</h:head>	
+
+<h:body>
+<h:panelGroup id="main" layout="block">
+	<h:panelGroup id="header" layout="block">
+		<ui:insert name="header">
+			<h2>Kundenverwaltung</h2>
+		</ui:insert>
+	</h:panelGroup>
+
+	<h:panelGroup id="navigation" layout="block">
+		<ui:insert name="navigation">
+		
+		<h:link value="Eingabe" outcome ="customer-input.xhtml"/>
+		<h:outputText value=" | "/>
+		<h:link value="Übersicht" outcome ="customer-overview.xhtml"/>
+		<h:outputText value=" | "/>
+		<h:link value="Hilfe" outcome ="customer-help.xhtml"/>
+		
+		
+		</ui:insert>
+	</h:panelGroup>
+
+	<h:panelGroup id="content" layout="block">
+		<ui:insert name="content">
+			<h:outputText value="Platzhalter für Content" />
+		</ui:insert>
+	</h:panelGroup>
+
+	<h:panelGroup id="footer" layout="block">
+		<ui:insert name="footer">
+			<h:outputText value="(c) Hydro 2014" />
+		</ui:insert>
+	</h:panelGroup>
+</h:panelGroup>
+
+<h:messages/>
+</h:body>
+</html>

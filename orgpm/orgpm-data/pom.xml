@@ -2,11 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>de.hydro.gv.orgpm</groupId>
+		<groupId>de.hydro.gv</groupId>
 		<artifactId>orgpm</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>orgpm-data</artifactId>
+	<packaging>ejb</packaging>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax</groupId>
@@ -26,7 +28,6 @@
 			<artifactId>arquillian-junit-container</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 </project>

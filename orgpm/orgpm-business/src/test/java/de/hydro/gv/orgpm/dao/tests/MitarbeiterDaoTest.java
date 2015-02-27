@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.hydro.gv.orgpm.Entities.Mitarbeiter;
+import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.dao.MitarbeiterDao;
 import de.hydro.gv.orgpm.util.Logger;
 
@@ -116,15 +116,15 @@ public class MitarbeiterDaoTest {
 	@Test
 	public void readAndConvertMitarbeiter() {
 		@SuppressWarnings("unchecked")
-		List<de.hydro.gv.orgpm.Entities.Mitarbeiter> results = (List<de.hydro.gv.orgpm.Entities.Mitarbeiter>) mitarbeiterDao
+		List<de.hydro.gv.orgpm.data.Mitarbeiter> results = (List<de.hydro.gv.orgpm.data.Mitarbeiter>) mitarbeiterDao
 				.executeQueryWithResults("mitarbeiter.find.all");
 		ArrayList<Mitarbeiter> arrayList = new ArrayList<Mitarbeiter>();
-		for (de.hydro.gv.orgpm.Entities.Mitarbeiter mitarbeiter : results)
+		for (de.hydro.gv.orgpm.data.Mitarbeiter mitarbeiter : results)
 			arrayList.add(convToModel(mitarbeiter));
 	}
 
 	private Mitarbeiter convToModel(
-			de.hydro.gv.orgpm.Entities.Mitarbeiter mitarbeiter) {
+			de.hydro.gv.orgpm.data.Mitarbeiter mitarbeiter) {
 		Mitarbeiter mitarbeiterModel = new Mitarbeiter();
 		mitarbeiterModel.setName(mitarbeiter.getName());
 		mitarbeiterModel.setVorname(mitarbeiter.getVorname());

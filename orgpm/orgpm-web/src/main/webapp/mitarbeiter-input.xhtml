@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="3">
+				<h:outputLabel value="Vorname" />
+				<h:inputText id="tf-fn" value="#{actions.mitarbeiter.vorname}" />
+				<h:messages for="tf-fn" styleClass="error" />
+
+				<h:outputLabel value="Nachname" />
+				<h:inputText id="tf-ln" value="#{actions.mitarbeiter.name}" />
+				<h:messages for="tf-ln" styleClass="error" />
+
+
+				<h:outputLabel value="Kennung" />
+				<h:inputText id="tf-mk" value="#{actions.mitarbeiter.kennung}" />
+				<h:messages for="tf-mk" styleClass="error" />
+				
+								<h:outputLabel value="Gruppe" />
+				<h:inputText id="tf-mg" value="#{actions.mitarbeiter.gruppe}" />
+				<h:messages for="tf-mg" styleClass="error" />
+				
+								<h:outputLabel value="Arbeitszeit" />
+				<h:inputText id="tf-ma" value="#{actions.mitarbeiter.arbeitszeit}" />
+				<h:messages for="tf-ma" styleClass="error" />
+				
+								<h:outputLabel value="Hydro ID" />
+				<h:inputText id="tf-hi" value="#{actions.mitarbeiter.hydroid}" />
+				<h:messages for="tf-hi" styleClass="error" />
+				
+								<h:outputLabel value="Karten ID" />
+				<h:inputText id="tf-ki" value="#{actions.mitarbeiter.kartenid}" />
+				<h:messages for="tf-ki" styleClass="error" />
+				
+								<h:outputLabel value="Personal ID" />
+				<h:inputText id="tf-pi" value="#{actions.mitarbeiter.personalid}" />
+				<h:messages for="tf-pi" styleClass="error" />
+				
+								<h:outputLabel value="Bemerkung" />
+				<h:inputText id="tf-bm" value="#{actions.mitarbeiter.bemerkung}" />
+				<h:messages for="tf-bm" styleClass="error" />
+				
+				
+
+
+			</h:panelGrid>
+			<h:commandButton action="#{actions.saveMitarbeiter()}"
+				value="Mitarbeiter speichern" />
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

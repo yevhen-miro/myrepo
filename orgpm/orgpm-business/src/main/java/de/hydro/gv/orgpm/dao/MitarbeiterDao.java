@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import de.hydro.gv.orgpm.Entities.Mitarbeiter;
+import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.util.Logger;
 
 @Stateless

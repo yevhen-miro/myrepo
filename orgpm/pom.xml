@@ -1,10 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.hydro.gv.orgpm</groupId>
+	<groupId>de.hydro.gv</groupId>
 	<artifactId>orgpm</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<modules>
+		<module>orgpm-business</module>
+		<module>orgpm-web</module>
+		<module>orgpm-ear</module>
+		<module>orgpm-data</module>
+	</modules>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -80,17 +87,38 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<ejbVersion>3.0</ejbVersion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<webXml>
+								C:\workspace\myrepo\parent\web\src\main\webapp\WEB-INF\web.xml</webXml>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
-	<modules>
-		<module>orgpm-business</module>
-		<module>orgpm-data</module>
-		<module>orgpm-web</module>
-		<module>orgpm-ear</module>
-	</modules>
+
 
 </project>

@@ -2,12 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>de.hydro.gv.orgpm</groupId>
+		<groupId>de.hydro.gv</groupId>
 		<artifactId>orgpm</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>orgpm-business</artifactId>
-	<dependencies>
+	<packaging>ejb</packaging>
+
+<dependencies>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>orgpm-data</artifactId>
@@ -55,5 +57,17 @@
 			<type>pom</type>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<ejbVersion>3.0</ejbVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
