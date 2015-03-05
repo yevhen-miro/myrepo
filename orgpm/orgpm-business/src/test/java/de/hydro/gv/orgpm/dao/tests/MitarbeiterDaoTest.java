@@ -3,6 +3,7 @@ package de.hydro.gv.orgpm.dao.tests;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.junit.Assert;
@@ -18,7 +19,7 @@ import org.junit.runner.RunWith;
 
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.dao.MitarbeiterDao;
-import de.hydro.gv.orgpm.util.Logger;
+import de.hydro.gv.orgpm.dao.MitarbeiterDaoLocal;
 
 @RunWith(Arquillian.class)
 public class MitarbeiterDaoTest {
@@ -27,16 +28,16 @@ public class MitarbeiterDaoTest {
 	public static JavaArchive createDeployment() {
 		return ShrinkWrap
 				.create(JavaArchive.class, "test.jar")
-				.addPackage(MitarbeiterDao.class.getPackage())
-				.addPackage(Logger.class.getPackage())
-				.addPackage(Mitarbeiter.class.getPackage())
+				.addPackages(true, "de.hydro.gv.orgpm.dao")
+				.addPackages(true, "de.hydro.gv.orgpm.data")
+				.addPackages(true, "de.hydro.gv.orgpm.util")
 				.addAsResource("META-INF/persistence.xml",
 						"META-INF/persistence.xml")
 				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
 	@Inject
-	private MitarbeiterDao mitarbeiterDao;
+	private MitarbeiterDaoLocal mitarbeiterDao;
 
 	private Mitarbeiter createTestMitarbeiter() {
 		Mitarbeiter mitarbeiter = new Mitarbeiter();

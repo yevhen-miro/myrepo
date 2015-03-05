@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 //@Model // Alternative to RequestScoped and Named.
 public class Mitarbeiter {//Model View for JSF
 	
-private Integer id;
+private Long id;
 
 @Size(min=2,max=30, message="{first.name.min.max}")
 @Pattern(regexp="[a-zA-Z]*")
@@ -37,11 +37,11 @@ private int hydroid;
 
 private int kartenid;
 
-public int getId() {
+public Long getId() {
 	return id;
 }
 
-public void setId(int id) {
+public void setId(Long id) {
 	this.id = id;
 }
 

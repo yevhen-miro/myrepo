@@ -2,6 +2,7 @@ package de.hydro.gv.orgpm.data;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,14 +10,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity (name = "MitarbeiterEntity")
+@Entity
 @Table (name = "mitarbeiter")
 @NamedQueries({
-	@NamedQuery(name="mitarbeiter.delete.all",query="DELETE FROM MitarbeiterEntity"),
-	@NamedQuery(name="mitarbeiter.find.all",query="SELECT m FROM MitarbeiterEntity AS m"),
-	@NamedQuery(name="mitarbeiter.find.by.lastName",query="SELECT m FROM MitarbeiterEntity AS m WHERE m.vorname= :vorname")
+	@NamedQuery(name="mitarbeiter.delete.all",query="DELETE FROM Mitarbeiter"),
+	@NamedQuery(name="mitarbeiter.find.all",query="SELECT m FROM Mitarbeiter AS m"),
+	@NamedQuery(name="mitarbeiter.find.by.lastName",query="SELECT m FROM Mitarbeiter AS m WHERE m.vorname= :vorname")
 })
 public class Mitarbeiter implements Serializable {
 
@@ -24,8 +26,8 @@ public class Mitarbeiter implements Serializable {
 	
 	@Id
 	@GeneratedValue
-	@Column(name="pk")
-	private Integer id;
+	@Column(name="id")
+	private Long id;
 	
 	@Column(name = "vorname")
 	private String vorname;
@@ -57,14 +59,19 @@ public class Mitarbeiter implements Serializable {
 	@Column(name = "kartenid")
 	private int kartenNum;
 	
+	@OneToMany(mappedBy = "mitarbeiter")
+	private List<Buchung> buchungen;
+
+
+
 	public Mitarbeiter(Integer id,String vorname, String name, String gruppe,String mitarbeiterkennung) {
 	}
 	
-	public int getId(){
+	public Long getId(){
 		return id;
 	}
 	
-	public void setId(int id){
+	public void setId(Long id){
 		this.id = id;
 	}
 	
@@ -138,6 +145,11 @@ public class Mitarbeiter implements Serializable {
 		this.kartenNum = kartenNum;
 	}
 
+	public List<Buchung> getBuchungen() {
+		return buchungen;
+	}
 
-	
+	public void setBuchungen(List<Buchung> buchungen) {
+		this.buchungen = buchungen;
+	}
 }
