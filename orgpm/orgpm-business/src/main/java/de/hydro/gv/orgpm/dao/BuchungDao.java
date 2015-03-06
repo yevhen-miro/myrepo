@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import de.hydro.gv.orgpm.data.Buchung;
+import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.util.PerformanceInterceptor;
 
 @Stateless
@@ -45,20 +46,20 @@ public class BuchungDao implements BuchungDaoLocal{
 		
 	}
 
-	public void updateMitarbeiter(Buchung b) {
+	public void updateBuchung(Buchung b) {
 		em.merge(b);
 		
 	}
 
-	public void deleteMitarbeiter(Buchung b) {
+	public void deleteBuchung(Buchung b) {
 		em.remove(em.merge(b));
 		
 	}
 
 	public List<Buchung> readAllBuchungen() {
-		return em.createQuery("FROM Buchungen",Buchung.class).getResultList();
+		return em.createQuery("SELECT b FROM Buchung b",Buchung.class).getResultList();
 	}
-
+	
 	public void removeAlleBuchungen() {
 		em.createQuery("DELETE FROM Buchungen").executeUpdate();
 		
@@ -71,6 +72,17 @@ public class BuchungDao implements BuchungDaoLocal{
 	public void executeQuery(String queryName) {
 		em.createNamedQuery(queryName).executeUpdate();
 		
+	}
+
+	public List<?> getBuchungByMitarbeiter(Integer _hydroid) {
+		
+		return em.createNamedQuery("buchung.find.buchung.by.mitarbeiter")
+				 .setParameter("hydroid", _hydroid).getResultList();
+	}
+	
+
+	public Buchung getBuchungById(Long _id){
+		return em.find(Buchung.class, _id);
 	}
 	
 	

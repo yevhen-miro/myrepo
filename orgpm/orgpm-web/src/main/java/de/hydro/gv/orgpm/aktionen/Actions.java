@@ -13,12 +13,14 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.hydro.gv.orgpm.dao.BuchungDaoLocal;
 import de.hydro.gv.orgpm.dao.CustomerPersistanceServiceLocal;
 import de.hydro.gv.orgpm.dao.ImplByConsole;
 import de.hydro.gv.orgpm.dao.LogService;
 import de.hydro.gv.orgpm.dao.LogServiceByConsole;
 import de.hydro.gv.orgpm.dao.MitarbeiterDao;
 import de.hydro.gv.orgpm.dao.MitarbeiterDaoLocal;
+import de.hydro.gv.orgpm.model.Buchung;
 import de.hydro.gv.orgpm.model.Mitarbeiter;
 import de.hydro.gv.orgpm.model.CreditCard;
 import de.hydro.gv.orgpm.model.Customer;
@@ -35,9 +37,9 @@ import org.primefaces.event.RowEditEvent;
 @Named
 public class Actions implements Serializable {
 	
-	@Inject
+/*	@Inject
 	@ImplByConsole//CDI Annotation
-	private LogService logService;
+	private LogService logService;*/
 
 	@Inject
 	private Conversation conversation; // Interface from JEE Context and have to
@@ -45,6 +47,7 @@ public class Actions implements Serializable {
 
 	private Customer customer = new Customer();
 	private Mitarbeiter mitarbeiter = new Mitarbeiter();
+	private Buchung buchung = new Buchung();
 
 	@Inject
 	private CustomerPersistanceServiceLocal persistanceService;
@@ -52,9 +55,13 @@ public class Actions implements Serializable {
 	@Inject
 	private MitarbeiterDaoLocal mitarbeiterDao;
 	
+	@Inject
+	private BuchungDaoLocal buchungDao;
+	
 
 	private ArrayList<Customer> cachedCustomerList;
 	private ArrayList<Mitarbeiter> cachedMitarbeiterList;
+	private ArrayList<Buchung> cachedBuchungList;
 
 	public String saveCustomer() { // have to be of String type, without
 									// parameters and return result
@@ -72,6 +79,11 @@ public class Actions implements Serializable {
 	public String saveMitarbeiter() {
 		mitarbeiterDao.createMitarbeiter(convertToEntity(mitarbeiter));
 		return "mitarbeiter-overview.xhtml";
+	}
+	
+	public String saveBuchung() {
+		buchungDao.createBuchung(convertToEntity(buchung));
+		return "buchungen.xhtml";
 	}
 
 	private de.hydro.gv.orgpm.data.Mitarbeiter convertToEntity(
@@ -97,6 +109,24 @@ public class Actions implements Serializable {
 		customerEntity.setDateOfBirth(custToConvert.getDateOfBirth());
 		return customerEntity;
 	}
+	
+	private de.hydro.gv.orgpm.data.Buchung convertToEntity(Buchung buchungToConvert) {
+		de.hydro.gv.orgpm.data.Buchung buchungEntity = new de.hydro.gv.orgpm.data.Buchung();
+		buchungEntity.setAktivitaetId(buchungToConvert.getAktivitaetId());
+		buchungEntity.setAnfangZeit(buchungToConvert.getAnfangZeit());
+		buchungEntity.setDatum(buchungToConvert.getDatum());
+		buchungEntity.setEndeZeit(buchungToConvert.getEndeZeit());
+		buchungEntity.setMin(buchungToConvert.getMin());
+		buchungEntity.setPauseBis(buchungToConvert.getPauseBis());
+		buchungEntity.setPauseVon(buchungToConvert.getPauseVon());
+		buchungEntity.setProjektId(buchungToConvert.getProjektId());
+		buchungEntity.setStd(buchungToConvert.getStd());
+		buchungEntity.setTaetigkeiten(buchungToConvert.getTaetigkeiten());
+		buchungEntity.setWartungId(buchungToConvert.getWartungId());
+		buchungEntity.setMitarbeiter(buchungToConvert.getMitarbeiter());
+
+		return buchungEntity;
+	}
 
 	public String removeCustomer() { // have to be of String type, without
 										// parameters and return result
@@ -112,7 +142,16 @@ public class Actions implements Serializable {
 		tempEntity.setId(mitarbeiter.getId());
 		mitarbeiterDao.deleteMitarbeiter(tempEntity);
 		cachedMitarbeiterList = null;
-		logService.logMessage("remove mitarbeiter message");
+		//logService.logMessage("remove mitarbeiter message");
+		return null;
+	}
+	
+	public String removeBuchung() {
+		de.hydro.gv.orgpm.data.Buchung tempBuchung = new de.hydro.gv.orgpm.data.Buchung();
+		tempBuchung.setId(buchung.getId());
+		buchungDao.deleteBuchung(tempBuchung);
+		cachedBuchungList = null;
+		//logService.logMessage("remove buchung message");
 		return null;
 	}
 
@@ -129,6 +168,12 @@ public class Actions implements Serializable {
 		cachedMitarbeiterList = null;
 		return null;
 	}
+	
+	public String updateBuchung() {
+		buchungDao.updateBuchung(convertToEntity(buchung));
+		cachedBuchungList = null;
+		return null;
+	}
 
 	public List<Customer> getAllCustomers() {
 		if (cachedCustomerList == null)
@@ -139,6 +184,12 @@ public class Actions implements Serializable {
 		if (cachedMitarbeiterList == null)
 			cachedMitarbeiterList = readAndConvertMitarbeiter();
 		return cachedMitarbeiterList;
+	}
+	
+	public List <Buchung> getAlleBuchungen() {
+		if (cachedBuchungList == null)
+			cachedBuchungList = readAndConvertBuchungen();
+		return cachedBuchungList;
 	}
 
 	private ArrayList<Customer> readAndConvertCustomers() {
@@ -157,6 +208,15 @@ public class Actions implements Serializable {
 		ArrayList<Mitarbeiter> arrayList = new ArrayList<Mitarbeiter>();
 		for (de.hydro.gv.orgpm.data.Mitarbeiter mitarbeiter : results)
 			arrayList.add(convToModel(mitarbeiter));
+		return arrayList;
+	}
+	
+	private ArrayList <Buchung> readAndConvertBuchungen() {
+		@SuppressWarnings("unchecked")
+		List <de.hydro.gv.orgpm.data.Buchung> results = (List<de.hydro.gv.orgpm.data.Buchung>) buchungDao.getBuchungByMitarbeiter(136862);
+		ArrayList<Buchung> arrayList = new ArrayList<Buchung>();
+		for (de.hydro.gv.orgpm.data.Buchung buchung : results)
+			arrayList.add(convertToModel(buchung));
 		return arrayList;
 	}
 
@@ -187,6 +247,26 @@ public class Actions implements Serializable {
 
 		return mitarbeiterModel;
 	}
+	
+	private Buchung convertToModel(
+			de.hydro.gv.orgpm.data.Buchung buchung) {
+		Buchung buchungModel = new Buchung();
+		
+		buchungModel.setAktivitaetId(buchung.getAktivitaetId());
+		buchungModel.setAnfangZeit(buchung.getAnfangZeit());
+		buchungModel.setDatum(buchung.getDatum());
+		buchungModel.setEndeZeit(buchung.getEndeZeit());
+		buchungModel.setMin(buchung.getMin());
+		buchungModel.setPauseBis(buchung.getPauseBis());
+		buchungModel.setPauseVon(buchung.getPauseVon());
+		buchungModel.setProjektId(buchung.getProjektId());
+		buchungModel.setStd(buchung.getStd());
+		buchungModel.setTaetigkeiten(buchung.getTaetigkeiten());
+		buchungModel.setWartungId(buchung.getWartungId());
+		//buchungModel.setMitarbeiter(buchung.getMitarbeiter());
+
+		return buchungModel;
+	}
 
 	public List<CreditCard> getAllCreditCards() { // this method will be used in
 													// JSF without "get"
@@ -215,6 +295,14 @@ public class Actions implements Serializable {
 		this.mitarbeiter = mitarbeiter;
 	}
 	
+	public Buchung getBuchung() {
+		return buchung;
+	}
+	
+	public void setBuchung(Buchung buchung) {
+		this.buchung = buchung;
+	}
+	
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -240,11 +328,23 @@ public class Actions implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
-
+    public void BuchungOnRowEdit(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Buchung geändert", ((Buchung) event.getObject()).getProjektId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    public void BuchungOnRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Änderung abgebrochen", ((Buchung) event.getObject()).getProjektId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 	
 	
 	public String addNewMitarbeiter() {
 		return "mitarbeiter-input.xhtml";
 	}
+	
+	public String addNewBuchung() {
+		return "buchungen-input.xhtml";
+	}
+	
 
 }

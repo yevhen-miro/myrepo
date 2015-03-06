@@ -1,7 +1,7 @@
 package de.hydro.gv.orgpm.dao;
 
+
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 
 

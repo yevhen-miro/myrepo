@@ -8,9 +8,9 @@ public interface BuchungDaoLocal {
 
 	public abstract void createBuchung(Buchung b);
 
-	public abstract void updateMitarbeiter(Buchung b);
+	public abstract void updateBuchung(Buchung b);
 
-	public abstract void deleteMitarbeiter(Buchung b);
+	public abstract void deleteBuchung(Buchung b);
 
 	public abstract List<Buchung> readAllBuchungen();
 
@@ -23,5 +23,9 @@ public interface BuchungDaoLocal {
 	public List<?> executeQueryWithResults(String queryName);
 
 	public void executeQuery(String queryName);
+	
+	public List<?> getBuchungByMitarbeiter(Integer _hydroid);
+	
+	public Buchung getBuchungById(Long _id);
 
 }

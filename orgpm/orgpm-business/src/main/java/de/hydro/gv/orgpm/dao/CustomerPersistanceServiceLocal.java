@@ -3,9 +3,11 @@ package de.hydro.gv.orgpm.dao;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.ejb.Stateless;
 
 import de.hydro.gv.orgpm.data.Customer;
 
+@Stateless
 @Local // local interface for local access 
 public interface CustomerPersistanceServiceLocal {
 

@@ -24,7 +24,9 @@ import javax.persistence.TemporalType;
 @Table (name = "buchungen")
 @NamedQueries({
 	@NamedQuery(name="buchung.delete.all",query="DELETE FROM Buchung"),
-	@NamedQuery(name="buchung.find.all",query="SELECT b FROM Buchung AS b")
+	@NamedQuery(name="buchung.find.all",query="SELECT b FROM Buchung AS b"),
+	@NamedQuery(name="buchung.find.buchung.by.mitarbeiter",query="SELECT b FROM Buchung b INNER JOIN b.mitarbeiter m "+
+																 "WHERE m.hydroId = :hydroid")
 })
 
 public class Buchung implements Serializable {
@@ -55,14 +57,16 @@ public class Buchung implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "anfang")
 	private Calendar anfangZeit;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ende")
 	private Calendar endeZeit;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "pause_Von")
 	private Calendar pauseVon;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "pause_Bis")
 	private Calendar pauseBis;
 	

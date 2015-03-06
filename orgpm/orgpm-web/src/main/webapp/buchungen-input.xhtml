@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="3">
+				<h:outputLabel value="HydroId" />
+				<h:inputText id="bu-hi" value="#{actions.buchung.mitarbeiter}" />
+				<h:messages for="bu-hi" styleClass="error" />
+
+				<h:outputLabel value="Projekt" />
+				<h:inputText id="bu-pi" value="#{actions.buchung.projektId}" />
+				<h:messages for="bu-pi" styleClass="error" />
+
+
+				<h:outputLabel value="Aktivität" />
+				<h:inputText id="bu-ak" value="#{actions.buchung.aktivitaetId}" />
+				<h:messages for="bu-ak" styleClass="error" />
+				
+								<h:outputLabel value="Datum" />
+				<h:inputText id="bu-dt" value="#{actions.buchung.datum}" />
+				<h:messages for="bu-dt" styleClass="error" />
+				
+								<h:outputLabel value="Anfang" />
+				<h:inputText id="bu-az" value="#{actions.buchung.anfangZeit}" />
+				<h:messages for="bu-az" styleClass="error" />
+				
+								<h:outputLabel value="Ende" />
+				<h:inputText id="bu-ez" value="#{actions.buchung.endeZeit}" />
+				<h:messages for="bu-ez" styleClass="error" />
+				
+								<h:outputLabel value="Pause Von" />
+				<h:inputText id="bu-pv" value="#{actions.buchung.pauseVon}" />
+				<h:messages for="bu-pv" styleClass="error" />
+				
+												<h:outputLabel value="Pause Bis" />
+				<h:inputText id="bu-pb" value="#{actions.buchung.pauseBis}" />
+				<h:messages for="bu-pb" styleClass="error" />
+				
+								<h:outputLabel value="Stunden" />
+				<h:inputText id="bu-st" value="#{actions.buchung.std}" />
+				<h:messages for="bu-st" styleClass="error" />
+				
+								<h:outputLabel value="Minuten" />
+				<h:inputText id="bu-mi" value="#{actions.buchung.min}" />
+				<h:messages for="bu-mi" styleClass="error" />
+				
+												<h:outputLabel value="Tätigkeit" />
+				<h:inputText id="bu-tk" value="#{actions.buchung.taetigkeiten}" />
+				<h:messages for="bu-tk" styleClass="error" />
+				
+												<h:outputLabel value="WartungId" />
+				<h:inputText id="bu-wi" value="#{actions.buchung.wartungId}" />
+				<h:messages for="bu-wi" styleClass="error" />
+				
+				
+
+
+			</h:panelGrid>
+			<h:commandButton action="#{actions.saveBuchung()}"
+				value="Buchung speichern" />
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

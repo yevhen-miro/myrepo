@@ -2,70 +2,10 @@
     <wb-module deploy-name="orgpm-ear">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
-        <dependent-module archiveName="orgpm-data-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/orgpm-data/orgpm-data">
+        <dependent-module archiveName="orgpm-data-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/de/hydro/gv/orgpm-data/0.0.1-SNAPSHOT/orgpm-data-0.0.1-SNAPSHOT.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="jboss-logging-3.2.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/logging/jboss-logging/3.2.0.Final/jboss-logging-3.2.0.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="orgpm-business-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/orgpm-business/orgpm-business">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="hornetq-commons-2.4.5.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/hornetq/hornetq-commons/2.4.5.Final/hornetq-commons-2.4.5.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="hornetq-core-client-2.4.5.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/hornetq/hornetq-core-client/2.4.5.Final/hornetq-core-client-2.4.5.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jgroups-3.4.5.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jgroups/jgroups/3.4.5.Final/jgroups-3.4.5.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="hornetq-journal-2.4.5.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/hornetq/hornetq-journal/2.4.5.Final/hornetq-journal-2.4.5.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="hornetq-native-2.4.5.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/hornetq/hornetq-native/2.4.5.Final/hornetq-native-2.4.5.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="hornetq-jms-client-2.4.5.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/hornetq/hornetq-jms-client/2.4.5.Final/hornetq-jms-client-2.4.5.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="javax.inject-1.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/javax/inject/javax.inject/1/javax.inject-1.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jboss-remote-naming-2.0.1.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/jboss-remote-naming/2.0.1.Final/jboss-remote-naming-2.0.1.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jboss-ejb-client-2.0.1.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/jboss-ejb-client/2.0.1.Final/jboss-ejb-client-2.0.1.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jboss-marshalling-1.4.9.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/marshalling/jboss-marshalling/1.4.9.Final/jboss-marshalling-1.4.9.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jboss-marshalling-river-1.4.9.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/marshalling/jboss-marshalling-river/1.4.9.Final/jboss-marshalling-river-1.4.9.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="netty-all-4.0.15.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/io/netty/netty-all/4.0.15.Final/netty-all-4.0.15.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jboss-remoting-4.0.6.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/remoting/jboss-remoting/4.0.6.Final/jboss-remoting-4.0.6.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jboss-sasl-1.0.4.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/sasl/jboss-sasl/1.0.4.Final/jboss-sasl-1.0.4.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jboss-jms-api_2.0_spec-1.0.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/spec/javax/jms/jboss-jms-api_2.0_spec/1.0.0.Final/jboss-jms-api_2.0_spec-1.0.0.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="xnio-api-3.3.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/xnio/xnio-api/3.3.0.Final/xnio-api-3.3.0.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="xnio-nio-3.3.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jboss/xnio/xnio-nio/3.3.0.Final/xnio-nio-3.3.0.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="wildfly-build-config-8.2.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/wildfly/wildfly-build-config/8.2.0.Final/wildfly-build-config-8.2.0.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="orgpm-web-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/orgpm-web/orgpm-web">
+        <dependent-module archiveName="orgpm-web-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/classpath/var/M2_REPO/de/hydro/gv/orgpm-web/0.0.1-SNAPSHOT/orgpm-web-0.0.1-SNAPSHOT.war">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>
