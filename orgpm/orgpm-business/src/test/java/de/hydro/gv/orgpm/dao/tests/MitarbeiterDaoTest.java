@@ -85,7 +85,7 @@ public class MitarbeiterDaoTest {
 	}
 
 	@Test
-	public void testUpdateMitarbeiter() {
+	public void testUpdateMitarbeiter() throws Exception {
 		Mitarbeiter mitarbeiter = createTestMitarbeiter();
 		mitarbeiterDao.createMitarbeiter(mitarbeiter);
 		mitarbeiter.setVorname("Yevheniy");

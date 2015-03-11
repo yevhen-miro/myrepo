@@ -44,11 +44,10 @@ public class MitarbeiterDao implements MitarbeiterDaoLocal{
 	}
 	
 	
+	public MitarbeiterDao() {
+		
+	}
 
-	
-
-	
-	
 	public void createMitarbeiter(Mitarbeiter m){
 		entityManager.persist(m);
 	}
@@ -58,7 +57,7 @@ public class MitarbeiterDao implements MitarbeiterDaoLocal{
 	}
 	
 	public void updateMitarbeiter(Mitarbeiter m) {
-		entityManager.merge(m);
+		 entityManager.merge(m);
 		
 	}
 
@@ -77,6 +76,17 @@ public class MitarbeiterDao implements MitarbeiterDaoLocal{
 	public void removeAllMitarbeiter() {
 		entityManager.createQuery("DELETE FROM MitarbeiterEntity").executeUpdate();
 		
+	}
+	
+	public void getMitarbeiterById(Long id) {
+		entityManager.getReference(Mitarbeiter.class, id);
+		
+	}
+	
+	public Mitarbeiter getMitarbeiterByName(String _name) {
+		return (Mitarbeiter) entityManager.createNamedQuery("mitarbeiter.find.by.lastName")
+				.setParameter("vorname", _name)
+				.getSingleResult();
 	}
 
 

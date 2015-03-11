@@ -1,6 +1,7 @@
 package de.hydro.gv.orgpm.dao;
 
 import javax.ejb.Local;
+import javax.enterprise.context.RequestScoped;
 
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 
@@ -28,5 +29,8 @@ public interface MitarbeiterDaoLocal {
 	
 	public void executeQuery(String queryName);
 	
+	public void getMitarbeiterById(Long id);
+	
+	public Mitarbeiter getMitarbeiterByName(String _name);
 
 }

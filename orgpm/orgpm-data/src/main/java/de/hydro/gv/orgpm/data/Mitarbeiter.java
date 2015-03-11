@@ -1,6 +1,8 @@
 package de.hydro.gv.orgpm.data;
 
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -24,8 +27,9 @@ public class Mitarbeiter implements Serializable {
 
 	private static final long serialVersionUID = 7859236877492083050L;
 	
+	@SequenceGenerator(name = "SEQ_MITARBEITER", sequenceName = "SEQ_MITARBEITER", allocationSize = 1)
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_MITARBEITER")
 	@Id
-	@GeneratedValue
 	@Column(name="id")
 	private Long id;
 	

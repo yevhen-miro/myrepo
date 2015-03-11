@@ -7,7 +7,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>orgpm-business</artifactId>
-	<packaging>ejb</packaging>
 
 <dependencies>
 		<dependency>
@@ -57,17 +56,5 @@
 			<type>pom</type>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-ejb-plugin</artifactId>
-				<configuration>
-					<ejbVersion>3.0</ejbVersion>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

@@ -20,32 +20,38 @@
 				<h:outputLabel value="Kennung" />
 				<h:inputText id="tf-mk" value="#{actions.mitarbeiter.kennung}" />
 				<h:messages for="tf-mk" styleClass="error" />
-				
-								<h:outputLabel value="Gruppe" />
+
+				<h:outputLabel value="Gruppe" />
 				<h:inputText id="tf-mg" value="#{actions.mitarbeiter.gruppe}" />
 				<h:messages for="tf-mg" styleClass="error" />
-				
-								<h:outputLabel value="Arbeitszeit" />
+
+				<h:outputLabel value="GruppeTab" />
+				<h:selectOneMenu value="#{actions.mitarbeiter.gruppe}">
+				<f:converter converterId="GruppeConverter"></f:converter>
+					<f:selectItems value="#{actions.allMitarbeiter}" var="tempMA" itemLabel="#{tempMA.gruppe}" />
+				</h:selectOneMenu>
+
+				<h:outputLabel value="Arbeitszeit" />
 				<h:inputText id="tf-ma" value="#{actions.mitarbeiter.arbeitszeit}" />
 				<h:messages for="tf-ma" styleClass="error" />
-				
-								<h:outputLabel value="Hydro ID" />
+
+				<h:outputLabel value="Hydro ID" />
 				<h:inputText id="tf-hi" value="#{actions.mitarbeiter.hydroid}" />
 				<h:messages for="tf-hi" styleClass="error" />
-				
-								<h:outputLabel value="Karten ID" />
+
+				<h:outputLabel value="Karten ID" />
 				<h:inputText id="tf-ki" value="#{actions.mitarbeiter.kartenid}" />
 				<h:messages for="tf-ki" styleClass="error" />
-				
-								<h:outputLabel value="Personal ID" />
+
+				<h:outputLabel value="Personal ID" />
 				<h:inputText id="tf-pi" value="#{actions.mitarbeiter.personalid}" />
 				<h:messages for="tf-pi" styleClass="error" />
-				
-								<h:outputLabel value="Bemerkung" />
+
+				<h:outputLabel value="Bemerkung" />
 				<h:inputText id="tf-bm" value="#{actions.mitarbeiter.bemerkung}" />
 				<h:messages for="tf-bm" styleClass="error" />
-				
-				
+
+
 
 
 			</h:panelGrid>

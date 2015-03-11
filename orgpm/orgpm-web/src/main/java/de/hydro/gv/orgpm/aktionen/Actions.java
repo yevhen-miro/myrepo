@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -164,9 +165,16 @@ public class Actions implements Serializable {
 		//de.schellsoft.seminars.ee7.custimercare.ejb.Mitarbeiter tempMitarbeiter = new de.schellsoft.seminars.ee7.custimercare.ejb.Mitarbeiter();
 		//tempMitarbeiter.setId(mitarbeiter.getId());
 		//tempMitarbeiter.setVorname(mitarbeiter.getVorname());
-		mitarbeiterDao.updateMitarbeiter(convertToEntity(mitarbeiter));
+		//de.hydro.gv.orgpm.data.Mitarbeiter mitarbeiter = convertToEntity(mitarbeiter);
+		//mitarbeiterDao.getMitarbeiterById(mitarbeiter.getId());
+		//de.hydro.gv.orgpm.data.Mitarbeiter mitarbeiter = mitarbeiterDao.getMitarbeiterByName(mitarbeiter.getVorname());
+		//mitarbeiterDao.updateMitarbeiter(convertToEntity(mitarbeiter));
 		cachedMitarbeiterList = null;
 		return null;
+	}
+	
+	public de.hydro.gv.orgpm.data.Mitarbeiter getMitarbeiterName() {
+		return mitarbeiterDao.getMitarbeiterByName(mitarbeiter.getVorname());
 	}
 	
 	public String updateBuchung() {
@@ -311,12 +319,15 @@ public class Actions implements Serializable {
 	}
 	
     public void MitarbeiterOnRowEdit(RowEditEvent event) {
-    	updateMitarbeiter();
-        FacesMessage msg = new FacesMessage("Mitarbeiter geändert", ((Mitarbeiter) event.getObject()).getName());
+    	
+    	//de.hydro.gv.orgpm.data.Mitarbeiter mitarbeiter = mitarbeiterDao.getMitarbeiterByName(mitarbeiter.getVorname());
+    	//getMitarbeiterName();
+    	//mitarbeiterDao.updateMitarbeiter(convertToEntity(mitarbeiter));
+        FacesMessage msg = new FacesMessage("Mitarbeiter geändert", ((Mitarbeiter) event.getObject()).getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     public void MitarbeiterOnRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Ã„nderung abgebrochen", ((Mitarbeiter) event.getObject()).getName());
+        FacesMessage msg = new FacesMessage("Änderung abgebrochen", ((Mitarbeiter) event.getObject()).getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     public void CustomerOnRowEdit(RowEditEvent event) {
@@ -336,6 +347,7 @@ public class Actions implements Serializable {
         FacesMessage msg = new FacesMessage("Änderung abgebrochen", ((Buchung) event.getObject()).getProjektId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
 	
 	
 	public String addNewMitarbeiter() {

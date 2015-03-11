@@ -10,15 +10,18 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Table (name = "buchungen")
@@ -33,8 +36,9 @@ public class Buchung implements Serializable {
 
 	private static final long serialVersionUID = 7859236877492083050L;
 	
+	@SequenceGenerator(name = "SEQ_BUCHUNGEN", sequenceName = "SEQ_BUCHUNGEN", allocationSize = 1)
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_BUCHUNGEN")
 	@Column(name="id")
 	private Long id;
 	
@@ -46,7 +50,7 @@ public class Buchung implements Serializable {
 	@Column(name = "projekt_Id")
 	private String projektId;
 	
-	@Column(name = "aktivität_Id")
+	@Column(name = "aktivitaet_Id")
 	private int aktivitaetId;
 	
 	@Temporal(TemporalType.DATE)
@@ -76,7 +80,7 @@ public class Buchung implements Serializable {
 	@Column(name = "minuten")
 	private int min;
 	
-	@Column(name = "tätigkeiten")
+	@Column(name = "taetigkeiten")
 	private String taetigkeiten;
 	
 	@Column(name = "wartung_Id")

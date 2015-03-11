@@ -6,6 +6,7 @@ import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
@@ -14,11 +15,12 @@ import javax.persistence.PersistenceContext;
 
 
 
+
 import de.hydro.gv.orgpm.data.Customer;
 import de.hydro.gv.orgpm.util.PerformanceInterceptor;
 
-@Stateless //session Bean, name = class name. If it implements remote interface, it becomes accessible for remote access over network. You can define accessible methods in the interfaces.
-@Interceptors(PerformanceInterceptor.class)
+@RequestScoped //session Bean, name = class name. If it implements remote interface, it becomes accessible for remote access over network. You can define accessible methods in the interfaces.
+//@Interceptors(PerformanceInterceptor.class)
 //@Pool("slsb-strict-max-pool")
 public class CustomerPersistanceService implements CustomerPersistanceServiceRemote, CustomerPersistanceServiceLocal { // F3 on the interface will create interface
 	

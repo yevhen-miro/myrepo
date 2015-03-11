@@ -14,16 +14,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.3</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<configuration>
-							<webXml>
-								C:\workspace\myrepo\parent\web\src\main\webapp\WEB-INF\web.xml</webXml>
-						</configuration>
-					</execution>
-				</executions>
+				<version>2.6</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -33,11 +27,13 @@
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>orgpm-business</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>orgpm-data</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
