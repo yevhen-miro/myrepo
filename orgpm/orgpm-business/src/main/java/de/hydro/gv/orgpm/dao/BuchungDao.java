@@ -7,6 +7,7 @@ import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
@@ -16,18 +17,17 @@ import de.hydro.gv.orgpm.data.Buchung;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.util.PerformanceInterceptor;
 
-@Stateless
-@Interceptors(PerformanceInterceptor.class)
+@RequestScoped
 public class BuchungDao implements BuchungDaoLocal{
 	
 	@Inject
 	@ImplByConsole//CDI Annotation
 	private LogService logService;
 	
-	@Resource
+	
 	private SessionContext sessionContext;
 	
-	@Resource
+
 	@PersistenceContext
 	private EntityManager em;
 	

@@ -1,14 +1,9 @@
-package de.hydro.gv.orgpm.model;
+package de.hydro.gv.orgpm.models;
 
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@RequestScoped
-@Named //Name reference in JSF will be the class name by default
-//@Model // Alternative to RequestScoped and Named.
+
 public class Mitarbeiter {//Model View for JSF
 	
 private Long id;
@@ -125,6 +120,39 @@ public void setKartenid(int kartenid) {
 	this.kartenid = kartenid;
 }
 
+public de.hydro.gv.orgpm.data.Mitarbeiter convertToEntity(Mitarbeiter mitToConvert) {
+	
+	de.hydro.gv.orgpm.data.Mitarbeiter mitarbeiterEntity = new de.hydro.gv.orgpm.data.Mitarbeiter();
+	mitarbeiterEntity.setId(mitToConvert.getId());
+	mitarbeiterEntity.setVorname(mitToConvert.getVorname());
+	mitarbeiterEntity.setName(mitToConvert.getName());
+	mitarbeiterEntity.setArbeitszeit(mitToConvert.getArbeitszeit());
+	mitarbeiterEntity.setBemerkung(mitToConvert.getBemerkung());
+	mitarbeiterEntity.setgruppe(mitToConvert.getGruppe());
+	mitarbeiterEntity.setHydroId(mitToConvert.getHydroid());
+	mitarbeiterEntity.setKartenNum(mitToConvert.getKartenid());
+	mitarbeiterEntity.setMitarbeiterkennung(mitToConvert.getKennung());
+	mitarbeiterEntity.setMitarbeiterStatus(mitToConvert.getStatus());
+	mitarbeiterEntity.setPersonalNum(mitToConvert.getPersonalid());
+	return mitarbeiterEntity;
+}
+
+public Mitarbeiter convertToModel(de.hydro.gv.orgpm.data.Mitarbeiter mitarbeiter) {
+
+	this.setId(mitarbeiter.getId());
+	this.setName(mitarbeiter.getName());
+	this.setVorname(mitarbeiter.getVorname());
+	this.setArbeitszeit(mitarbeiter.getArbeitszeit());
+	this.setBemerkung(mitarbeiter.getBemerkung());
+	this.setGruppe(mitarbeiter.getgruppe());
+	this.setHydroid(mitarbeiter.getHydroId());
+	this.setKartenid(mitarbeiter.getKartenNum());
+	this.setKennung(mitarbeiter.getMitarbeiterkennung());
+	this.setStatus(mitarbeiter.getMitarbeiterStatus());
+	this.setPersonalid(mitarbeiter.getPersonalNum());
+
+	return this;
+}
 
 
 }

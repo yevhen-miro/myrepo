@@ -118,6 +118,7 @@ public class Mitarbeiter implements Serializable {
 	public void setArbeitszeit(double arbeitszeit) {
 		this.arbeitszeit = arbeitszeit;
 	}
+
 	public double getMitarbeiterStatus() {
 		return mitarbeiterStatus;
 	}
@@ -155,5 +156,27 @@ public class Mitarbeiter implements Serializable {
 
 	public void setBuchungen(List<Buchung> buchungen) {
 		this.buchungen = buchungen;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + hydroId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mitarbeiter other = (Mitarbeiter) obj;
+		if (hydroId != other.hydroId)
+			return false;
+		return true;
 	}
 }

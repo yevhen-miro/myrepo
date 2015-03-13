@@ -6,17 +6,26 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/template.xhtml">
+
+	<ui:define name="header">
+		<h2>Mitarbeiterverwaltung</h2>
+	</ui:define>
+
 	<ui:define name="content">
+		<br></br>
+
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
-			<p:dataTable value="#{actions.allMitarbeiter}" var="actMitarbeiter"
-				editable="true" resizableColumns="false"
-				style="margin-bottom:10px;font-size:15px">
+			<p:dataTable value="#{mitarbeiterAktionen.alleMitarbeiter}"
+				var="actMitarbeiter" editable="true" resizableColumns="false"
+				style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
 
-				<p:ajax event="rowEdit" listener="#{actions.MitarbeiterOnRowEdit}"
+				<p:ajax event="rowEdit"
+					listener="#{mitarbeiterAktionen.MitarbeiterOnRowEdit}"
 					update=":form:msgs" />
 				<p:ajax event="rowEditCancel"
-					listener="#{actions.MitarbeiterOnRowCancel}" update=":form:msgs" />
+					listener="#{mitarbeiterAktionen.MitarbeiterOnRowCancel}"
+					update=":form:msgs" />
 
 				<p:column headerText="Vorname" sortBy="#{actMitarbeiter.vorname}">
 					<p:cellEditor>
@@ -51,7 +60,8 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Arbeitszeit" sortBy="#{actMitarbeiter.arbeitszeit}">
+				<p:column headerText="Arbeitszeit"
+					sortBy="#{actMitarbeiter.arbeitszeit}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{actMitarbeiter.arbeitszeit}" />
@@ -84,7 +94,8 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="PerosnalID" sortBy="#{actMitarbeiter.personalid}">
+				<p:column headerText="PerosnalID"
+					sortBy="#{actMitarbeiter.personalid}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{actMitarbeiter.personalid}" />
@@ -117,7 +128,8 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Bemerkung" sortBy="#{actMitarbeiter.bemerkung}">
+				<p:column headerText="Bemerkung"
+					sortBy="#{actMitarbeiter.bemerkung}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{actMitarbeiter.bemerkung}" />
@@ -131,14 +143,21 @@
 					<p:rowEditor />
 				</p:column>
 
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Aktionen" />
-					</f:facet>
-					<p:commandButton icon="ui-icon-close"
-						action="#{actions.removeMitarbeiter()}" ajax="false">
+				<p:column headerText="Ändern" style="width:55px">
+					<p:commandButton icon="ui-icon-refresh" action="mitarbeiter-edit"
+						ajax="false"
+						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
 						<f:setPropertyActionListener value="#{actMitarbeiter}"
-							target="#{actions.mitarbeiter}" />
+							target="#{mitarbeiterAktionen.mitarbeiter}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Löschen" style="width:55px">
+					<p:commandButton icon="ui-icon-close"
+						action="#{mitarbeiterAktionen.removeMitarbeiter()}" ajax="false"
+						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+						<f:setPropertyActionListener value="#{actMitarbeiter}"
+							target="#{mitarbeiterAktionen.mitarbeiter}" />
 					</p:commandButton>
 				</p:column>
 
@@ -146,7 +165,7 @@
 
 			</p:dataTable>
 			<p:commandButton value="Mitarbeiter hinzufügen"
-				action="#{actions.addNewMitarbeiter}" ajax="false" />
+				action="#{mitarbeiterAktionen.addNewMitarbeiter}" ajax="false" />
 
 		</h:form>
 	</ui:define>

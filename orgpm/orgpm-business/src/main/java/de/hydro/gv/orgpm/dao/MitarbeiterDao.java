@@ -9,6 +9,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -18,18 +19,16 @@ import javax.persistence.PersistenceContext;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.util.PerformanceInterceptor;
 
-@Stateless
-@Interceptors(PerformanceInterceptor.class)
+@RequestScoped
 public class MitarbeiterDao implements MitarbeiterDaoLocal{
 	
 	@Inject
 	@ImplByConsole//CDI Annotation
 	private LogService logService;
 	
-	@Resource
 	private SessionContext sessionContext;
 
-	@Resource
+
 	@PersistenceContext
 	private EntityManager entityManager;
 	

@@ -6,19 +6,25 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
-import de.hydro.gv.orgpm.aktionen.Actions;
-import de.hydro.gv.orgpm.model.Mitarbeiter;
+import de.hydro.gv.orgpm.actions.Actions;
+import de.hydro.gv.orgpm.actions.MitarbeiterAktionen;
+import de.hydro.gv.orgpm.models.Mitarbeiter;
 
 @FacesConverter(value = "GruppeConverter")
 public class GruppeConverter implements Converter {
 	
 	@Inject
-	private Actions actions;
+	private MitarbeiterAktionen actions;
 
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
 		Integer id = Integer.parseInt(arg2);
-		for (Mitarbeiter tempMA : actions.getAllMitarbeiter())
-			if(tempMA.getId().equals(id)) return tempMA;
+		try {
+			for (Mitarbeiter tempMA : actions.getAlleMitarbeiter())
+				if(tempMA.getId().equals(id)) return tempMA;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

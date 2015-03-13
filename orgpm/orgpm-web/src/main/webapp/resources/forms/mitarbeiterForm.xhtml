@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- INTERFACE -->
+<cc:interface>
+	<cc:attribute name="buttonLabel" required="true"></cc:attribute>
+	<cc:attribute name="buttonAction"
+		method-signature="java.lang.String action()" required="true"></cc:attribute>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+	<h:form>
+		<h:panelGrid columns="3">
+
+			<p:outputLabel value="ID" />
+			<p:inputText id="tf-id" value="#{mitarbeiterAktionen.mitarbeiter.id}" />
+			<h:messages for="tf-id" styleClass="error" />
+
+			<p:outputLabel value="Vorname" />
+			<p:inputText id="tf-fn" value="#{mitarbeiterAktionen.mitarbeiter.vorname}" />
+			<h:messages for="tf-fn" styleClass="error" />
+
+			<p:outputLabel value="Nachname" />
+			<p:inputText id="tf-ln" value="#{mitarbeiterAktionen.mitarbeiter.name}" />
+			<h:messages for="tf-ln" styleClass="error" />
+
+
+			<p:outputLabel value="Kennung" />
+			<p:inputText id="tf-mk" value="#{mitarbeiterAktionen.mitarbeiter.kennung}" />
+			<h:messages for="tf-mk" styleClass="error" />
+
+			<p:outputLabel value="Gruppe" />
+			<p:inputText id="tf-mg" value="#{mitarbeiterAktionen.mitarbeiter.gruppe}" />
+			<h:messages for="tf-mg" styleClass="error" />
+
+			<p:outputLabel value="Arbeitszeit" />
+			<p:inputText id="tf-ma" value="#{mitarbeiterAktionen.mitarbeiter.arbeitszeit}" />
+			<h:messages for="tf-ma" styleClass="error" />
+
+			<p:outputLabel value="Hydro ID" />
+			<p:inputText id="tf-hi" value="#{mitarbeiterAktionen.mitarbeiter.hydroid}" />
+			<h:messages for="tf-hi" styleClass="error" />
+
+			<p:outputLabel value="Karten ID" />
+			<p:inputText id="tf-ki" value="#{mitarbeiterAktionen.mitarbeiter.kartenid}" />
+			<h:messages for="tf-ki" styleClass="error" />
+
+			<p:outputLabel value="Personal ID" />
+			<p:inputText id="tf-pi" value="#{mitarbeiterAktionen.mitarbeiter.personalid}" />
+			<h:messages for="tf-pi" styleClass="error" />
+
+			<p:outputLabel value="Bemerkung" />
+			<p:inputText id="tf-bm" value="#{mitarbeiterAktionen.mitarbeiter.bemerkung}" />
+			<h:messages for="tf-bm" styleClass="error" />
+
+
+		</h:panelGrid>
+		<p:commandButton action="#{cc.attrs.buttonAction}"
+			value="#{cc.attrs.buttonLabel}" ajax="true" />
+	</h:form>
+</cc:implementation>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- INTERFACE -->
+
+<cc:interface>
+	<cc:attribute name="buttonLabel" required="true"></cc:attribute>
+	<cc:attribute name="buttonAction"
+		method-signature="java.lang.String action()" required="true"></cc:attribute>
+</cc:interface>
+
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+	<h:form>
+		<p:panelGrid columns="3">
+
+			<p:outputLabel value="Id" />
+			<p:inputText id="bu-id"
+				value="#{buchungAktionen.buchung.id}" />
+			<h:messages for="bu-id" styleClass="error" />
+
+			<p:outputLabel value="HydroId" />
+			<p:inputText id="bu-hi"
+				value="#{buchungAktionen.buchung.mitarbeiter}" />
+			<h:messages for="bu-hi" styleClass="error" />
+
+			<p:outputLabel value="Projekt" />
+			<p:inputText id="bu-pi" value="#{buchungAktionen.buchung.projektId}" />
+			<h:messages for="bu-pi" styleClass="error" />
+
+
+			<p:outputLabel value="Aktivität" />
+			<p:inputText id="bu-ak"
+				value="#{buchungAktionen.buchung.aktivitaetId}" />
+			<h:messages for="bu-ak" styleClass="error" />
+
+			<p:outputLabel value="Datum" />
+			<p:calendar id="bu-dt" value="#{buchungAktionen.buchung.datum}"
+				pattern="dd.MM.yyyy" />
+			<h:messages for="bu-dt" styleClass="error" />
+
+			<p:outputLabel value="Anfang" />
+			<p:calendar id="bu-az" value="#{buchungAktionen.buchung.anfangZeit}"
+				pattern="HH:mm" mask="true" />
+			<h:messages for="bu-az" styleClass="error" />
+
+			<p:outputLabel value="Ende" />
+			<p:calendar id="bu-ez" value="#{buchungAktionen.buchung.endeZeit}"
+				pattern="HH:mm" mask="true" />
+			<h:messages for="bu-ez" styleClass="error" />
+
+			<p:outputLabel value="Pause Von" />
+			<p:calendar id="bu-pv" value="#{buchungAktionen.buchung.pauseVon}"
+				pattern="HH:mm" mask="true" />
+			<h:messages for="bu-pv" styleClass="error" />
+
+			<p:outputLabel value="Pause Bis" />
+			<p:calendar id="bu-pb" value="#{buchungAktionen.buchung.pauseBis}"
+				pattern="HH:mm" mask="true" />
+			<h:messages for="bu-pb" styleClass="error" />
+
+			<p:outputLabel value="Stunden" />
+			<p:inputText id="bu-st" value="#{buchungAktionen.buchung.std}" />
+			<h:messages for="bu-st" styleClass="error" />
+
+			<p:outputLabel value="Minuten" />
+			<p:inputText id="bu-mi" value="#{buchungAktionen.buchung.min}" />
+			<h:messages for="bu-mi" styleClass="error" />
+
+			<p:outputLabel value="Tätigkeit" />
+			<p:inputText id="bu-tk"
+				value="#{buchungAktionen.buchung.taetigkeiten}" />
+			<h:messages for="bu-tk" styleClass="error" />
+
+			<p:outputLabel value="WartungId" />
+			<p:inputText id="bu-wi" value="#{buchungAktionen.buchung.wartungId}" />
+			<h:messages for="bu-wi" styleClass="error" />
+
+		</p:panelGrid>
+		<p:commandButton action="#{cc.attrs.buttonAction}"
+			value="#{cc.attrs.buttonLabel}" ajax="true" />
+	</h:form>
+</cc:implementation>
+
+</html>

@@ -1,4 +1,4 @@
-package de.hydro.gv.orgpm.model;
+package de.hydro.gv.orgpm.models;
 
 public class CreditCard {
 	

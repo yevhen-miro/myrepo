@@ -6,80 +6,57 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/template.xhtml">
-
-	<ui:define name="header">
-		<h2>ORGPM-Buchungen</h2>
-	</ui:define>
-
 	<ui:define name="content">
-		<br></br>
-		<h:form id="mainForm"
-			style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%;display:block">
-			<p:growl id="input" showDetail="true" />
-
-			<table>
-				<tr>
-					<td><p:outputLabel value="Kennung" /></td>
-					<td><p:outputLabel value="Projekt" /></td>
-					<td><p:outputLabel value="AktivitätNr" /></td>
-					<td><p:outputLabel value="Datum" /></td>
-					<td><p:outputLabel value="Anfang" /></td>
-					<td><p:outputLabel value="Ende" /></td>
-					<td><p:outputLabel value="Tätigkeit" /></td>
-
-				</tr>
-				<tr>
-					<td><p:inputText id="in-kennung"
-							value="#{buchungAktionen.buchung.mitarbeiter}" readonly="true" /></td>
-					<td><p:inputText id="in-projekt"
-							value="#{buchungAktionen.buchung.projektId}" /></td>
-					<td><p:inputText id="in-aktivitaet"
-							value="#{buchungAktionen.buchung.aktivitaetId}" /></td>
-					<td><p:calendar id="in-date"
-							value="#{buchungAktionen.buchung.datum}" pattern="dd.MM.yy" /></td>
-					<td><p:calendar id="in-anfang"
-							value="#{buchungAktionen.buchung.anfangZeit}" pattern="HH:mm"
-							mask="true" /></td>
-					<td><p:calendar id="in-ende"
-							value="#{buchungAktionen.buchung.endeZeit}" pattern="HH:mm"
-							mask="true" /></td>
-					<td><p:inputText id="in-taetigkeit"
-							value="#{buchungAktionen.buchung.taetigkeiten}" /></td>
-					<td><p:commandButton value="Speichern"
-							action="#{buchungAktionen.saveBuchung()}" ajax="false"
-							update="table" /></td>
-				</tr>
-			</table>
-
-		</h:form>
-
-
-		<p:separator style="width:100%;height:20px" />
-
-		<h:form>
-			<p:growl id="table" showDetail="true" sticky="true" />
-
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
 			<p:dataTable value="#{buchungAktionen.alleBuchungen}"
 				var="actBuchungen" editable="true" resizableColumns="false"
-				style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
+				style="margin-bottom:10px;font-size:15px">
+
+				<p:ajax event="rowEdit"
+					listener="#{buchungAktionen.BuchungOnRowEdit}" update=":form:msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{buchungAktionen.BuchungOnRowCancel}"
+					update=":form:msgs" />
 
 				<p:column headerText="ID" sortBy="#{actBuchungen.id}">
-					<h:outputText value="#{actBuchungen.id}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.id}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.id}" />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="HydroID" sortBy="#{actBuchungen.mitarbeiter}">
-					<h:outputText value="#{actBuchungen.mitarbeiter}">
-						<f:converter converterId="mitarbeiterTypStringConverter" />
-					</h:outputText>
+							<h:outputText value="#{actBuchungen.mitarbeiter}" >
+							<f:converter converterId="mitarbeiterTypStringConverter"/>
+							</h:outputText>
 				</p:column>
 
 				<p:column headerText="Projekt" sortBy="#{actBuchungen.projektId}">
-					<h:outputText value="#{actBuchungen.projektId}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.projektId}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.projektId}" />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="AktivitätNr"
 					sortBy="#{actBuchungen.aktivitaetId}">
-					<h:outputText value="#{actBuchungen.aktivitaetId}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.aktivitaetId}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.aktivitaetId}" />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Datum" sortBy="#{actBuchungen.datum}">
@@ -117,16 +94,52 @@
 				</p:column>
 
 				<p:column headerText="Std" sortBy="#{actBuchungen.std}">
-					<h:outputText value="#{actBuchungen.std}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.std}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.std}" />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Min" sortBy="#{actBuchungen.min}">
-					<h:outputText value="#{actBuchungen.min}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.min}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.min}" />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Tätigkeit"
 					sortBy="#{actBuchungen.taetigkeiten}">
-					<h:outputText value="#{actBuchungen.taetigkeiten}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.taetigkeiten}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.taetigkeiten}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<!-- 				<p:column headerText="WartungId" sortBy="#{actBuchungen.wartungId}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.wartungId}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.wartungId}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column> -->
+
+				<p:column>
+					<p:rowEditor />
 				</p:column>
 
 				<p:column headerText="Ändern" style="width:55px">
@@ -138,10 +151,12 @@
 					</p:commandButton>
 				</p:column>
 
-				<p:column headerText="Löschen" style="width:55px">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Aktionen" />
+					</f:facet>
 					<p:commandButton icon="ui-icon-close"
-						action="#{buchungAktionen.removeBuchung()}" ajax="false"
-						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+						action="#{buchungAktionen.removeBuchung()}" ajax="false">
 						<f:setPropertyActionListener value="#{actBuchungen}"
 							target="#{buchungAktionen.buchung}" />
 					</p:commandButton>
@@ -150,10 +165,12 @@
 
 
 			</p:dataTable>
+			<p:commandButton value="Buchung hinzufügen"
+				action="#{buchungAktionen.addNewBuchung()}" ajax="false" />
 
 		</h:form>
-
 	</ui:define>
 
 </ui:composition>
+
 </html>

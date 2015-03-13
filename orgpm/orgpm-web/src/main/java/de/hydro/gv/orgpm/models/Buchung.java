@@ -1,94 +1,41 @@
-package de.hydro.gv.orgpm.data;
+package de.hydro.gv.orgpm.models;
 
-
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
-import static javax.persistence.GenerationType.SEQUENCE;
+import de.hydro.gv.orgpm.data.Mitarbeiter;
 
-@Entity
-@Table (name = "buchungen")
-@NamedQueries({
-	@NamedQuery(name="buchung.delete.all",query="DELETE FROM Buchung"),
-	@NamedQuery(name="buchung.find.all",query="SELECT b FROM Buchung AS b"),
-	@NamedQuery(name="buchung.find.buchung.by.mitarbeiter",query="SELECT b FROM Buchung b INNER JOIN b.mitarbeiter m "+
-																 "WHERE m.hydroId = :hydroid")
-})
-
-public class Buchung implements Serializable {
-
-	private static final long serialVersionUID = 7859236877492083050L;
+public class Buchung {
 	
-	@SequenceGenerator(name = "SEQ_BUCHUNGEN", sequenceName = "SEQ_BUCHUNGEN", allocationSize = 1)
-	@Id
-	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_BUCHUNGEN")
-	@Column(name="id")
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="MITARBEITER", foreignKey = @ForeignKey(name="FK_BUCHUNG_MITARBEITER"))
 	private Mitarbeiter mitarbeiter;
 	
-
-	@Column(name = "projekt_Id")
 	private String projektId;
 	
-	@Column(name = "aktivitaet_Id")
 	private int aktivitaetId;
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "datum")
 	private Date datum;
 	
-	
-	@Temporal(TemporalType.TIME)
-	@Column(name = "anfang")
 	private Date anfangZeit;
-
-	@Temporal(TemporalType.TIME)
-	@Column(name = "ende")
+	
 	private Date endeZeit;
 	
-	@Temporal(TemporalType.TIME)
-	@Column(name = "pause_Von")
 	private Date pauseVon;
 	
-	@Temporal(TemporalType.TIME)
-	@Column(name = "pause_Bis")
 	private Date pauseBis;
 	
-	@Column(name = "stunden")
 	private int std;
 	
-	@Column(name = "minuten")
 	private int min;
 	
-	@Column(name = "taetigkeiten")
 	private String taetigkeiten;
 	
-	@Column(name = "wartung_Id")
 	private int wartungId;
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -192,7 +139,42 @@ public class Buchung implements Serializable {
 	public void setWartungId(int wartungId) {
 		this.wartungId = wartungId;
 	}
+
+	public de.hydro.gv.orgpm.data.Buchung convertToEntity(Buchung buchungToConvert) {
+		
+		de.hydro.gv.orgpm.data.Buchung buchungEntity = new de.hydro.gv.orgpm.data.Buchung();
+		buchungEntity.setId(buchungToConvert.getId());
+		buchungEntity.setAktivitaetId(buchungToConvert.getAktivitaetId());
+		buchungEntity.setAnfangZeit(buchungToConvert.getAnfangZeit());
+		buchungEntity.setDatum(buchungToConvert.getDatum());
+		buchungEntity.setEndeZeit(buchungToConvert.getEndeZeit());
+		buchungEntity.setMin(buchungToConvert.getMin());
+		buchungEntity.setPauseBis(buchungToConvert.getPauseBis());
+		buchungEntity.setPauseVon(buchungToConvert.getPauseVon());
+		buchungEntity.setProjektId(buchungToConvert.getProjektId());
+		buchungEntity.setStd(buchungToConvert.getStd());
+		buchungEntity.setTaetigkeiten(buchungToConvert.getTaetigkeiten());
+		buchungEntity.setWartungId(buchungToConvert.getWartungId());
+		buchungEntity.setMitarbeiter(buchungToConvert.getMitarbeiter());
+
+		return buchungEntity;
+	}
 	
-	
-	
+	public Buchung convertToModel(de.hydro.gv.orgpm.data.Buchung buchung) {
+		
+		this.setId(buchung.getId());
+		this.setAktivitaetId(buchung.getAktivitaetId());
+		this.setAnfangZeit(buchung.getAnfangZeit());
+		this.setDatum(buchung.getDatum());
+		this.setEndeZeit(buchung.getEndeZeit());
+		this.setMin(buchung.getMin());
+		this.setPauseBis(buchung.getPauseBis());
+		this.setPauseVon(buchung.getPauseVon());
+		this.setProjektId(buchung.getProjektId());
+		this.setStd(buchung.getStd());
+		this.setTaetigkeiten(buchung.getTaetigkeiten());
+		this.setWartungId(buchung.getWartungId());
+
+		return this;
+	}
 }

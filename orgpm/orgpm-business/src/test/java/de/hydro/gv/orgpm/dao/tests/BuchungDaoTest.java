@@ -1,5 +1,6 @@
 package de.hydro.gv.orgpm.dao.tests;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.inject.Inject;
@@ -53,9 +54,9 @@ public class BuchungDaoTest {
 
 		buchung.setMitarbeiter(mitarbeiter);
 		buchung.setAktivitaetId(1);
-		buchung.setAnfangZeit(new GregorianCalendar());
-		buchung.setDatum(new GregorianCalendar());
-		buchung.setEndeZeit(new GregorianCalendar());
+		buchung.setAnfangZeit(new Date());
+		buchung.setDatum(new Date());
+		buchung.setEndeZeit(new Date());
 		buchung.setMin(23);
 		buchung.setPauseBis(null);
 		buchung.setPauseVon(null);
