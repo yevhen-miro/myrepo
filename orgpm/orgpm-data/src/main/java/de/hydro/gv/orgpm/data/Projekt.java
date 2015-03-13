@@ -164,7 +164,7 @@ public class Projekt implements Serializable{
 		this.storniertesProjekt = storniertesProjekt;
 	}
 
-	public double getProjektStatus() {
+	public Integer getProjektStatus() {
 		return projektStatus;
 	}
 
