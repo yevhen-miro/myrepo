@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<ui:define name="header">
+		<h2>Projektaktivitäten</h2>
+	</ui:define>
+
+	<ui:define name="content">
+		<br></br>
+
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+			<p:dataTable value="#{aktivitaetAktionen.alle}"
+				var="activity" editable="true" resizableColumns="false"
+				style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
+				
+				<p:column headerText="ID" sortBy="#{activity.id}">
+					<h:outputText value="#{activity.id}" />
+				</p:column>
+
+				<p:column headerText="Projekt" sortBy="#{activity.projekt.projekt}">
+					<h:outputText value="#{activity.projekt.projekt}" />
+				</p:column>
+
+				<p:column headerText="AktivitätNr" sortBy="#{activity.aktivitaetNr}">
+					<h:outputText value="#{activity.aktivitaetNr}" />
+				</p:column>
+
+				<p:column headerText="ID" sortBy="#{activity.aktivitaetText}">
+					<h:outputText value="#{activity.aktivitaetText}" />
+				</p:column>
+
+
+				<p:column headerText="Status" sortBy="#{activity.aktivitaetStatus}">
+					<h:outputText value="#{activity.aktivitaetStatus}" />
+				</p:column>
+
+
+				<p:column headerText="Ändern" style="width:55px">
+					<p:commandButton icon="ui-icon-refresh" action="aktivitaet-edit"
+						ajax="false"
+						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+						<f:setPropertyActionListener value="#{activity}"
+							target="#{aktivitaetAktionen.aktAktivitaet}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Löschen" style="width:55px">
+					<p:commandButton icon="ui-icon-close"
+						action="#{aktivitaetAktionen.removeAktivitaet()}" ajax="false"
+						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+						<f:setPropertyActionListener value="#{activity}"
+							target="#{aktivitaetAktionen.aktAktivitaet}" />
+					</p:commandButton>
+				</p:column>
+
+
+
+			</p:dataTable>
+			<p:commandButton value="Aktivität hinzufügen"
+				action="#{aktivitaetAktionen.addNewAktivitaet()}" ajax="false" />
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

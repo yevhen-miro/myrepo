@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cs="http://java.sun.com/jsf/composite/formelements">
+
+<!-- INTERFACE -->
+<cc:interface>
+	<cc:attribute name="buttonLabel" required="true"></cc:attribute>
+	<cc:attribute name="buttonAction"
+		method-signature="java.lang.String action()" required="true"></cc:attribute>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+	<h:form>
+		<h:panelGrid columns="3">
+
+			<p:outputLabel value="ID" />
+			<p:inputText id="af-id"
+				value="#{aktivitaetAktionen.aktAktivitaet.id}" />
+			<h:messages for="af-id" styleClass="error" />
+
+			<p:outputLabel value="Projekt" />
+			<p:selectOneMenu value="#{aktivitaetAktionen.aktAktivitaet.projekt}"
+				style="width:100%">
+				<f:converter converterId="projektConverter" />
+				<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
+					itemLabel="#{proj.projekt}" />
+			</p:selectOneMenu>
+			<h:messages for="af-projekt" styleClass="error" />
+
+			<p:outputLabel value="Aktivität ID" />
+			<p:inputText id="af-aknr"
+				value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetNr}" />
+			<h:messages for="af-aknr" styleClass="error" />
+
+			<p:outputLabel value="Aktivität Text" />
+			<p:inputText id="af-ak"
+				value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetText}" />
+			<h:messages for="af-ak" styleClass="error" />
+
+			<p:outputLabel value="Aufwand" />
+			<p:inputText id="af-au"
+				value="#{aktivitaetAktionen.aktAktivitaet.planaufwand}" />
+			<h:messages for="af-au" styleClass="error" />
+
+			<p:outputLabel value="Status" />
+			<p:inputText id="af-st"
+				value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetStatus}" />
+			<h:messages for="af-st" styleClass="error" />
+
+			<p:outputLabel value="Bemerkung" />
+			<p:inputText id="af-bm"
+				value="#{aktivitaetAktionen.aktAktivitaet.bemerkung}" />
+			<h:messages for="af-bm" styleClass="error" />
+
+
+		</h:panelGrid>
+		<p:commandButton action="#{cc.attrs.buttonAction}"
+			value="#{cc.attrs.buttonLabel}" ajax="true" />
+	</h:form>
+</cc:implementation>
+
+</html>
