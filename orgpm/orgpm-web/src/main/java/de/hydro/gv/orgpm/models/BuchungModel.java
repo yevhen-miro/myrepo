@@ -1,0 +1,217 @@
+package de.hydro.gv.orgpm.models;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import de.hydro.gv.orgpm.data.Aktivitaet;
+import de.hydro.gv.orgpm.data.Buchung;
+import de.hydro.gv.orgpm.data.Mitarbeiter;
+import de.hydro.gv.orgpm.data.Projekt;
+
+public class BuchungModel extends Model<Buchung, BuchungModel> implements Serializable {
+
+	private static final long serialVersionUID = -2626028877968848831L;
+
+	private Long id;
+
+	private MitarbeiterModel mitarbeiter;
+
+	private ProjektModel projekt;
+
+	private AktivitaetModel aktivitaet;
+
+	private Date datum;
+
+	private Date anfangZeit;
+
+	private Date endeZeit;
+
+	private Date pauseVon;
+
+	private Date pauseBis;
+
+	private Integer std;
+
+	private Integer min;
+
+	private String taetigkeiten;
+
+	private Integer wartungId;
+
+	public BuchungModel( Buchung buchung ) {
+		super( buchung );
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
+	public void setId( Long id ) {
+		this.id = id;
+	}
+
+	public MitarbeiterModel getMitarbeiter() {
+		return this.mitarbeiter;
+	}
+
+	public void setMitarbeiter( MitarbeiterModel mitarbeiter ) {
+		this.mitarbeiter = mitarbeiter;
+	}
+
+	public ProjektModel getProjekt() {
+		return this.projekt;
+	}
+
+	public void setProjekt( ProjektModel projekt ) {
+		this.projekt = projekt;
+	}
+
+	public AktivitaetModel getAktivitaet() {
+		return this.aktivitaet;
+	}
+
+	public void setAktivitaet( AktivitaetModel aktivitaet ) {
+		this.aktivitaet = aktivitaet;
+	}
+
+	public Date getDatum() {
+		return this.datum;
+	}
+
+	public void setDatum( Date datum ) {
+		this.datum = datum;
+	}
+
+	public Date getAnfangZeit() {
+		return this.anfangZeit;
+	}
+
+	public void setAnfangZeit( Date anfangZeit ) {
+		this.anfangZeit = anfangZeit;
+	}
+
+	public Date getEndeZeit() {
+		return this.endeZeit;
+	}
+
+	public void setEndeZeit( Date endeZeit ) {
+		this.endeZeit = endeZeit;
+	}
+
+	public Date getPauseVon() {
+		return this.pauseVon;
+	}
+
+	public void setPauseVon( Date pauseVon ) {
+		this.pauseVon = pauseVon;
+	}
+
+	public Date getPauseBis() {
+		return this.pauseBis;
+	}
+
+	public void setPauseBis( Date pauseBis ) {
+		this.pauseBis = pauseBis;
+	}
+
+	public Integer getStd() {
+		return this.std;
+	}
+
+	public void setStd( Integer std ) {
+		this.std = std;
+	}
+
+	public Integer getMin() {
+		return this.min;
+	}
+
+	public void setMin( Integer min ) {
+		this.min = min;
+	}
+
+	public String getTaetigkeiten() {
+		return this.taetigkeiten;
+	}
+
+	public void setTaetigkeiten( String taetigkeiten ) {
+		this.taetigkeiten = taetigkeiten;
+	}
+
+	public Integer getWartungId() {
+		return this.wartungId;
+	}
+
+	public void setWartungId( Integer wartungId ) {
+		this.wartungId = wartungId;
+	}
+
+	@Override
+	public BuchungModel copyToModel() {
+		this.setId( this.entity.getId() );
+		this.setMitarbeiter( new MitarbeiterModel( this.entity.getMitarbeiter() != null ? this.entity.getMitarbeiter()
+				: new Mitarbeiter() ) );
+		this.setAktivitaet( new AktivitaetModel( this.entity.getAktivitaetId() != null ? this.entity.getAktivitaetId()
+				: new Aktivitaet() ) );
+		this.setAnfangZeit( this.entity.getAnfangZeit() );
+		this.setDatum( this.entity.getDatum() );
+		this.setEndeZeit( this.entity.getEndeZeit() );
+		this.setMin( this.entity.getMin() );
+		this.setPauseBis( this.entity.getPauseBis() );
+		this.setPauseVon( this.entity.getPauseVon() );
+		this.setProjekt( new ProjektModel( this.entity.getProjekt() != null ? this.entity.getProjekt() : new Projekt() ) );
+		this.setStd( this.entity.getStd() );
+		this.setTaetigkeiten( this.entity.getTaetigkeiten() );
+		this.setWartungId( this.entity.getWartungId() );
+		return this.model;
+	}
+
+	@Override
+	public Buchung copyToEntity() {
+		this.entity.setId( this.getId() );
+		this.entity.setAktivitaetId( this.getAktivitaet() != null ? this.getAktivitaet().convertToEntity() : null );
+		this.entity.setAnfangZeit( this.getAnfangZeit() );
+		this.entity.setDatum( this.getDatum() );
+		this.entity.setEndeZeit( this.getEndeZeit() );
+		this.entity.setMin( this.getMin() );
+		this.entity.setPauseBis( this.getPauseBis() );
+		this.entity.setPauseVon( this.getPauseVon() );
+		this.entity.setProjekt( this.getProjekt() != null ? this.getProjekt().convertToEntity() : null );
+		this.entity.setStd( this.getStd() );
+		this.entity.setTaetigkeiten( this.getTaetigkeiten() );
+		this.entity.setWartungId( this.getWartungId() );
+		this.entity.setMitarbeiter( this.getMitarbeiter() != null ? this.getMitarbeiter().convertToEntity() : null );
+
+		return this.entity;
+	}
+
+	@Override
+	public int hashCode() {
+		final Integer prime = 31;
+		int result = 1;
+		result = prime * result + ( ( this.id == null ) ? 0 : this.id.hashCode() );
+		return result;
+	}
+
+	@Override
+	public boolean equals( Object obj ) {
+		if( this == obj ) {
+			return true;
+		}
+		if( obj == null ) {
+			return false;
+		}
+		if( this.getClass() != obj.getClass() ) {
+			return false;
+		}
+		BuchungModel other = (BuchungModel) obj;
+		if( this.id == null ) {
+			if( other.id != null ) {
+				return false;
+			}
+		} else if( !this.id.equals( other.id ) ) {
+			return false;
+		}
+		return true;
+	}
+}

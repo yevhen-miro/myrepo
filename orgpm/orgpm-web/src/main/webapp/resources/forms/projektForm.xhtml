@@ -56,7 +56,7 @@
 			<h:messages for="pr-pg" styleClass="error" />
 
 			<p:outputLabel value="ProjektID" />
-			<p:inputText id="pr-pid" value="#{projektAktionen.projekt.projektid}" />
+			<p:inputText id="pr-pid" value="#{projektAktionen.projekt.projekt}" />
 			<h:messages for="pr-pid" styleClass="error" />
 
 			<p:outputLabel value="Projektleiter" />
@@ -74,11 +74,11 @@
 			<h:messages for="pr-sta" styleClass="error" />
 
 			<p:outputLabel value="Wartung" />
-			<p:inputText id="pr-wa" value="#{projektAktionen.projekt.wartung}" />
+			 <p:inputSwitch value="#{projektAktionen.projekt.wartung}" />
 			<h:messages for="pr-wa" styleClass="error" />
 
 			<p:outputLabel value="Storno" />
-			<p:inputText id="pr-sto" value="#{projektAktionen.projekt.storno}" />
+			<p:inputSwitch value="#{projektAktionen.projekt.storno}" />
 			<h:messages for="pr-sto" styleClass="error" />
 
 		</p:panelGrid>

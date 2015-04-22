@@ -30,5 +30,7 @@ public class BuchungService {
 	public void updateBuchung(Buchung b) throws Exception {
 		this.buchungDao.updateBuchung(b);
 	}
+	
+	
 
 }
