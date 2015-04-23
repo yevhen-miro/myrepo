@@ -5,7 +5,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +37,7 @@ public class Buchung implements Serializable {
 	@Column( name = "id" )
 	private Long id;
 
-	@ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.REFRESH )
+	@ManyToOne( fetch = FetchType.EAGER )
 	@JoinColumn( name = "MITARBEITER", foreignKey = @ForeignKey( name = "FK_BUCHUNG_MITARBEITER" ) )
 	private Mitarbeiter mitarbeiter;
 

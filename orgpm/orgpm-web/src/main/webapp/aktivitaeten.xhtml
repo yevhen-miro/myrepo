@@ -7,10 +7,6 @@
 
 <ui:composition template="/WEB-INF/template.xhtml">
 
-	<ui:define name="header">
-		<h2>Projektaktivitäten</h2>
-	</ui:define>
-
 	<ui:define name="content">
 		<br></br>
 
@@ -19,27 +15,19 @@
 			<p:dataTable value="#{aktivitaetAktionen.alle}"
 				var="activity" editable="true" resizableColumns="false"
 				style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
-				
-				<p:column headerText="ID" sortBy="#{activity.id}">
-					<h:outputText value="#{activity.id}" />
-				</p:column>
 
-				<p:column headerText="Projekt" sortBy="#{activity.projekt.projekt}">
+				<p:column headerText="Projekt" sortBy="#{activity.projekt.projekt}" style="width:80px">
 					<h:outputText value="#{activity.projekt.projekt}" />
 				</p:column>
 
-				<p:column headerText="AktivitätNr" sortBy="#{activity.aktivitaetNr}">
+				<p:column headerText="Aktivität Nummer" sortBy="#{activity.aktivitaetNr}" style="width:100px">
 					<h:outputText value="#{activity.aktivitaetNr}" />
 				</p:column>
 
-				<p:column headerText="ID" sortBy="#{activity.aktivitaetText}">
+				<p:column headerText="Aktivität Beschreibung" sortBy="#{activity.aktivitaetText}" style="width:300px">
 					<h:outputText value="#{activity.aktivitaetText}" />
 				</p:column>
 
-
-				<p:column headerText="Status" sortBy="#{activity.aktivitaetStatus}">
-					<h:outputText value="#{activity.aktivitaetStatus}" />
-				</p:column>
 
 
 				<p:column headerText="Ändern" style="width:55px">
@@ -63,10 +51,15 @@
 
 
 			</p:dataTable>
+
+
+		</h:form>
+	</ui:define>
+	
+		<ui:define name="action">
 			<p:commandButton value="Aktivität hinzufügen"
 				action="#{aktivitaetAktionen.addNewAktivitaet()}" ajax="false" />
 
-		</h:form>
 	</ui:define>
 
 </ui:composition>

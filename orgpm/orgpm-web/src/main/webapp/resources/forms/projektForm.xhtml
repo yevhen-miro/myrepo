@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:cc="http://java.sun.com/jsf/composite"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <!-- INTERFACE -->
 
@@ -20,9 +21,41 @@
 	<h:form>
 		<p:panelGrid columns="3">
 
-			<p:outputLabel value="Id" />
+
+			<p:outputLabel value="ID" />
 			<p:inputText id="pr-id" value="#{projektAktionen.projekt.id}" />
 			<h:messages for="pr-id" styleClass="error" />
+
+			<p:outputLabel value="ProjektID" />
+			<p:inputText id="pr-pid" value="#{projektAktionen.projekt.projekt}" />
+			<h:messages for="pr-pid" styleClass="error" />
+
+			<p:outputLabel value="Projektname" />
+			<p:inputText id="pr-pn"
+				value="#{projektAktionen.projekt.projektname}" />
+			<h:messages for="pr-pn" styleClass="error" />
+
+			<p:outputLabel value="Aufwand" />
+			<p:inputText id="pr-aw" value="#{projektAktionen.projekt.aufwand}" />
+			<h:messages for="pr-aw" styleClass="error" />
+
+			<p:outputLabel value="Start" />
+			<p:calendar id="pr-st" value="#{projektAktionen.projekt.start}"/>
+			<h:messages for="pr-st" styleClass="error" />
+
+			<p:outputLabel value="Ende" />
+			<p:calendar id="pr-en" value="#{projektAktionen.projekt.ende}"/>
+			<h:messages for="pr-en" styleClass="error" />
+
+			<p:outputLabel value="Projektgruppe" />
+			<p:inputText id="pr-pg"
+				value="#{projektAktionen.projekt.projektgruppe}" />
+			<h:messages for="pr-pg" styleClass="error" />
+
+			<p:outputLabel value="Projektleiter" />
+			<p:inputText id="pr-pl"
+				value="#{projektAktionen.projekt.projektleiter}" />
+			<h:messages for="pr-pl" styleClass="error" />
 
 			<p:outputLabel value="Begriff" />
 			<p:inputText id="pr-be" value="#{projektAktionen.projekt.begriff}" />
@@ -32,58 +65,27 @@
 			<p:inputText id="pr-bm" value="#{projektAktionen.projekt.bemerkung}" />
 			<h:messages for="pr-bm" styleClass="error" />
 
-
 			<p:outputLabel value="Hauptprojekt" />
 			<p:inputText id="pr-hp"
 				value="#{projektAktionen.projekt.hauptprojekt}" />
 			<h:messages for="pr-hp" styleClass="error" />
-
-			<p:outputLabel value="Aufwand" />
-			<p:inputText id="pr-aw" value="#{projektAktionen.projekt.aufwand}" />
-			<h:messages for="pr-aw" styleClass="error" />
-
-			<p:outputLabel value="Start" />
-			<p:calendar id="pr-st" value="#{projektAktionen.projekt.start}" />
-			<h:messages for="pr-st" styleClass="error" />
-
-			<p:outputLabel value="Ende" />
-			<p:calendar id="pr-en" value="#{projektAktionen.projekt.ende}" />
-			<h:messages for="pr-en" styleClass="error" />
-
-			<p:outputLabel value="Projektgruppe" />
-			<p:inputText id="pr-pg"
-				value="#{projektAktionen.projekt.projektgruppe}" />
-			<h:messages for="pr-pg" styleClass="error" />
-
-			<p:outputLabel value="ProjektID" />
-			<p:inputText id="pr-pid" value="#{projektAktionen.projekt.projekt}" />
-			<h:messages for="pr-pid" styleClass="error" />
-
-			<p:outputLabel value="Projektleiter" />
-			<p:inputText id="pr-pl"
-				value="#{projektAktionen.projekt.projektleiter}" />
-			<h:messages for="pr-pl" styleClass="error" />
-
-			<p:outputLabel value="Projektname" />
-			<p:inputText id="pr-pn"
-				value="#{projektAktionen.projekt.projektname}" />
-			<h:messages for="pr-pn" styleClass="error" />
 
 			<p:outputLabel value="Status" />
 			<p:inputText id="pr-sta" value="#{projektAktionen.projekt.status}" />
 			<h:messages for="pr-sta" styleClass="error" />
 
 			<p:outputLabel value="Wartung" />
-			 <p:inputSwitch value="#{projektAktionen.projekt.wartung}" />
+			<p:inputSwitch value="#{projektAktionen.projekt.wartung}" />
 			<h:messages for="pr-wa" styleClass="error" />
 
 			<p:outputLabel value="Storno" />
 			<p:inputSwitch value="#{projektAktionen.projekt.storno}" />
 			<h:messages for="pr-sto" styleClass="error" />
 
+			<p:commandButton action="#{cc.attrs.buttonAction}"
+				value="#{cc.attrs.buttonLabel}" ajax="true" />
 		</p:panelGrid>
-		<p:commandButton action="#{cc.attrs.buttonAction}"
-			value="#{cc.attrs.buttonLabel}" ajax="true" />
+
 	</h:form>
 </cc:implementation>
 

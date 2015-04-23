@@ -3,64 +3,69 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
-	<h:outputStylesheet library="scripts/css" name="styles.css"></h:outputStylesheet>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+	<h:outputScript name="bootstrap/js/bootstrap.js" />
+	<h:outputStylesheet name="css/hydro.css" />
 </h:head>
-
-<h:body>
-	<h:panelGroup id="main" layout="block">
-		<h:panelGroup id="header" layout="block">
+<body>
+	<h:form id="templateForm">
+		<div class="col-lg-12 col-md-12">
 			<ui:insert name="header">
-				<h2>ORGPM2.0</h2>
+				<p:menubar style="width:100%;">
+					<p:submenu label="Mitarbeiter">
+						<p:menuitem value="Mitarbeiter" url="/mitarbeiter.jsf" />
+					</p:submenu>
+
+					<p:submenu label="Projekte">
+						<p:menuitem value="Projekte" url="/projekte.jsf" />
+					</p:submenu>
+
+					<p:submenu label="Aktivitäten">
+						<p:menuitem value="Aktivitäten" url="/aktivitaeten.jsf" />
+					</p:submenu>
+
+					<p:submenu label="Buchungen">
+						<p:menuitem value="Buchungen" url="/buchungen.jsf" />
+					</p:submenu>
+
+					<f:facet name="options">
+						<h:inputText style="float:right;" class="btn"
+							pt:placeholder="Search" />
+						<h:commandButton class="btn btn-default" immediate="true"
+							value="Logout" action="#{loginAction.logout()}"
+							style="float:right;" />
+
+					</f:facet>
+				</p:menubar>
+				<h:outputLabel value="0.0.1-SNAPSHOT"
+					style="float:right;font-size:12px;font-style:italic;font-weight:bold;margin-top:10px;" />
+				<h:outputLabel value="ORGPM2.0"
+					style="float:right;font-size:22px;font-style:italic;font-weight:bold;margin-right:25px;" />
 			</ui:insert>
-		</h:panelGroup>
+		</div>
 
-		<h:panelGroup id="navigation" layout="block">
-			<ui:insert name="navigation">
-
-
-
-
-				<p:tabMenu activeIndex="#{param.i}">
-					<p:menuitem value="Mitarbeiter" outcome="mitarbeiter"
-						icon="ui-icon-person">
-						<f:param name="i" value="0" />
-					</p:menuitem>
-					<p:menuitem value="Buchungen" outcome="buchungen"
-						icon="ui-icon-pencil">
-						<f:param name="i" value="1" />
-					</p:menuitem>
-					<p:menuitem value="Projekte" outcome="projekte" icon="ui-icon-note">
-						<f:param name="i" value="2" />
-					</p:menuitem>
-					<p:menuitem value="Aktivitäten" outcome="aktivitaeten"
-						icon="ui-icon-document">
-						<f:param name="i" value="3" />
-					</p:menuitem>
-					<p:menuitem value="Hilfe" outcome="buchungen"
-						icon="ui-icon-wrench">
-						<f:param name="i" value="4" />
-					</p:menuitem>
-				</p:tabMenu>
-
+		<div class="action  col-lg-2 col-md-2">
+			<ui:insert name="action">
 			</ui:insert>
-		</h:panelGroup>
-
-		<h:panelGroup id="content" layout="block">
+		</div>
+		<div class="content col-lg-10 col-md-10">
 			<ui:insert name="content">
-				<h:outputText value="Platzhalter für Content" />
 			</ui:insert>
-		</h:panelGroup>
-
-		<h:panelGroup id="footer" layout="block">
+		</div>
+		<div class="footer col-lg-12 col-md-12">
 			<ui:insert name="footer">
-				<h:outputText value="(c) Hydro 2014" />
+				<p:messages />
 			</ui:insert>
-		</h:panelGroup>
-	</h:panelGroup>
+		</div>
 
-	<h:messages />
-</h:body>
+	</h:form>
+</body>
 </html>

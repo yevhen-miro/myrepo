@@ -8,10 +8,6 @@
 
 <ui:composition template="/WEB-INF/template.xhtml">
 
-	<ui:define name="header">
-		<h2>ORGPM-Buchungen</h2>
-	</ui:define>
-
 	<ui:define name="content">
 		<br></br>
 		<h:form id="mainForm"
@@ -21,7 +17,8 @@
 			<table>
 				<tr>
 					<td><p:outputLabel value="Kennung" /></td>
-
+					<td><p:outputLabel value="Projekt" /></td>
+					<td><p:outputLabel value="Aktivität" /></td>
 					<td><p:outputLabel value="Datum" /></td>
 					<td><p:outputLabel value="Anfang" /></td>
 					<td><p:outputLabel value="Ende" /></td>
@@ -29,14 +26,19 @@
 
 				</tr>
 				<tr>
-					<td><p:selectOneMenu
-							value="#{buchungActions.aktBuchung.mitarbeiter}"
-							style="width:100%">
-							<f:converter converterId="mitarbeiterConverter" />
-							<f:selectItems var="ma"
-								value="#{mitarbeiterAktionen.alleMitarbeiter}"
-								itemLabel="#{ma.hydroid}" />
-						</p:selectOneMenu></td>
+					<ui:remove>
+						<td><p:selectOneMenu
+								value="#{buchungActions.aktBuchung.mitarbeiter}"
+								style="width:100%">
+								<f:converter converterId="mitarbeiterConverter" />
+								<f:selectItems var="ma"
+									value="#{mitarbeiterAktionen.alleMitarbeiter}"
+									itemLabel="#{ma.hydroid}" />
+							</p:selectOneMenu></td>
+					</ui:remove>
+					<td><p:inputText
+							value="#{securityActions.securityPrincipalForLoggedInUser}"
+							disabled="true" style="width:80px"/></td>
 
 					<td><p:selectOneMenu
 							value="#{buchungActions.aktBuchung.projekt}" style="width:100%">
@@ -162,7 +164,7 @@
 					<h:outputText value="#{actBuchungen.taetigkeiten}" />
 				</p:column>
 
-				<p:column headerText="Ändern" style="width:55px">
+				<p:column headerText="Ändern" style="width:70px">
 					<p:commandButton icon="ui-icon-refresh" action="buchungen-edit"
 						ajax="false"
 						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
@@ -171,7 +173,7 @@
 					</p:commandButton>
 				</p:column>
 
-				<p:column headerText="Löschen" style="width:55px">
+				<p:column headerText="Löschen" style="width:90px">
 					<p:commandButton icon="ui-icon-close"
 						action="#{buchungActions.removeBuchung()}" ajax="false"
 						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
@@ -179,6 +181,7 @@
 							target="#{buchungActions.aktBuchung}" />
 					</p:commandButton>
 				</p:column>
+
 
 
 

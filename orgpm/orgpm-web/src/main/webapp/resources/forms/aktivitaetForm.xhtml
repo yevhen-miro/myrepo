@@ -61,10 +61,11 @@
 				value="#{aktivitaetAktionen.aktAktivitaet.bemerkung}" />
 			<h:messages for="af-bm" styleClass="error" />
 
+			<p:commandButton action="#{cc.attrs.buttonAction}"
+				value="#{cc.attrs.buttonLabel}" ajax="true" />
 
 		</h:panelGrid>
-		<p:commandButton action="#{cc.attrs.buttonAction}"
-			value="#{cc.attrs.buttonLabel}" ajax="true" />
+
 	</h:form>
 </cc:implementation>
 

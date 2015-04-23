@@ -43,3 +43,18 @@ alter sequence seq_buchungen restart with 200;
 alter sequence seq_mitarbeiter restart with 200;
 alter sequence seq_projekt restart with 200;
 alter sequence seq_aktivitaet restart with 200;
+
+insert into PERSONEN (id, nachname, vorname, hydroid, personalnummer, passwort) VALUES(71,  'Willems', 'Stefan', 'A566561', '8275', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
+insert into PERSONEN (id, nachname, vorname, hydroid, personalnummer, passwort) VALUES(72, 'Miroshnychenko', 'Yevhen', 'A136862', '1111', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
+insert into PERSONEN (id, nachname, vorname, hydroid, personalnummer, passwort) VALUES(73, 'Sinaga', 'David', 'A566452', '1111', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
+insert into PERSONEN (id, vorname, hydroid, personalnummer, passwort) VALUES(74, 'Jens', 'Reibiger', 'A566410', '7939', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
+insert into PERSONEN (id, vorname, hydroid, personalnummer, passwort) VALUES(75, 'Oliver', 'Schell', 'A999999', '1111', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
+
+insert into ROLLEN (id, name) VALUES (80,  'ADMIN');
+insert into ROLLEN (id, name) VALUES (81,  'STAMMDATEN');
+
+insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 90, 71, 80);
+insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 91, 72, 80);
+insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 92, 73, 80);
+insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 93, 74, 80);
+insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 94, 75, 80);
