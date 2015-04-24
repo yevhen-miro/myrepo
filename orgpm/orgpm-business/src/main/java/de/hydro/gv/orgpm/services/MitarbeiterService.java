@@ -10,7 +10,7 @@ import de.hydro.gv.orgpm.data.Mitarbeiter;
 
 @Stateless
 public class MitarbeiterService {
-	
+
 	@Inject
 	private MitarbeiterDao mitarbeiterDao;
 
@@ -19,15 +19,20 @@ public class MitarbeiterService {
 	}
 
 	public void deleteMitarbeiter( Mitarbeiter m ) throws Exception {
-		this.mitarbeiterDao.deleteMitarbeiter(m);
+		this.mitarbeiterDao.deleteMitarbeiter( m );
 	};
 
 	public void addMitarbeiter( Mitarbeiter m ) throws Exception {
-		this.mitarbeiterDao.createMitarbeiter(m);;
+		this.mitarbeiterDao.createMitarbeiter( m );
+		;
 	}
 
 	public void updateMitarbeiter( Mitarbeiter m ) throws Exception {
-		this.mitarbeiterDao.updateMitarbeiter(m);
+		this.mitarbeiterDao.updateMitarbeiter( m );
+	}
+
+	public Mitarbeiter getMitarbeiterByHydroId( String hydroid ) {
+		return this.mitarbeiterDao.getMitarbeiterByHydroId( hydroid );
 	}
 
 }

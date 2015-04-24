@@ -19,7 +19,9 @@ import javax.persistence.Table;
 		@NamedQuery( name = "mitarbeiter.delete.all", query = "DELETE FROM Mitarbeiter" ),
 		@NamedQuery( name = "mitarbeiter.find.all", query = "SELECT m FROM Mitarbeiter AS m" ),
 		@NamedQuery( name = "mitarbeiter.find.by.lastName",
-				query = "SELECT m FROM Mitarbeiter AS m WHERE m.vorname= :vorname" ) } )
+				query = "SELECT m FROM Mitarbeiter AS m WHERE m.vorname= :vorname" ),
+		@NamedQuery( name = "mitarbeiter.find.by.hydroid",
+				query = "SELECT m FROM Mitarbeiter AS m WHERE m.hydroId= :hydroid" ) } )
 public class Mitarbeiter implements Serializable {
 
 	private static final long serialVersionUID = 7859236877492083050L;
@@ -55,7 +57,7 @@ public class Mitarbeiter implements Serializable {
 	private int personalNum;
 
 	@Column( name = "hydroid" )
-	private int hydroId;
+	private String hydroId;
 
 	@Column( name = "kartenid" )
 	private int kartenNum;
@@ -144,11 +146,11 @@ public class Mitarbeiter implements Serializable {
 		this.personalNum = personalNum;
 	}
 
-	public int getHydroId() {
+	public String getHydroId() {
 		return this.hydroId;
 	}
 
-	public void setHydroId( int hydroId ) {
+	public void setHydroId( String hydroId ) {
 		this.hydroId = hydroId;
 	}
 
@@ -164,7 +166,7 @@ public class Mitarbeiter implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + this.hydroId;
+		result = (int) ( prime * result + this.id );
 		return result;
 	}
 

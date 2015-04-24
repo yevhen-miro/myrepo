@@ -24,6 +24,9 @@ public class MitarbeiterAktionen {
 	@Inject
 	private MitarbeiterService mitarbeiterService;
 
+	@Inject
+	private SecurityActions securityActions;
+
 	private ArrayList<MitarbeiterModel> cachedMitarbeiterList;
 
 	public MitarbeiterModel getMitarbeiter() {
@@ -91,6 +94,14 @@ public class MitarbeiterAktionen {
 
 	public String addNewMitarbeiter() {
 		return "mitarbeiter-input";
+	}
+
+	public MitarbeiterModel getMitarbeiterNachHydroId( String hydroid ) {
+		String hid = this.securityActions.getSecurityPrincipalForLoggedInUser();
+		this.mitarbeiterService.getMitarbeiterByHydroId( hid );
+		Mitarbeiter m = this.mitarbeiterService.getMitarbeiterByHydroId( hid );
+		MitarbeiterModel ret = new MitarbeiterModel( m );
+		return ret;
 	}
 
 }

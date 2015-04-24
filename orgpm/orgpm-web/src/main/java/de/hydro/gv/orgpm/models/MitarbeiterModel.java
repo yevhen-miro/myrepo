@@ -17,7 +17,7 @@ public class MitarbeiterModel extends Model<Mitarbeiter, MitarbeiterModel> imple
 	private Double status;
 	private String bemerkung;
 	private Integer personalid;
-	private Integer hydroid;
+	private String hydroid;
 	private Integer kartenid;
 
 	public MitarbeiterModel( Mitarbeiter mitarbeiter ) {
@@ -96,11 +96,11 @@ public class MitarbeiterModel extends Model<Mitarbeiter, MitarbeiterModel> imple
 		this.personalid = personalid;
 	}
 
-	public Integer getHydroid() {
+	public String getHydroid() {
 		return this.hydroid;
 	}
 
-	public void setHydroid( Integer hydroid ) {
+	public void setHydroid( String hydroid ) {
 		this.hydroid = hydroid;
 	}
 

@@ -2,11 +2,17 @@ package de.hydro.gv.orgpm.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
+import javax.ejb.SessionContext;
+import javax.inject.Inject;
+
+import de.hydro.gv.orgpm.actions.SecurityActions;
 import de.hydro.gv.orgpm.data.Aktivitaet;
 import de.hydro.gv.orgpm.data.Buchung;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.data.Projekt;
+import de.hydro.gv.orgpm.services.MitarbeiterService;
 
 public class BuchungModel extends Model<Buchung, BuchungModel> implements Serializable {
 
@@ -30,16 +36,35 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 
 	private Date pauseBis;
 
-	private Integer std;
+	private Long std;
 
-	private Integer min;
+	private Long duration;
+
+	private Long min;
 
 	private String taetigkeiten;
 
 	private Integer wartungId;
 
+	@Inject
+	MitarbeiterService mitarbeiterService;
+
+	@Inject
+	SecurityActions securityActions;
+
+	@Inject
+	SessionContext session;
+
 	public BuchungModel( Buchung buchung ) {
 		super( buchung );
+	}
+
+	public Long getDuration() {
+		return this.duration;
+	}
+
+	public void setDuration( Long duration ) {
+		this.duration = duration;
 	}
 
 	public Long getId() {
@@ -114,19 +139,19 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 		this.pauseBis = pauseBis;
 	}
 
-	public Integer getStd() {
+	public Long getStd() {
 		return this.std;
 	}
 
-	public void setStd( Integer std ) {
+	public void setStd( Long std ) {
 		this.std = std;
 	}
 
-	public Integer getMin() {
+	public Long getMin() {
 		return this.min;
 	}
 
-	public void setMin( Integer min ) {
+	public void setMin( Long min ) {
 		this.min = min;
 	}
 
@@ -168,16 +193,42 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 
 	@Override
 	public Buchung copyToEntity() {
+		this.duration = this.endeZeit.getTime() - this.anfangZeit.getTime();
+		Long aZeit = this.anfangZeit.getTime();
+		Long eZeit = this.endeZeit.getTime();
+		long hours = TimeUnit.MILLISECONDS.toHours( this.duration );
+		long minutes = TimeUnit.MILLISECONDS.toMinutes( this.duration );
 		this.entity.setId( this.getId() );
 		this.entity.setAktivitaetId( this.getAktivitaet() != null ? this.getAktivitaet().convertToEntity() : null );
 		this.entity.setAnfangZeit( this.getAnfangZeit() );
 		this.entity.setDatum( this.getDatum() );
 		this.entity.setEndeZeit( this.getEndeZeit() );
-		this.entity.setMin( this.getMin() );
-		this.entity.setPauseBis( this.getPauseBis() );
-		this.entity.setPauseVon( this.getPauseVon() );
+		this.entity.setPauseBis( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
+				.toMinutes( eZeit ) >= 700 )
+
+		&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 )
+
+		? new Date( 44400000 )
+
+		: null );
+		this.entity.setPauseVon( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
+				.toMinutes( eZeit ) >= 700 )
+
+		&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 )
+
+		? new Date( 42000000 )
+
+		: null );
 		this.entity.setProjekt( this.getProjekt() != null ? this.getProjekt().convertToEntity() : null );
-		this.entity.setStd( this.getStd() );
+		this.entity.setStd( TimeUnit.MILLISECONDS.toMinutes( aZeit ) );
+		this.entity.setMin( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
+				.toMinutes( eZeit ) >= 700 )
+
+		&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 )
+
+		? minutes - 40
+
+		: minutes );
 		this.entity.setTaetigkeiten( this.getTaetigkeiten() );
 		this.entity.setWartungId( this.getWartungId() );
 		this.entity.setMitarbeiter( this.getMitarbeiter() != null ? this.getMitarbeiter().convertToEntity() : null );

@@ -28,15 +28,15 @@
 			editable="true" resizableColumns="false"
 			style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
 
-			<p:column headerText="ProjektID" sortBy="#{actProjekt.projekt}">
+			<p:column headerText="ProjektID" sortBy="#{actProjekt.projekt}" style="width:110px">
 				<h:outputText value="#{actProjekt.projekt}" />
 			</p:column>
 
-			<p:column headerText="Aufwand" sortBy="#{actProjekt.aufwand}">
+			<p:column headerText="Aufwand" sortBy="#{actProjekt.aufwand}" style="width:110px">
 				<h:outputText value="#{actProjekt.aufwand}" />
 			</p:column>
 
-			<p:column headerText="Gruppe" sortBy="#{actProjekt.projektgruppe}">
+			<p:column headerText="Gruppe" sortBy="#{actProjekt.projektgruppe}" style="width:100px">
 				<h:outputText value="#{actProjekt.projektgruppe}" />
 			</p:column>
 
@@ -62,16 +62,16 @@
 				</h:outputText>
 			</p:column>
 
-			<p:column headerText="Bemerkung" sortBy="#{actProjekt.bemerkung}"
+			<p:column headerText="Bemerkung" 
 				style="width:120px">
 				<h:outputText value="#{actProjekt.bemerkung}" />
 			</p:column>
 
-			<p:column headerText="Wartung" sortBy="#{actProjekt.wartung}">
+			<p:column headerText="Wartung" >
 				<h:outputText value="#{actProjekt.wartung}" />
 			</p:column>
 
-			<p:column headerText="Storno" sortBy="#{actProjekt.storno}">
+			<p:column headerText="Storno" >
 				<h:outputText value="#{actProjekt.storno}" />
 			</p:column>
 

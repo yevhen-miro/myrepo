@@ -41,7 +41,7 @@ public class BuchungDaoTest {
 		Buchung buchung = new Buchung();
 		Mitarbeiter mitarbeiter = new Mitarbeiter();
 		mitarbeiter.setName( "Miroshnychenko_Test" );
-		mitarbeiter.setHydroId( 136862 );
+		mitarbeiter.setHydroId( "a136862" );
 		this.mitarbeiterDao.createMitarbeiter( mitarbeiter );
 
 		buchung.setMitarbeiter( mitarbeiter );
@@ -49,10 +49,10 @@ public class BuchungDaoTest {
 		buchung.setAnfangZeit( new Date() );
 		buchung.setDatum( new Date() );
 		buchung.setEndeZeit( new Date() );
-		buchung.setMin( 23 );
+		buchung.setMin( 23L );
 		buchung.setPauseBis( null );
 		buchung.setPauseVon( null );
-		buchung.setStd( 2 );
+		buchung.setStd( 23L );
 		buchung.setTaetigkeiten( "JUNIT test" );
 		buchung.setWartungId( 0 );
 		return buchung;

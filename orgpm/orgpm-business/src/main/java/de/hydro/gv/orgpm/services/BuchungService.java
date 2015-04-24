@@ -2,6 +2,8 @@ package de.hydro.gv.orgpm.services;
 
 import java.util.Collection;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -14,23 +16,24 @@ public class BuchungService {
 	@Inject
 	private BuchungDao buchungDao;
 
+	@Resource
+	private SessionContext sessionContext;
+
 	public Collection<Buchung> getAlleBuchungen() throws Exception {
 		return this.buchungDao.readAllBuchungen();
 	}
 
-	public void deleteBuchung(Buchung b) throws Exception {
-		this.buchungDao.deleteBuchung(b);
+	public void deleteBuchung( Buchung b ) throws Exception {
+		this.buchungDao.deleteBuchung( b );
 	};
 
-	public void addBuchung(Buchung b) throws Exception {
-		this.buchungDao.createBuchung(b);
+	public void addBuchung( Buchung b ) throws Exception {
+		this.buchungDao.createBuchung( b );
 		;
 	}
 
-	public void updateBuchung(Buchung b) throws Exception {
-		this.buchungDao.updateBuchung(b);
+	public void updateBuchung( Buchung b ) throws Exception {
+		this.buchungDao.updateBuchung( b );
 	}
-	
-	
 
 }

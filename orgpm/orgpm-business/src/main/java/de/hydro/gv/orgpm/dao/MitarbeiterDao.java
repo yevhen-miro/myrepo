@@ -84,4 +84,9 @@ public class MitarbeiterDao {
 				.setParameter( "vorname", _name ).getSingleResult();
 	}
 
+	public Mitarbeiter getMitarbeiterByHydroId( String hydroid ) {
+		return (Mitarbeiter) this.entityManager.createNamedQuery( "mitarbeiter.find.by.hydroid" )
+				.setParameter( "hydroid", hydroid ).getSingleResult();
+	}
+
 }

@@ -2,6 +2,7 @@ package de.hydro.gv.orgpm.actions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -10,6 +11,7 @@ import javax.inject.Named;
 
 import de.hydro.gv.orgpm.data.Aktivitaet;
 import de.hydro.gv.orgpm.data.Buchung;
+import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.data.Projekt;
 import de.hydro.gv.orgpm.models.AktivitaetModel;
 import de.hydro.gv.orgpm.models.BuchungModel;
@@ -28,6 +30,9 @@ public class BuchungActions {
 	private MitarbeiterModel selectedMitarbeiter;
 	private ProjektModel selectedProjekt;
 	private AktivitaetModel selectedAktivitaet;
+	private String user;
+
+	private List<BuchungModel> selectedBuchungen;
 
 	private ArrayList<BuchungModel> cachedBuchungList;
 	private ArrayList<ProjektModel> cachedProjektList;
@@ -36,6 +41,9 @@ public class BuchungActions {
 
 	@Inject
 	private BuchungService buchungService;
+
+	@Inject
+	private SecurityActions securityActions;
 
 	@Inject
 	private ProjektService projektService;
@@ -51,6 +59,14 @@ public class BuchungActions {
 
 	@Inject
 	private AktivitaetAktionen aktivitaetAktionen;
+
+	public String getUser() {
+		return this.user;
+	}
+
+	public void setUser( String user ) {
+		this.user = user;
+	}
 
 	public BuchungModel getAktBuchung() {
 		return this.aktBuchung;
@@ -82,6 +98,14 @@ public class BuchungActions {
 
 	public void setSelectedAktivitaet( AktivitaetModel selectedAktivitaet ) {
 		this.selectedAktivitaet = selectedAktivitaet;
+	}
+
+	public List<BuchungModel> getSelectedBuchungen() {
+		return this.selectedBuchungen;
+	}
+
+	public void setSelectedBuchungen( List<BuchungModel> selectedBuchungen ) {
+		this.selectedBuchungen = selectedBuchungen;
 	}
 
 	public Collection<BuchungModel> getAlleBuchungen() throws Exception {
@@ -227,6 +251,7 @@ public class BuchungActions {
 	public String saveBuchung() throws Exception {
 		this.buchungService.addBuchung( this.aktBuchung.convertToEntity() );
 		this.cachedBuchungList = null;
+		this.aktBuchung = null;
 		return "buchungen";
 	}
 
@@ -284,6 +309,14 @@ public class BuchungActions {
 			return actModel;
 		}
 
+	}
+
+	public MitarbeiterModel getMitarbeiterNachHydroId() {
+		String hid = this.securityActions.getSecurityPrincipalForLoggedInUser();
+		this.mitarbeiterService.getMitarbeiterByHydroId( hid );
+		Mitarbeiter m = this.mitarbeiterService.getMitarbeiterByHydroId( hid );
+		MitarbeiterModel ret = new MitarbeiterModel( m );
+		return ret;
 	}
 
 }

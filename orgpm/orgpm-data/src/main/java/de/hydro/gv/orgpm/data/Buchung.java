@@ -53,7 +53,7 @@ public class Buchung implements Serializable {
 	@Column( name = "datum" )
 	private Date datum;
 
-	@Temporal( TemporalType.TIME )
+	// @Temporal( TemporalType.TIME )
 	@Column( name = "anfang" )
 	private Date anfangZeit;
 
@@ -70,10 +70,10 @@ public class Buchung implements Serializable {
 	private Date pauseBis;
 
 	@Column( name = "stunden" )
-	private int std;
+	private Long std;
 
 	@Column( name = "minuten" )
-	private int min;
+	private Long min;
 
 	@Column( name = "taetigkeiten" )
 	private String taetigkeiten;
@@ -145,19 +145,19 @@ public class Buchung implements Serializable {
 		this.pauseBis = pauseBis;
 	}
 
-	public int getStd() {
+	public Long getStd() {
 		return this.std;
 	}
 
-	public void setStd( int std ) {
+	public void setStd( Long std ) {
 		this.std = std;
 	}
 
-	public int getMin() {
+	public Long getMin() {
 		return this.min;
 	}
 
-	public void setMin( int min ) {
+	public void setMin( Long min ) {
 		this.min = min;
 	}
 
