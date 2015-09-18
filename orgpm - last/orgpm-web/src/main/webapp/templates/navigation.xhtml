@@ -1,0 +1,42 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+ 
+    <ui:composition >
+         	<h:commandLink 
+         		value="Hosts"
+         		action="listHosts.xhtml"
+			rendered="#{login.loggedIn}"/>
+         	<h:commandLink 
+			value="Verbindungen" 
+			action="listConnections.xhtml" 
+			rendered="#{login.loggedIn}"/>
+         	<h:commandLink 
+			value="Telegrammarten"
+			action="listTelegrammarten.xhtml" 
+			rendered="#{login.loggedIn}"/>
+         	<h:commandLink 
+			value="Telegrammdefinitionen" 
+			action="listTelegramdefinitions.xhtml"
+			rendered="#{login.loggedIn}"/>
+         	<h:commandLink 
+			value="Telegramme" 
+			action="listTelegrams.xhtml" 
+			rendered="#{login.loggedIn}"/>
+         	<h:commandLink 
+			value="Benutzer" 
+			action="listUsers.xhtml"
+			rendered="#{login.loggedIn}"/>
+		<h:commandLink 
+			id="logout" 
+			action="#{login.logout}" 
+			value="Logout"
+			rendered="#{login.loggedIn}"
+			/>
+		
+</ui:composition>
+</html>

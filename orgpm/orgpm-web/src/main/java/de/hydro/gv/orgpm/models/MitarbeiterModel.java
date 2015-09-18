@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 
-public class MitarbeiterModel extends Model<Mitarbeiter, MitarbeiterModel> implements Serializable {// Model
-																									// View
+public class MitarbeiterModel extends Model<Mitarbeiter, MitarbeiterModel> implements Serializable {
 	private static final long serialVersionUID = -3392669897842233915L;
 
 	private Long id;

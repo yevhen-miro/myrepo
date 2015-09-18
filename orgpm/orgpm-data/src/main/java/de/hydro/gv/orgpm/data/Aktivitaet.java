@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,7 +54,7 @@ public class Aktivitaet implements Serializable {
 	@Column( name = "bemerkung" )
 	private String bemerkung;
 
-	@ManyToOne( fetch = FetchType.EAGER )
+	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.MERGE )
 	@JoinColumn( name = "PROJEKT", foreignKey = @ForeignKey( name = "FK_AKTIVITAET_PROJEKT" ) )
 	private Projekt projekt;
 
@@ -145,7 +146,6 @@ public class Aktivitaet implements Serializable {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
 }

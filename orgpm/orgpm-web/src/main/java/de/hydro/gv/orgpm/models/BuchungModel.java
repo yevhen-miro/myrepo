@@ -1,62 +1,51 @@
 package de.hydro.gv.orgpm.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import javax.ejb.SessionContext;
-import javax.inject.Inject;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
-import de.hydro.gv.orgpm.actions.SecurityActions;
 import de.hydro.gv.orgpm.data.Aktivitaet;
 import de.hydro.gv.orgpm.data.Buchung;
-import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.data.Projekt;
-import de.hydro.gv.orgpm.services.MitarbeiterService;
 
+@ManagedBean
+@ViewScoped
 public class BuchungModel extends Model<Buchung, BuchungModel> implements Serializable {
 
 	private static final long serialVersionUID = -2626028877968848831L;
 
 	private Long id;
-
-	private MitarbeiterModel mitarbeiter;
-
 	private ProjektModel projekt;
-
 	private AktivitaetModel aktivitaet;
-
 	private Date datum;
-
 	private Date anfangZeit;
-
 	private Date endeZeit;
-
 	private Date pauseVon;
-
 	private Date pauseBis;
-
 	private Long std;
-
 	private Long duration;
-
 	private Long min;
-
 	private String taetigkeiten;
-
 	private Integer wartungId;
+	private String hydroid;
+	private Collection<AktivitaetModel> activities;
 
-	@Inject
-	MitarbeiterService mitarbeiterService;
-
-	@Inject
-	SecurityActions securityActions;
-
-	@Inject
-	SessionContext session;
+	private Date initDate = new Date();
 
 	public BuchungModel( Buchung buchung ) {
 		super( buchung );
+	}
+
+	public Date getInitDate() {
+		return this.initDate;
+	}
+
+	public void setInitDate( Date initDate ) {
+		this.initDate = initDate;
 	}
 
 	public Long getDuration() {
@@ -73,14 +62,6 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 
 	public void setId( Long id ) {
 		this.id = id;
-	}
-
-	public MitarbeiterModel getMitarbeiter() {
-		return this.mitarbeiter;
-	}
-
-	public void setMitarbeiter( MitarbeiterModel mitarbeiter ) {
-		this.mitarbeiter = mitarbeiter;
 	}
 
 	public ProjektModel getProjekt() {
@@ -171,11 +152,25 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 		this.wartungId = wartungId;
 	}
 
+	public String getHydroid() {
+		return this.hydroid;
+	}
+
+	public void setHydroid( String hydroid ) {
+		this.hydroid = hydroid;
+	}
+
+	public Collection<AktivitaetModel> getActivities() {
+		return this.activities;
+	}
+
+	public void setActivities( Collection<AktivitaetModel> activities ) {
+		this.activities = activities;
+	}
+
 	@Override
 	public BuchungModel copyToModel() {
 		this.setId( this.entity.getId() );
-		this.setMitarbeiter( new MitarbeiterModel( this.entity.getMitarbeiter() != null ? this.entity.getMitarbeiter()
-				: new Mitarbeiter() ) );
 		this.setAktivitaet( new AktivitaetModel( this.entity.getAktivitaetId() != null ? this.entity.getAktivitaetId()
 				: new Aktivitaet() ) );
 		this.setAnfangZeit( this.entity.getAnfangZeit() );
@@ -188,6 +183,7 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 		this.setStd( this.entity.getStd() );
 		this.setTaetigkeiten( this.entity.getTaetigkeiten() );
 		this.setWartungId( this.entity.getWartungId() );
+		this.setHydroid( this.entity.getHydroid() );
 		return this.model;
 	}
 
@@ -196,43 +192,35 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 		this.duration = this.endeZeit.getTime() - this.anfangZeit.getTime();
 		Long aZeit = this.anfangZeit.getTime();
 		Long eZeit = this.endeZeit.getTime();
-		long hours = TimeUnit.MILLISECONDS.toHours( this.duration );
 		long minutes = TimeUnit.MILLISECONDS.toMinutes( this.duration );
 		this.entity.setId( this.getId() );
 		this.entity.setAktivitaetId( this.getAktivitaet() != null ? this.getAktivitaet().convertToEntity() : null );
 		this.entity.setAnfangZeit( this.getAnfangZeit() );
 		this.entity.setDatum( this.getDatum() );
 		this.entity.setEndeZeit( this.getEndeZeit() );
-		this.entity.setPauseBis( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
-				.toMinutes( eZeit ) >= 700 )
-
-		&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 )
-
-		? new Date( 44400000 )
-
-		: null );
-		this.entity.setPauseVon( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
-				.toMinutes( eZeit ) >= 700 )
-
-		&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 )
-
-		? new Date( 42000000 )
-
-		: null );
+		this.entity
+				.setPauseBis( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
+						.toMinutes( eZeit ) >= 700 )
+						&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 ) ? new Date(
+						44400000 ) : null );
+		this.entity
+				.setPauseVon( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
+						.toMinutes( eZeit ) >= 700 )
+						&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 ) ? new Date(
+						42000000 ) : null );
 		this.entity.setProjekt( this.getProjekt() != null ? this.getProjekt().convertToEntity() : null );
-		this.entity.setStd( TimeUnit.MILLISECONDS.toMinutes( aZeit ) );
-		this.entity.setMin( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
-				.toMinutes( eZeit ) >= 700 )
-
-		&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 )
-
-		? minutes - 40
-
-		: minutes );
+		this.entity
+				.setStd( TimeUnit.MINUTES.toHours( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
+						.toMinutes( eZeit ) >= 700 )
+						&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 ) ? minutes - 40
+						: minutes ) );
+		this.entity
+				.setMin( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) >= 700 )
+						&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 ) ? minutes - 40
+						: minutes );
 		this.entity.setTaetigkeiten( this.getTaetigkeiten() );
 		this.entity.setWartungId( this.getWartungId() );
-		this.entity.setMitarbeiter( this.getMitarbeiter() != null ? this.getMitarbeiter().convertToEntity() : null );
-
+		this.entity.setHydroid( this.getHydroid() );
 		return this.entity;
 	}
 

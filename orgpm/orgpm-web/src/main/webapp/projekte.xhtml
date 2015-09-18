@@ -7,23 +7,9 @@
 
 <ui:composition template="/WEB-INF/template.xhtml">
 
-	<ui:define name="navigation">
-		<h:commandLink value="Sektoren" action="/stammdaten/sektoren"></h:commandLink>
-		<h:commandLink value="Plätze" action="/stammdaten/plaetze"></h:commandLink>
-		<h:commandLink value="Platztypen" action="/stammdaten/platztypen"></h:commandLink>
-		<h:commandLink value="Transportgeräte"
-			action="/stammdaten/transportgeraete"></h:commandLink>
-		<h:commandLink value="Transporteinheittypen"
-			action="/stammdaten/transporteinheittypen"></h:commandLink>
-		<h:commandLink value="Hauptseite" action="/index"></h:commandLink>
-	</ui:define>
-
-
 
 	<ui:define name="content">
-
-
-
+	
 		<p:dataTable value="#{projektAktionen.alleProjekte}" var="actProjekt"
 			editable="true" resizableColumns="false"
 			style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
@@ -93,14 +79,11 @@
 				</p:commandButton>
 			</p:column>
 
-
-
 		</p:dataTable>
 
 
 
 	</ui:define>
-
 	<ui:define name="action">
 		<p:commandButton value="Projekt hinzufügen"
 			action="#{projektAktionen.addNewProjekt()}" ajax="false" />

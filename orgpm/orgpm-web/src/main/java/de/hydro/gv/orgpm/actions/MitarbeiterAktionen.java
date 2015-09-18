@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.event.RowEditEvent;
 
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.models.MitarbeiterModel;
@@ -23,9 +19,6 @@ public class MitarbeiterAktionen {
 
 	@Inject
 	private MitarbeiterService mitarbeiterService;
-
-	@Inject
-	private SecurityActions securityActions;
 
 	private ArrayList<MitarbeiterModel> cachedMitarbeiterList;
 
@@ -58,6 +51,10 @@ public class MitarbeiterAktionen {
 		return mitarbeiterModel;
 	}
 
+	public String addNewMitarbeiter() {
+		return "mitarbeiter-input";
+	}
+
 	public String addMitarbeiter() throws Exception {
 		this.mitarbeiterService.addMitarbeiter( this.mitarbeiter.convertToEntity() );
 		this.cachedMitarbeiterList = null;
@@ -76,32 +73,6 @@ public class MitarbeiterAktionen {
 		this.mitarbeiterService.updateMitarbeiter( this.mitarbeiter.convertToEntity() );
 		this.cachedMitarbeiterList = null;
 		return "mitarbeiter";
-	}
-
-	public void MitarbeiterOnRowEdit( RowEditEvent event ) throws Exception {
-
-		this.mitarbeiterService.updateMitarbeiter( this.mitarbeiter.convertToEntity() );
-		FacesMessage msg = new FacesMessage( "Mitarbeiter geändert", ( (MitarbeiterModel) event.getObject() ).getId()
-				.toString() );
-		FacesContext.getCurrentInstance().addMessage( null, msg );
-	}
-
-	public void MitarbeiterOnRowCancel( RowEditEvent event ) {
-		FacesMessage msg = new FacesMessage( "Änderung abgebrochen", ( (MitarbeiterModel) event.getObject() ).getId()
-				.toString() );
-		FacesContext.getCurrentInstance().addMessage( null, msg );
-	}
-
-	public String addNewMitarbeiter() {
-		return "mitarbeiter-input";
-	}
-
-	public MitarbeiterModel getMitarbeiterNachHydroId( String hydroid ) {
-		String hid = this.securityActions.getSecurityPrincipalForLoggedInUser();
-		this.mitarbeiterService.getMitarbeiterByHydroId( hid );
-		Mitarbeiter m = this.mitarbeiterService.getMitarbeiterByHydroId( hid );
-		MitarbeiterModel ret = new MitarbeiterModel( m );
-		return ret;
 	}
 
 }

@@ -27,8 +27,6 @@
 					<h:outputText value="#{activity.aktivitaetText}" />
 				</p:column>
 
-
-
 				<p:column headerText="Ändern" style="width:55px">
 					<p:commandButton icon="ui-icon-refresh" action="aktivitaet-edit"
 						ajax="false"
@@ -46,19 +44,14 @@
 							target="#{aktivitaetAktionen.aktAktivitaet}" />
 					</p:commandButton>
 				</p:column>
-
-
-
 			</p:dataTable>
 
-
 		</h:form>
+		
 	</ui:define>
-	
 		<ui:define name="action">
 			<p:commandButton value="Aktivität hinzufügen"
 				action="#{aktivitaetAktionen.addNewAktivitaet()}" ajax="false" />
-
 	</ui:define>
 
 </ui:composition>

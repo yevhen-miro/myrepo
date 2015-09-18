@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.event.RowEditEvent;
 
 import de.hydro.gv.orgpm.data.Projekt;
 import de.hydro.gv.orgpm.models.ProjektModel;
@@ -44,7 +40,6 @@ public class ProjektAktionen {
 	public ArrayList<ProjektModel> readAndConvertProjekt() throws Exception {
 		Collection<Projekt> projektEntities = this.projektService.getAlleProjekte();
 		ArrayList<ProjektModel> projektModel = this.convertieren( projektEntities );
-
 		return projektModel;
 	}
 
@@ -54,6 +49,10 @@ public class ProjektAktionen {
 			projektModel.add( new ProjektModel( projektEntity ) );
 		}
 		return projektModel;
+	}
+
+	public String addNewProjekt() {
+		return "projekt-input";
 	}
 
 	public String addProjekt() throws Exception {
@@ -74,31 +73,6 @@ public class ProjektAktionen {
 		this.projektService.updateProjekt( this.projekt.convertToEntity() );
 		this.cachedProjektList = null;
 		return "projekte";
-	}
-
-	public void ProjektOnRowEdit( RowEditEvent event ) throws Exception {
-
-		this.projektService.updateProjekt( this.projekt.convertToEntity() );
-		FacesMessage msg = new FacesMessage( "Projekt geändert", ( (ProjektModel) event.getObject() ).getProjektname() );
-		FacesContext.getCurrentInstance().addMessage( null, msg );
-	}
-
-	public void ProjektOnRowCancel( RowEditEvent event ) {
-		FacesMessage msg = new FacesMessage( "Änderung abgebrochen",
-				( (ProjektModel) event.getObject() ).getProjektname() );
-		FacesContext.getCurrentInstance().addMessage( null, msg );
-	}
-
-	public String addNewProjekt() {
-		return "projekt-input";
-	}
-
-	public Collection<ProjektModel> getAlle() throws Exception {
-		Collection<Projekt> projektEntities = this.projektService.getAlleProjekte();
-		for ( Projekt projektEntity : projektEntities ) {
-			this.cachedProjektList.add( new ProjektModel( projektEntity ) );
-		}
-		return this.cachedProjektList;
 	}
 
 }

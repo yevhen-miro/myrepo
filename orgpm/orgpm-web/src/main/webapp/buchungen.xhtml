@@ -21,73 +21,37 @@
 				<td><p:outputLabel value="Anfang" /></td>
 				<td><p:outputLabel value="Ende" /></td>
 				<td><p:outputLabel value="Tätigkeit" /></td>
-
 			</tr>
 			<tr>
 
-				<ui:remove>
 
-
-					<td><p:inputText
-							value="#{securityActions.securityPrincipalForLoggedInUser}"
-							disabled="true" style="width:80px" /></td>
-
-					<td><p:selectOneMenu
-							value="#{buchungActions.aktBuchung.mitarbeiter}"
-							style="width:100px">
-							<f:converter converterId="mitarbeiterConverter" />
-							<f:selectItems var="ma"
-								value="#{mitarbeiterAktionen.alleMitarbeiter}"
-								itemLabel="#{ma.hydroid}" />
-						</p:selectOneMenu></td>
-				</ui:remove>
-
-				<td><p:selectOneMenu
-						value="#{buchungActions.aktBuchung.mitarbeiter}"
-						style="width:100px">
-						<f:converter converterId="mitarbeiterConverter" />
-						<f:selectItems var="ma"
-							value="#{mitarbeiterAktionen.alleMitarbeiter}"
-							itemLabel="#{ma.hydroid}" />
-					</p:selectOneMenu></td>
-
-
+				<td><p:inputText value="#{buchungActions.hydroId}"
+						disabled="true" style="width:80px" /></td>
 				<td><p:selectOneMenu
 						value="#{buchungActions.aktBuchung.projekt}" style="width:100px">
+						<p:ajax listener="#{buchungActions.onProjektChange}"
+							update="activity" />
 						<f:converter converterId="projektConverter" />
 						<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
 							itemLabel="#{proj.projekt}" />
 					</p:selectOneMenu></td>
 
-				<td><p:selectOneMenu
+				<td><p:selectOneMenu id="activity"
 						value="#{buchungActions.aktBuchung.aktivitaet}"
 						style="width:300px">
 						<f:converter converterId="aktionConverter" />
-						<f:selectItems var="akt" value="#{aktivitaetAktionen.alle}"
-							itemLabel="#{akt.aktivitaetText}" />
+						<f:selectItems value="#{buchungActions.aktBuchung.activities}" />
 					</p:selectOneMenu></td>
 
-				<ui:remove>
-					<td><cc:projektWahl id="projektwahl"
-							source="#{projektAktionen.alleProjekte}"
-							destination="#{buchungActions.selectedProjekt}"
-							rerender=":mainForm:actions" /></td>
-
-					<td><h:panelGroup id="actions">
-							<cc:aktionWahl source="#{buchungActions.aktivitaetenByProjekt}"
-								destination="#{buchungActions.selectedAktivitaet}"
-								execute=":mainForm:projektwahl:select-projekt" />
-						</h:panelGroup></td>
-				</ui:remove>
 				<td><p:calendar id="in-date"
 						value="#{buchungActions.aktBuchung.datum}" pattern="dd.MM.yy"
-						required="true" /></td>
+						required="false" /></td>
 				<td><p:calendar id="in-anfang"
 						value="#{buchungActions.aktBuchung.anfangZeit}" pattern="HH:mm"
-						mask="true" required="true" /></td>
+						mask="true" required="false" /></td>
 				<td><p:calendar id="in-ende"
 						value="#{buchungActions.aktBuchung.endeZeit}" pattern="HH:mm"
-						mask="true" required="true" /></td>
+						mask="true" required="false" /></td>
 				<td><p:inputText id="in-taetigkeit"
 						value="#{buchungActions.aktBuchung.taetigkeiten}" /></td>
 				<td><p:commandButton value="Speichern"
@@ -98,42 +62,25 @@
 			</tr>
 		</table>
 
-
-
-
 		<p:separator style="width:100%;height:20px" />
 
 		<h:form id="table">
-			<p:growl id="table" showDetail="true" sticky="true" />
-
-			<p:dataTable value="#{buchungActions.alleBuchungen}"
-				var="actBuchungen" editable="true" resizableColumns="false"
-				rows="10" paginator="true" selectionMode="multiple"
-				selection="#{buchungActions.selectedBuchungen}"
+			<p:dataTable id="buchungen" value="#{buchungActions.alleBuchungen}"
+				widgetVar="Table" var="actBuchungen" editable="true"
+				resizableColumns="false" filteredValue="#{actBuchungen}" rows="10"
+				paginator="true"
 				rowKey="#{actBuchungen.id}"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 				style="margin-bottom:10px;font-size:15px;margin-right:7%">
 
-
-				<p:column headerText="HydroID" sortBy="#{actBuchungen.mitarbeiter}"
-					style="width:110px">
-					<h:outputText value="#{actBuchungen.mitarbeiter.hydroid}">
-
-					</h:outputText>
-				</p:column>
-
-
 				<p:column headerText="Projekt" sortBy="#{actBuchungen.projekt}">
 					<h:outputText value="#{actBuchungen.projekt.projekt}">
-
 					</h:outputText>
 				</p:column>
-
 
 				<p:column headerText="AktivitätNr"
 					sortBy="#{actBuchungen.aktivitaet}" style="width:120px">
 					<h:outputText value="#{actBuchungen.aktivitaet.aktivitaetText}">
-
 					</h:outputText>
 				</p:column>
 
@@ -144,14 +91,12 @@
 				</p:column>
 
 				<p:column headerText="Anfang" sortBy="#{actBuchungen.anfangZeit}">
-
 					<h:outputText value="#{actBuchungen.anfangZeit}">
 						<f:convertDateTime pattern="HH:mm" />
 					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Ende" sortBy="#{actBuchungen.endeZeit}">
-
 					<h:outputText value="#{actBuchungen.endeZeit}">
 						<f:convertDateTime pattern="HH:mm" />
 					</h:outputText>
@@ -164,11 +109,9 @@
 				</p:column>
 
 				<p:column headerText="Pause Bis" style="width:110px">
-
 					<h:outputText value="#{actBuchungen.pauseBis}">
 						<f:convertDateTime pattern="HH:mm" />
 					</h:outputText>
-
 				</p:column>
 
 				<ui:remove>
@@ -181,18 +124,17 @@
 					<h:outputText value="#{actBuchungen.min}" />
 				</p:column>
 
-				<p:column headerText="Tätigkeit"
-					sortBy="#{actBuchungen.taetigkeiten}" style="width:200px">
-					<h:outputText value="#{actBuchungen.taetigkeiten}" />
-				</p:column>
-
-				<p:column headerText="Ändern" style="width:70px">
-					<p:commandButton process="@this table" icon="ui-icon-refresh" action="buchungen-edit"
-						ajax="false"
-						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
-						<f:setPropertyActionListener value="#{actBuchungen}"
-							target="#{buchungActions.aktBuchung}" />
-					</p:commandButton>
+				<p:column headerText="Tätigkeit">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.taetigkeiten}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.taetigkeiten}"
+								style="width:100%" label="Tätigkeit" />
+						</f:facet>
+					</p:cellEditor>
+					<h:outputText />
 				</p:column>
 
 				<p:column headerText="Löschen" style="width:90px">
@@ -203,14 +145,22 @@
 							target="#{buchungActions.aktBuchung}" />
 					</p:commandButton>
 				</p:column>
-
-
-
+				
 			</p:dataTable>
-
 		</h:form>
-
 	</ui:define>
+
+
+	<ui:define name="action">
+		<p:outputPanel style="margin-top:50%">
+			<p:outputLabel>Tag Filter </p:outputLabel>
+			<p:calendar id="date" value="#{buchungActions.date}" mode="inline">
+				<p:ajax event="dateSelect" listener="#{buchungActions.onDateSelect}"
+					update=":templateForm:table:buchungen" />
+			</p:calendar>
+		</p:outputPanel>
+	</ui:define>
+
 
 </ui:composition>
 </html>

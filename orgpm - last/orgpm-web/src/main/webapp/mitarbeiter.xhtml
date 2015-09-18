@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+	<ui:define name="navigation">
+		<h:commandLink value="Mitarbeiter" action="/mitarbeiter"></h:commandLink>
+	</ui:define>
+
+	<ui:define name="content">
+
+
+			<p:dataTable value="#{mitarbeiterAktionen.alleMitarbeiter}"
+				var="actMitarbeiter" editable="true" resizableColumns="false"
+				style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
+
+				<p:column headerText="Vorname" sortBy="#{actMitarbeiter.vorname}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.vorname}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.vorname}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Name" sortBy="#{actMitarbeiter.name}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.name}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.name}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Kennung" sortBy="#{actMitarbeiter.kennung}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.kennung}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.kennung}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Arbeitszeit"
+					sortBy="#{actMitarbeiter.arbeitszeit}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.arbeitszeit}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.arbeitszeit}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Gruppe" sortBy="#{actMitarbeiter.gruppe}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.gruppe}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.gruppe}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="HydroID" sortBy="#{actMitarbeiter.hydroid}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.hydroid}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.hydroid}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="PerosnalID"
+					sortBy="#{actMitarbeiter.personalid}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.personalid}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.personalid}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="KartenID" sortBy="#{actMitarbeiter.kartenid}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.kartenid}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.kartenid}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+<ui:remove>
+				<p:column headerText="Status" sortBy="#{actMitarbeiter.status}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.status}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.status}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+</ui:remove>
+				<p:column headerText="Bemerkung"
+					sortBy="#{actMitarbeiter.bemerkung}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actMitarbeiter.bemerkung}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actMitarbeiter.bemerkung}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Ändern" style="width:70px">
+					<p:commandButton icon="ui-icon-refresh" action="mitarbeiter-edit"
+						ajax="false"
+						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+						<f:setPropertyActionListener value="#{actMitarbeiter}"
+							target="#{mitarbeiterAktionen.mitarbeiter}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Löschen" style="width:90px">
+					<p:commandButton icon="ui-icon-close"
+						action="#{mitarbeiterAktionen.removeMitarbeiter()}" ajax="false"
+						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+						<f:setPropertyActionListener value="#{actMitarbeiter}"
+							target="#{mitarbeiterAktionen.mitarbeiter}" />
+					</p:commandButton>
+				</p:column>
+
+
+
+			</p:dataTable>
+	</ui:define>
+
+	<ui:define name="action">
+		<p:commandButton value="Mitarbeiter hinzufügen"
+			action="#{mitarbeiterAktionen.addNewMitarbeiter()}" />
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

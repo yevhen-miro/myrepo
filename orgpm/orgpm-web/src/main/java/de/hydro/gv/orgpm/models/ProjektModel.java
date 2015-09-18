@@ -24,8 +24,6 @@ public class ProjektModel extends Model<Projekt, ProjektModel> implements Serial
 	private Boolean storno;
 	private Boolean wartung;
 
-	// private List<AktivitaetModel> aktivitaeten;
-
 	public ProjektModel( de.hydro.gv.orgpm.data.Projekt projekt ) {
 		super( projekt );
 	}
@@ -212,7 +210,6 @@ public class ProjektModel extends Model<Projekt, ProjektModel> implements Serial
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
 

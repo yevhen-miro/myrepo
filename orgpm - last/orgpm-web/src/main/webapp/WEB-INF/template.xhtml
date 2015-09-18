@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+	<h:outputScript name="bootstrap/js/bootstrap.js" />
+	<h:outputStylesheet name="css/hydro.css" />
+</h:head>
+<body>
+	<h:form id="templateForm">
+		<div class="col-lg-12 col-md-12">
+			<ui:insert name="header">
+				<p:menubar style="width:100%;">
+					<p:submenu label="Mitarbeiter">
+						<p:menuitem value="Mitarbeiter" url="/mitarbeiter.jsf" />
+					</p:submenu>
+
+					<p:submenu label="Projekte">
+						<p:menuitem value="Projekte" url="/projekte.jsf" />
+					</p:submenu>
+
+					<p:submenu label="Aktivitäten">
+						<p:menuitem value="Aktivitäten" url="/aktivitaeten.jsf" />
+					</p:submenu>
+
+					<p:submenu label="Buchungen">
+						<p:menuitem value="Buchungen" url="/buchungen.jsf" />
+					</p:submenu>
+
+					<f:facet name="options">
+
+						<h:commandButton class="btn btn-default" immediate="true"
+							value="Logout" action="#{loginAction.logout()}"
+							style="float:right;" />
+						<h:inputText style="float:right;" class="btn"
+							pt:placeholder="Search" />
+
+					</f:facet>
+				</p:menubar>
+				<h:outputLabel value="0.0.1-SNAPSHOT"
+					style="float:right;font-size:12px;font-style:italic;font-weight:bold;margin-top:10px;" />
+				<h:outputLabel value="ORGPM2.0"
+					style="float:right;font-size:22px;font-style:italic;font-weight:bold;margin-right:25px;" />
+			</ui:insert>
+		</div>
+
+		<div class="action  col-lg-2 col-md-2">
+			<ui:insert name="action">
+			</ui:insert>
+		</div>
+		<div class="content col-lg-10 col-md-10">
+			<ui:insert name="content">
+			</ui:insert>
+		</div>
+		<div class="footer col-lg-12 col-md-12">
+			<ui:insert name="footer">
+				<p:messages />
+			</ui:insert>
+		</div>
+
+	</h:form>
+</body>
+</html>

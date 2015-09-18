@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://java.sun.com/jsf/composite/formelements">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+
+	<ui:define name="content">
+		<br></br>
+
+		<table>
+			<tr>
+				<td><p:outputLabel value="Kennung" /></td>
+				<td><p:outputLabel value="Projekt" /></td>
+				<td><p:outputLabel value="Aktivität" /></td>
+				<td><p:outputLabel value="Datum" /></td>
+				<td><p:outputLabel value="Anfang" /></td>
+				<td><p:outputLabel value="Ende" /></td>
+				<td><p:outputLabel value="Tätigkeit" /></td>
+
+			</tr>
+			<tr>
+
+
+				<td><p:inputText value="#{buchungActions.hydroId}"
+						disabled="true" style="width:80px" /></td>
+				<td><p:selectOneMenu
+						value="#{buchungActions.aktBuchung.projekt}" style="width:100px">
+						<p:ajax listener="#{buchungActions.onProjektChange}"
+							update="activity" />
+
+						<f:converter converterId="projektConverter" />
+						<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
+							itemLabel="#{proj.projekt}" />
+					</p:selectOneMenu></td>
+
+				<td><p:selectOneMenu id="activity"
+						value="#{buchungActions.aktBuchung.aktivitaet}"
+						style="width:300px">
+						<f:converter converterId="aktionConverter" />
+						<f:selectItems value="#{buchungActions.aktBuchung.activities}" />
+					</p:selectOneMenu></td>
+
+
+
+
+				<ui:remove>
+
+
+					<td><cc:projektWahl id="projektwahl"
+							source="#{projektAktionen.alleProjekte}"
+							destination="#{buchungActions.selectedProjekt}"
+							rerender=":mainForm:actions" /></td>
+
+					<td><h:panelGroup id="actions">
+							<cc:aktionWahl source="#{buchungActions.aktivitaetenByProjekt}"
+								destination="#{buchungActions.selectedAktivitaet}"
+								execute=":mainForm:projektwahl:select-projekt" />
+						</h:panelGroup></td>
+				</ui:remove>
+				<td><p:calendar id="in-date"
+						value="#{buchungActions.aktBuchung.datum}" pattern="dd.MM.yy"
+						required="false" /></td>
+				<td><p:calendar id="in-anfang"
+						value="#{buchungActions.aktBuchung.anfangZeit}" pattern="HH:mm"
+						mask="true" required="false" /></td>
+				<td><p:calendar id="in-ende"
+						value="#{buchungActions.aktBuchung.endeZeit}" pattern="HH:mm"
+						mask="true" required="false" /></td>
+				<td><p:inputText id="in-taetigkeit"
+						value="#{buchungActions.aktBuchung.taetigkeiten}" /></td>
+				<td><p:commandButton value="Speichern"
+						action="#{buchungActions.saveBuchung()}" ajax="false"
+						update="table">
+						<f:ajax render=":templateForm" resetValues="true" />
+					</p:commandButton></td>
+			</tr>
+		</table>
+
+
+
+
+		<p:separator style="width:100%;height:20px" />
+
+		<h:form id="table">
+			<p:growl id="msgs" showDetail="true" sticky="true" />
+
+			<p:dataTable id="buchungen" value="#{buchungActions.alleBuchungen}"
+				widgetVar="Table" var="actBuchungen" editable="true"
+				resizableColumns="false" filteredValue="#{actBuchungen}" rows="10"
+				paginator="true" selectionMode="multiple"
+				selection="#{buchungActions.selectedBuchungen}"
+				rowKey="#{actBuchungen.id}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				style="margin-bottom:10px;font-size:15px;margin-right:7%">
+
+				<p:ajax event="rowEdit" listener="#{buchungActions.onRowEdit}"
+					update=":templateForm:table:msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{buchungActions.onRowCancel}"
+					update=":templateForm:table:msgs" />
+
+
+
+				<p:column headerText="Projekt" sortBy="#{actBuchungen.projekt}">
+					<h:outputText value="#{actBuchungen.projekt.projekt}">
+
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="AktivitätNr"
+					sortBy="#{actBuchungen.aktivitaet}" style="width:120px">
+					<h:outputText value="#{actBuchungen.aktivitaet.aktivitaetText}">
+
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Datum" sortBy="#{actBuchungen.datum}">
+					<h:outputText value="#{actBuchungen.datum}">
+						<f:convertDateTime pattern="dd.MM.yyyy" />
+					</h:outputText>
+				</p:column>
+
+
+
+
+				<p:column headerText="Anfang" sortBy="#{actBuchungen.anfangZeit}">
+
+					<h:outputText value="#{actBuchungen.anfangZeit}">
+						<f:convertDateTime pattern="HH:mm" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Ende" sortBy="#{actBuchungen.endeZeit}">
+
+					<h:outputText value="#{actBuchungen.endeZeit}">
+						<f:convertDateTime pattern="HH:mm" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Pause Von" style="width:110px">
+					<h:outputText value="#{actBuchungen.pauseVon}">
+						<f:convertDateTime pattern="HH:mm" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Pause Bis" style="width:110px">
+
+					<h:outputText value="#{actBuchungen.pauseBis}">
+						<f:convertDateTime pattern="HH:mm" />
+					</h:outputText>
+
+				</p:column>
+
+				<ui:remove>
+					<p:column headerText="Std" sortBy="#{actBuchungen.std}">
+						<h:outputText value="#{actBuchungen.std}" />
+					</p:column>
+				</ui:remove>
+
+				<p:column headerText="Dauer, min" sortBy="#{actBuchungen.min}">
+					<h:outputText value="#{actBuchungen.min}" />
+				</p:column>
+
+				<p:column headerText="Tätigkeit">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{actBuchungen.taetigkeiten}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{actBuchungen.taetigkeiten}"
+								style="width:100%" label="Tätigkeit" />
+						</f:facet>
+					</p:cellEditor>
+					<h:outputText />
+				</p:column>
+
+				<p:column headerText="Ändern" style="width:70px">
+					<p:commandButton icon="ui-icon-refresh" action="buchungen-edit"
+						ajax="false"
+						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+						<f:setPropertyActionListener value="#{actBuchungen}"
+							target="#{buchungActions.tableBuchung}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Löschen" style="width:90px">
+					<p:commandButton icon="ui-icon-close"
+						action="#{buchungActions.removeBuchung()}" ajax="false"
+						style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+						<f:setPropertyActionListener value="#{actBuchungen}"
+							target="#{buchungActions.aktBuchung}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column style="width:32px">
+					<p:rowEditor>
+						<p:ajaxStatus update="@all" listener="#{buchungActions.onRowEdit}" />
+					</p:rowEditor>
+				</p:column>
+
+
+			</p:dataTable>
+
+
+
+		</h:form>
+	</ui:define>
+
+
+	<ui:define name="action">
+
+		<h:form id="formfilter">
+			<p:outputPanel style="margin-top:60%">
+				<p:calendar id="date" value="#{buchungActions.date}" mode="inline">
+					<p:ajax event="dateSelect"
+						listener="#{buchungActions.onDateSelect}"
+						update=":templateForm:table:buchungen" />
+				</p:calendar>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>
+</html>

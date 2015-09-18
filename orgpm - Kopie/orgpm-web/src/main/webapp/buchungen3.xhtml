@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://java.sun.com/jsf/composite/formelements">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<ui:define name="header">
+	</ui:define>
+
+	<ui:define name="content">
+		<br></br>
+		<h:form id="mainForm">
+
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="Projekt: "></p:outputLabel>
+				<cc:projektWahl id="projektwahl" source="#{projektAktionen.alleProjekte}"
+					destination="#{buchungActions.selectedProjekt}"
+					rerender=":mainForm:actions" />
+					
+				<p:outputLabel value="Action: "></p:outputLabel>
+				<h:panelGroup id="actions">
+					<cc:aktionWahl source="#{buchungActions.aktivitaetenByProjekt}"
+						destination="#{buchungActions.selectedAktivitaet}"
+						execute=":mainForm:projektwahl:select-projekt" />
+				</h:panelGroup>
+
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>

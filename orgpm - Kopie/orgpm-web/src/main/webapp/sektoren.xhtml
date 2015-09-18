@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:dataTable value="#{sektorActions.alle}" var="actSektor"
+			rowStyleClass="#{actSektor.gesperrt ? 'gesperrt' : null}"
+			resizableColumns="false" rows="10" paginator="true"
+			selectionMode="multiple"
+			selection="#{sektorActions.selectedSektoren}"
+			rowKey="#{actSektor.id}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+			<p:column headerText="Name" sortBy="#{actSektor.name}"
+				style="width:10%">
+				<h:outputText value="#{actSektor.name}" />
+			</p:column>
+
+			<p:column headerText="Typ" sortBy="#{actSektor.typ}"
+				style="width:10%">
+				<h:outputText value="#{actSektor.typ}" style="width:auto">
+					<f:converter converterId="sektorTypStringConverter" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Im Sektor" sortBy="#{actSektor.sektor.name}"
+				style="width:10%">
+				<h:outputText value="#{actSektor.sektor.name}" />
+			</p:column>
+
+			<p:column headerText="X" sortBy="#{actSektor.ausdehnungX}"
+				style="width:7%">
+				<h:outputText value="#{actSektor.ausdehnungX}" />
+			</p:column>
+
+			<p:column headerText="Y" sortBy="#{actSektor.ausdehnungY}"
+				style="width:7%">
+				<h:outputText value="#{actSektor.ausdehnungY}" />
+			</p:column>
+
+			<p:column headerText="Z" sortBy="#{actSektor.ausdehnungZ}"
+				style="width:7%">
+				<h:outputText value="#{actSektor.ausdehnungZ}" />
+			</p:column>
+
+			<p:column headerText="Ändern" style="width:7%">
+				<p:commandButton icon="ui-icon-edit"
+					action="#{sektorActions.startUpdate()}"
+					style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+					<f:setPropertyActionListener value="#{actSektor}"
+						target="#{sektorActions.aktSektor}" />
+				</p:commandButton>
+			</p:column>
+
+			<p:column headerText="Löschen" style="width:7%">
+				<p:commandButton icon="ui-icon-close"
+					action="#{sektorActions.delete()}"
+					style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+					<f:setPropertyActionListener value="#{actSektor}"
+						target="#{sektorActions.aktSektor}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<p:commandButton value="Neu" action="#{sektorActions.startAdd()}"
+			class="btn btn-default" />
+
+	</ui:define>
+
+
+</ui:composition>
+
+</html>
