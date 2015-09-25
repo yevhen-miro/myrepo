@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jboss-web>
-    <!-- Links with JBoss the Realm to use -->
-    <security-domain>hydro-orgpm</security-domain>
-    <disable-audit>false</disable-audit>
-</jboss-web>

@@ -210,7 +210,7 @@ public class ProjektModel extends Model<Projekt, ProjektModel> implements Serial
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return this.getProjekt();
 	}
 
 }

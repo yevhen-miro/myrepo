@@ -1,20 +1,34 @@
 package de.hydro.gv.orgpm.data;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+import de.hydro.gv.orgpm.auth.Login;
+import de.hydro.gv.orgpm.auth.RolleEnum;
 
 @Entity
-@Table( name = "mitarbeiter" )
+@Table( name = "MITARBEITER" )
 @NamedQueries( {
 		@NamedQuery( name = "mitarbeiter.delete.all", query = "DELETE FROM Mitarbeiter" ),
 		@NamedQuery( name = "mitarbeiter.find.all", query = "SELECT m FROM Mitarbeiter AS m" ),
@@ -27,16 +41,34 @@ public class Mitarbeiter implements Serializable {
 	private static final long serialVersionUID = 7859236877492083050L;
 
 	@SequenceGenerator( name = "SEQ_MITARBEITER", sequenceName = "SEQ_MITARBEITER", allocationSize = 1 )
-	@GeneratedValue( strategy = SEQUENCE, generator = "SEQ_MITARBEITER" )
+	@GeneratedValue( strategy = GenerationType.TABLE, generator = "SEQ_MITARBEITER" )
 	@Id
 	@Column( name = "id" )
 	private Long id;
 
-	@Column( name = "vorname" )
+	@Column( name = "VORNAME", length = 30 )
+	@NotNull
 	private String vorname;
 
-	@Column( name = "name" )
-	private String name;
+	@Column( name = "NACHNAME", length = 50 )
+	@NotNull
+	private String nachname;
+
+	@Column( name = "PASSWORT", length = 300 )
+	@NotNull
+	private String passwort;
+
+	@Column( name = "GEBURTSDATUM" )
+	@Temporal( TemporalType.DATE )
+	private Calendar geburtsdatum;
+
+	@Column( name = "EINSTELLUNGSDATUM" )
+	@Temporal( TemporalType.DATE )
+	private Calendar einstellungsdatum;
+
+	@Column( name = "KUENDIGUNGSDATUM" )
+	@Temporal( TemporalType.DATE )
+	private Calendar kuendigungsdatum;
 
 	@Column( name = "gruppe" )
 	private String gruppe;
@@ -56,11 +88,40 @@ public class Mitarbeiter implements Serializable {
 	@Column( name = "personalid" )
 	private int personalNum;
 
-	@Column( name = "hydroid" )
+	@Column( name = "hydroid", length = 10, unique = true )
 	private String hydroId;
 
 	@Column( name = "kartenid" )
 	private int kartenNum;
+
+	@Enumerated( EnumType.STRING )
+	private RolleEnum rolle;
+
+	public RolleEnum getRolle() {
+		return this.rolle;
+	}
+
+	public void setRolle( RolleEnum rolle ) {
+		this.rolle = rolle;
+	}
+
+	public Login getLogin() {
+		return this.login;
+	}
+
+	public void setLogin( Login login ) {
+		this.login = login;
+	}
+
+	@OneToMany( mappedBy = "mitarbeiter", fetch = FetchType.LAZY )
+	private List<MitarbeiterProjekte> projekte;
+
+	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	@PrimaryKeyJoinColumn
+	private Login login;
+
+	public Mitarbeiter( Integer id, String vorname, String name, String gruppe, String mitarbeiterkennung ) {
+	}
 
 	public String getGruppe() {
 		return this.gruppe;
@@ -68,9 +129,6 @@ public class Mitarbeiter implements Serializable {
 
 	public void setGruppe( String gruppe ) {
 		this.gruppe = gruppe;
-	}
-
-	public Mitarbeiter( Integer id, String vorname, String name, String gruppe, String mitarbeiterkennung ) {
 	}
 
 	public Long getId() {
@@ -90,11 +148,35 @@ public class Mitarbeiter implements Serializable {
 	}
 
 	public String getName() {
-		return this.name;
+		return this.nachname;
 	}
 
 	public void setName( String name ) {
-		this.name = name;
+		this.nachname = name;
+	}
+
+	public Calendar getGeburtsdatum() {
+		return this.geburtsdatum;
+	}
+
+	public void setGeburtsdatum( Calendar geburtsdatum ) {
+		this.geburtsdatum = geburtsdatum;
+	}
+
+	public Calendar getEinstellungsdatum() {
+		return this.einstellungsdatum;
+	}
+
+	public void setEinstellungsdatum( Calendar einstellungsdatum ) {
+		this.einstellungsdatum = einstellungsdatum;
+	}
+
+	public Calendar getKuendigungsdatum() {
+		return this.kuendigungsdatum;
+	}
+
+	public void setKuendigungsdatum( Calendar kuendigungsdatum ) {
+		this.kuendigungsdatum = kuendigungsdatum;
 	}
 
 	public Mitarbeiter() {
@@ -102,7 +184,7 @@ public class Mitarbeiter implements Serializable {
 
 	public Mitarbeiter( String vorname, String name, String gruppe ) {
 		this.vorname = vorname;
-		this.name = name;
+		this.nachname = name;
 		this.gruppe = gruppe;
 	}
 
@@ -162,18 +244,8 @@ public class Mitarbeiter implements Serializable {
 		this.kartenNum = kartenNum;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) ( prime * result + this.id );
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+	public String getPasswort() {
+		return this.passwort;
 	}
 
 	@Override
@@ -188,9 +260,40 @@ public class Mitarbeiter implements Serializable {
 			return false;
 		}
 		Mitarbeiter other = (Mitarbeiter) obj;
-		if( this.hydroId != other.hydroId ) {
+		if( this.hydroId == null ) {
+			if( other.hydroId != null ) {
+				return false;
+			}
+		} else if( !this.hydroId.equals( other.hydroId ) ) {
+			return false;
+		}
+		if( this.id == null ) {
+			if( other.id != null ) {
+				return false;
+			}
+		} else if( !this.id.equals( other.id ) ) {
 			return false;
 		}
 		return true;
 	}
+
+	public void setPasswort( String passwort ) {
+		this.passwort = passwort;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ( ( this.hydroId == null ) ? 0 : this.hydroId.hashCode() );
+		result = prime * result + ( ( this.id == null ) ? 0 : this.id.hashCode() );
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
+
 }

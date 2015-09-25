@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<ui:define name="action">
+		<p:commandButton action="#{mitarbeiterAktionen.updatePasswort()}"
+			value="Passwort ändern" ajax="true" />
+
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h3>Meine Information</h3>
+
+		<p:panel id="Info" header="Passwort Verwaltung" style="width:30%">
+			<h:panelGrid columns="3">
+
+				<p:outputLabel value="Aktuelles Passwort" />
+				<h:outputText value="&#160;" />
+				<p:inputText id="mi-vorname"
+					value="#{mitarbeiterAktionen.mitarbeiterByHydroId.passwort}"
+					readonly="true" />
+
+				<p:outputLabel value="Neues Passwort" />
+				<h:outputText value="&#160;" />
+				<p:password id="pw"
+					value="#{mitarbeiterAktionen.neuesPasswort}">
+				</p:password>
+
+				<p:outputLabel value="Passwort wiederholen" />
+				<h:outputText value="&#160;" />
+				<p:password id="pw2" value="null">
+				</p:password>
+
+
+
+
+			</h:panelGrid>
+		</p:panel>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

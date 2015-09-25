@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+
+
+		<h3>Meine Information</h3>
+
+		<p:panel id="Info" header="Allgemeine Information" style="width:25%">
+			<h:panelGrid columns="3">
+
+				<p:outputLabel value="Vorname" />
+				<h:outputText value="&#160;" />
+				<p:inputText id="mi-vorname"
+					value="#{mitarbeiterAktionen.mitarbeiterByHydroId.vorname}"
+					readonly="true" />
+
+				<p:outputLabel value="Nachname" />
+				<h:outputText value="&#160;" />
+				<p:inputText id="mi-nachname"
+					value="#{mitarbeiterAktionen.mitarbeiterByHydroId.name}"
+					readonly="true" />
+
+				<p:outputLabel value="HydroId" />
+				<h:outputText value="&#160;" />
+				<p:inputText id="mi-hid"
+					value="#{mitarbeiterAktionen.mitarbeiterByHydroId.hydroid.toLowerCase()}"
+					readonly="true" />
+
+				<p:outputLabel value="Personal ID" />
+				<h:outputText value="&#160;" />
+				<p:inputText id="mi-personid"
+					value="#{mitarbeiterAktionen.mitarbeiterByHydroId.personalid}"
+					readonly="true" />
+
+				<p:outputLabel value="Arbeitsgruppe" />
+				<h:outputText value="&#160;" />
+				<p:inputText id="mi-arg"
+					value="#{mitarbeiterAktionen.mitarbeiterByHydroId.gruppe}"
+					readonly="true" />
+
+				<p:outputLabel value="Karten ID" />
+				<h:outputText value="&#160;" />
+				<p:inputText id="mi-kid"
+					value="#{mitarbeiterAktionen.mitarbeiterByHydroId.kartenid}"
+					readonly="true" />
+
+				<p:outputLabel value="GAP Kennung" />
+				<h:outputText value="&#160;" />
+				<p:inputText id="mi-gk"
+					value="#{mitarbeiterAktionen.mitarbeiterByHydroId.kennung}"
+					readonly="true" />
+
+
+
+			</h:panelGrid>
+		</p:panel>
+	</ui:define>
+
+</ui:composition>
+
+</html>

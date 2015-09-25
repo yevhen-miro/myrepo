@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import de.hydro.gv.orgpm.auth.RolleEnum;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 
 @RequestScoped
@@ -45,11 +46,17 @@ public class MitarbeiterDao {
 	}
 
 	public void createMitarbeiter( Mitarbeiter m ) {
+
 		this.entityManager.persist( m );
 	}
 
 	public List<Mitarbeiter> readAllMitarbeiter() {
 		return this.entityManager.createQuery( "FROM Mitarbeiter", Mitarbeiter.class ).getResultList();
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public List<RolleEnum> readAllRollen() {
+		return this.entityManager.createQuery( "select r FROM " + RolleEnum.class.getName() + " r" ).getResultList();
 	}
 
 	public void updateMitarbeiter( Mitarbeiter m ) {
@@ -58,6 +65,7 @@ public class MitarbeiterDao {
 	}
 
 	public void deleteMitarbeiter( Mitarbeiter m ) {
+
 		this.entityManager.remove( this.entityManager.merge( m ) );
 	}
 
@@ -79,6 +87,10 @@ public class MitarbeiterDao {
 
 	}
 
+	// public Rolle getRolleById( Long id ) {
+	// return this.entityManager.getReference( Rolle.class, id );
+	// }
+
 	public Mitarbeiter getMitarbeiterByName( String _name ) {
 		return (Mitarbeiter) this.entityManager.createNamedQuery( "mitarbeiter.find.by.lastName" )
 				.setParameter( "vorname", _name ).getSingleResult();
@@ -88,5 +100,21 @@ public class MitarbeiterDao {
 		return (Mitarbeiter) this.entityManager.createNamedQuery( "mitarbeiter.find.by.hydroid" )
 				.setParameter( "hydroid", hydroid ).getSingleResult();
 	}
+
+	public String getMitarbeiterRolleByHydroId( String hydroid ) {
+		return this.entityManager.createNamedQuery( "mitarbeiter.find.rolle.by.hydroid" )
+				.setParameter( "hydroid", hydroid ).getSingleResult().toString();
+	}
+
+	// public Rolle getRolleByHydroId( String hydroid ) {
+	// return (Rolle) this.entityManager.createNamedQuery(
+	// "mitarbeiter.get.rolle.by.hydroid" )
+	// .setParameter( "hydroid", hydroid ).getSingleResult();
+	// }
+	//
+	// public Login getLoginByHydroId( String hydroid ) {
+	// return (Login) this.entityManager.createNamedQuery( "login.find.login"
+	// ).setParameter( "hydroId", hydroid )
+	// .getSingleResult();
 
 }

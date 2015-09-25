@@ -1,12 +1,14 @@
 package de.hydro.gv.orgpm.services;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import de.hydro.gv.orgpm.auth.RolleEnum;
 import de.hydro.gv.orgpm.dao.MitarbeiterDao;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 
@@ -42,5 +44,25 @@ public class MitarbeiterService {
 
 	public Mitarbeiter getMitarbeiterById( Long id ) {
 		return this.mitarbeiterDao.getMitarbeiterById( id );
+	}
+
+	public String getMitarbeiterRolleByHydroId( String hydroid ) {
+		return this.mitarbeiterDao.getMitarbeiterRolleByHydroId( hydroid );
+	}
+
+	// public Rolle getRolleByHydroId( String hydroid ) {
+	// return this.mitarbeiterDao.getRolleByHydroId( hydroid );
+	// }
+	//
+	// public Login getLoginByHydroId( String hydroid ) {
+	// return this.mitarbeiterDao.getLoginByHydroId( hydroid );
+	// }
+	//
+	// public Rolle getRolleById( Long id ) {
+	// return this.mitarbeiterDao.getRolleById( id );
+	// }
+
+	public List<RolleEnum> getAlleRollen() {
+		return this.mitarbeiterDao.readAllRollen();
 	}
 }

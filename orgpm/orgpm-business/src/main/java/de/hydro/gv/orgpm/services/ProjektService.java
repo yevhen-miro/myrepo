@@ -10,7 +10,7 @@ import de.hydro.gv.orgpm.data.Projekt;
 
 @Stateless
 public class ProjektService {
-	
+
 	@Inject
 	private ProjektDao projektDao;
 
@@ -19,15 +19,20 @@ public class ProjektService {
 	}
 
 	public void deleteProjekt( Projekt p ) throws Exception {
-		this.projektDao.deleteProjekt(p);
+		this.projektDao.deleteProjekt( p );
 	};
 
 	public void addProjekt( Projekt p ) throws Exception {
-		this.projektDao.createProjekt(p);;
+		this.projektDao.createProjekt( p );
+		;
 	}
 
 	public void updateProjekt( Projekt p ) throws Exception {
-		this.projektDao.updateProjekt(p);
+		this.projektDao.updateProjekt( p );
+	}
+
+	public Collection<Projekt> getProjekteByMitarbeiter( String hydroid ) {
+		return this.projektDao.getProjektByMitarbeiterId( hydroid );
 	}
 
 }

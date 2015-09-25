@@ -37,17 +37,25 @@
 					</p:submenu>
 
 					<p:submenu label="Berichte">
-						<p:menuitem value="Berichte" url="/charts.jsf" />
+						<p:menuitem value="Berichte" icon="ui-icon-gear" url="/charts.jsf" />
 					</p:submenu>
+
+					<p:submenu label="My account" icon="ui-icon-gear" style="position:absolute; left: 80%; top:10px">
+						<p:menuitem value="Meine Information"  url="/myinformation.jsf" />
+						<p:menuitem value="Passwortverwaltung" url="/passwortverwaltung.jsf" />
+					</p:submenu>
+
+
 
 					<f:facet name="options">
 
 						<h:commandButton class="btn btn-default" immediate="true"
 							value="Logout" action="#{loginAction.logout()}"
 							style="float:right;" />
+<ui:remove>							
 						<h:inputText style="float:right;" class="btn"
 							pt:placeholder="Search" />
-
+</ui:remove>
 					</f:facet>
 				</p:menubar>
 				<h:outputLabel value="0.0.1-SNAPSHOT"
@@ -59,7 +67,7 @@
 
 		<div class="action  col-lg-2 col-md-2">
 			<ui:insert name="action">
-			
+
 
 			</ui:insert>
 		</div>

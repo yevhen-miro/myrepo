@@ -1,5 +1,6 @@
 package de.hydro.gv.orgpm.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.SessionContext;
@@ -71,6 +72,11 @@ public class ProjektDao {
 	public void getProjektById( Long id ) {
 		this.entityManager.getReference( Projekt.class, id );
 
+	}
+
+	public Collection<Projekt> getProjektByMitarbeiterId( String hydroid ) {
+		return this.entityManager.createNamedQuery( "projekt.find.by.mitarbeiter", Projekt.class )
+				.setParameter( "hydroid", hydroid ).getResultList();
 	}
 
 }

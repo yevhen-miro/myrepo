@@ -4,13 +4,16 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,6 +24,8 @@ import javax.persistence.Table;
 		@NamedQuery( name = "projekt.alle", query = "SELECT p FROM Projekt AS p" ),
 		@NamedQuery( name = "proejekt.delete.all", query = "DELETE FROM Projekt" ),
 		@NamedQuery( name = "projekt.find.all", query = "SELECT p FROM Projekt AS p" ),
+		@NamedQuery( name = "projekt.find.by.mitarbeiter", query = "SELECT p FROM Projekt p, MitarbeiterProjekte mp, "
+				+ " Mitarbeiter m WHERE p.id = mp.projekt.id and mp.mitarbeiter.id = m.id and m.hydroId= :hydroid" ),
 		@NamedQuery( name = "projekt.find.by.name", query = "SELECT p FROM Projekt AS p WHERE p.projektId= :proejektId" ) } )
 public class Projekt implements Serializable {
 
@@ -70,6 +75,9 @@ public class Projekt implements Serializable {
 
 	@Column( name = "wartung" )
 	private boolean wartungsprojekt;
+
+	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER )
+	private List<MitarbeiterProjekte> mitarbeiter;
 
 	public Projekt() {
 	}

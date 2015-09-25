@@ -1,5 +1,16 @@
 :TODO
 
+Mitarbeiter: zugelassene projekte
+Aktivitäten in Projekte
+Logische Prüfung buchungsdatum > als max buchungsdatum?
+Fehlermeldungen
+Logging
+10. CSS + HTML5
+11. Statistics and Reports
+
+
+DONE:
+
 1. Dropdown lists in input forms
 2. Display columns from other tables
 3. Calculate intervals in Buchungen
@@ -9,6 +20,4 @@
 7. Dialogs for Projekte
 8. Dialogs for Aktivitaeten
 9. Login authentication JAAS
-10. CSS + HTML5
-11. Statistics and Reports
-
+10. Mitarbeiter: Passwort verwaltung

@@ -2,10 +2,14 @@ package de.hydro.gv.orgpm.actions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.DualListModel;
 
 import de.hydro.gv.orgpm.data.Projekt;
 import de.hydro.gv.orgpm.models.ProjektModel;
@@ -20,7 +24,41 @@ public class ProjektAktionen {
 	@Inject
 	private ProjektService projektService;
 
+	@Inject
+	MitarbeiterAktionen mitarbeiterAktionen;
+
 	private ArrayList<ProjektModel> cachedProjektList;
+
+	private DualListModel<ProjektModel> allProjects;
+
+	private DualListModel<ProjektModel> zugelasseneProjekte;
+
+	@PostConstruct
+	public void init() throws Exception {
+		List<ProjektModel> projekteSource = new ArrayList<ProjektModel>();
+		List<ProjektModel> projekteTarget = new ArrayList<ProjektModel>();
+
+		projekteSource = (List<ProjektModel>) this.getAlleProjekte();
+		projekteTarget = (List<ProjektModel>) this.mitarbeiterAktionen.getProjekteByMitarbeiter();
+
+		this.zugelasseneProjekte = new DualListModel<ProjektModel>( projekteSource, projekteTarget );
+	}
+
+	public DualListModel<ProjektModel> getZugelasseneProjekte() {
+		return this.zugelasseneProjekte;
+	}
+
+	public DualListModel<ProjektModel> getAllProjects() {
+		return this.allProjects;
+	}
+
+	public void setZugelasseneProjekte( DualListModel<ProjektModel> zugelasseneProjekte ) {
+		this.zugelasseneProjekte = zugelasseneProjekte;
+	}
+
+	public void setAllProjects( DualListModel<ProjektModel> allProjects ) {
+		this.allProjects = allProjects;
+	}
 
 	public ProjektModel getProjekt() {
 		return this.projekt;

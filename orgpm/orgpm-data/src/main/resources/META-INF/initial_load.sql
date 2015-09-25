@@ -1,19 +1,29 @@
-insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, name, personalid,vorname) VALUES (1,8,'DWH-Entwickler','FAS','A136862',2456,0, 'gap87','Miroshnychenko',7772, 'Yevhen');
-insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, name, personalid,vorname) VALUES (2,8,'SAS-Administrator','FCS','A136989',1236,0, 'gap01','Sinaga',4656, 'David');
-insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, name, personalid,vorname) VALUES (3,8,'Java-Entwickler','FCS','A132362',2254,0, 'gap07','Reibiger',7772, 'Jens');
+insert into LOGIN(id,password) VALUES(1,'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
+insert into LOGIN(id,password) VALUES(2,'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
+insert into LOGIN(id,password) VALUES(3,'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
+
+insert into ROLLEN (id, name) VALUES (80,  'ADMIN');
+insert into ROLLEN (id, name) VALUES (81,  'USER');
+ 
+
+insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname, passwort,rolle ) VALUES (1,8,'DWH-Entwickler','FAS','A136862',2456,0, 'gap87','Miroshnychenko',7772, 'Yevhen','rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=','ADMIN');
+insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname, passwort, rolle) VALUES (2,8,'SAS-Administrator','FCS','A136989',1236,0, 'gap01','Sinaga',4656, 'David','rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=','ADMIN');
+insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname, passwort, rolle) VALUES (3,8,'Java-Entwickler','FCS','A132362',2254,0, 'gap07','Reibiger',7772, 'Jens','rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=','USER');
 
 insert into PROJEKTE  (id,begriff ,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,status ,ende ,start ,storno ,wartung ) VALUES (1,'kta114','Sammelprojekt','kta114',780,'FLS','kta114','Schmitz', 'Projektbezeichnung Erneuerung Produktionsbuch / Datawarehouse',1,sysdate,sysdate,false,false);
 insert into PROJEKTE (id,begriff ,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,status ,ende ,start ,storno ,wartung ) VALUES (2,'fls000','Sammelprojekt','fls000',1200,'FLS','fls000','Engemann', 'Hotline-Service / Maintenance FLS',1,sysdate,sysdate,false,false);
 insert into PROJEKTE (id,begriff ,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,status ,ende ,start ,storno ,wartung ) VALUES (3,'SAP000','Sammelprojekt','SAP000',440,'FLS','sap000','Schmitz', 'Hotline-Service SAP Interface',1,sysdate,sysdate,false,false);
 
 
+
+
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (1,1,true,'Konzept',null,null,1);
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (2,2,true,'Realisierung',null,null,1);
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (3,1,true,'Weiterentwicklung',null,null,2);
-insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (4,2,true,'Störungsbehebung',null,null,2);
+insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (4,2,true,'Stï¿½rungsbehebung',null,null,2);
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (5,3,true,'Hotline',null,null,2);
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (6,4,true,'Besprechungen / Meetings',null,null,2);
-insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (7,5,true,'SPS-Unterstützung',null,null,2);
+insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (7,5,true,'SPS-Unterstï¿½tzung',null,null,2);
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (8,6,true,'UNIX- Server u. Datenbanken',null,null,2);
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (9,7,true,'Rufbereitschaft',null,null,2);
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (10,8,true,'Netzwerk',null,null,2);
@@ -43,18 +53,13 @@ alter sequence seq_buchungen restart with 200;
 alter sequence seq_mitarbeiter restart with 200;
 alter sequence seq_projekt restart with 200;
 alter sequence seq_aktivitaet restart with 200;
+alter sequence seq_mitarbeiter_rollen restart with 200;
 
-insert into PERSONEN (id, nachname, vorname, hydroid, personalnummer, passwort) VALUES(71,  'Willems', 'Stefan', 'A566561', '8275', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
-insert into PERSONEN (id, nachname, vorname, hydroid, personalnummer, passwort) VALUES(72, 'Miroshnychenko', 'Yevhen', 'A136862', '1111', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
-insert into PERSONEN (id, nachname, vorname, hydroid, personalnummer, passwort) VALUES(73, 'Sinaga', 'David', 'A566452', '1111', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
-insert into PERSONEN (id, vorname, hydroid, personalnummer, passwort) VALUES(74, 'Jens', 'Reibiger', 'A566410', '7939', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
-insert into PERSONEN (id, vorname, hydroid, personalnummer, passwort) VALUES(75, 'Oliver', 'Schell', 'A999999', '1111', 'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
 
-insert into ROLLEN (id, name) VALUES (80,  'ADMIN');
-insert into ROLLEN (id, name) VALUES (81,  'STAMMDATEN');
+insert into MITARBEITER_ROLLEN ( id,  mitarbeiter, rolle) VALUES( 90,  1, 80);
+insert into MITARBEITER_ROLLEN ( id,  mitarbeiter, rolle) VALUES( 91,  2, 81);
+insert into MITARBEITER_ROLLEN ( id,  mitarbeiter, rolle) VALUES( 92,  3, 80);
 
-insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 90, 71, 80);
-insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 91, 72, 80);
-insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 92, 73, 80);
-insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 93, 74, 80);
-insert into PERSONEN_ROLLEN ( id,  person, rolle) VALUES( 94, 75, 80);
+insert into MITARBEITER_PROJEKTE (id, mitarbeiter, projekt) VALUES (30, 1, 1);
+insert into MITARBEITER_PROJEKTE (id, mitarbeiter, projekt) VALUES (31, 1, 2);
+insert into MITARBEITER_PROJEKTE (id, mitarbeiter, projekt) VALUES (32, 1, 3);

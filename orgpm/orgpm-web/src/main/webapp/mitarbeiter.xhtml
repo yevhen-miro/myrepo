@@ -16,9 +16,6 @@
 			<p:dataTable value="#{mitarbeiterAktionen.alleMitarbeiter}"
 				var="actMitarbeiter" editable="true" resizableColumns="false"
 				style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
-				
-				       <p:ajax event="rowEdit" listener="#{mitarbeiterAktionen.onRowEdit}" update=":templateForm:msgs" />
-       <p:ajax event="rowEditCancel" listener="#{mitarbeiterAktionen.onRowCancel}" update=":templateForm:msgs" />
 
 				<p:column headerText="Vorname" sortBy="#{actMitarbeiter.vorname}">
 					<p:cellEditor>
@@ -149,10 +146,6 @@
 						<f:setPropertyActionListener value="#{actMitarbeiter}"
 							target="#{mitarbeiterAktionen.mitarbeiter}" />
 					</p:commandButton>
-				</p:column>
-
-				<p:column style="width:32px">
-					<p:rowEditor />
 				</p:column>
 
 			</p:dataTable>

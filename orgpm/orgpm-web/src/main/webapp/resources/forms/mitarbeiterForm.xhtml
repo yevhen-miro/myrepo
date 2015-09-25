@@ -2,12 +2,16 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:cc="http://java.sun.com/jsf/composite"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <!-- INTERFACE -->
 <cc:interface>
+	<cc:attribute name="contentTitle" required="true" />
+	<cc:attribute name="disableForUpdate" required="true" />
 	<cc:attribute name="buttonLabel" required="true"></cc:attribute>
 	<cc:attribute name="buttonAction"
 		method-signature="java.lang.String action()" required="true"></cc:attribute>
@@ -15,64 +19,118 @@
 
 <!-- IMPLEMENTATION -->
 <cc:implementation>
+	<ui:decorate template="/WEB-INF/template.xhtml">
+		<ui:define name="content">
+			<p:accordionPanel>
 
-	<h:panelGrid columns="3">
-	
-		<p:outputLabel value="ID" />
-		<p:inputText id="tf-id" value="#{mitarbeiterAktionen.mitarbeiter.id}" />
-		<h:messages for="tf-id" styleClass="error" />
-		
-		<p:outputLabel value="Vorname" />
-		<p:inputText id="tf-fn"
-			value="#{mitarbeiterAktionen.mitarbeiter.vorname}" />
-		<h:messages for="tf-fn" styleClass="error" />
+				<p:tab title="Allgemeine Information">
 
-		<p:outputLabel value="Nachname" />
-		<p:inputText id="tf-ln"
-			value="#{mitarbeiterAktionen.mitarbeiter.name}" />
-		<h:messages for="tf-ln" styleClass="error" />
+					<h:panelGrid columns="3">
 
 
-		<p:outputLabel value="Kennung" />
-		<p:inputText id="tf-mk"
-			value="#{mitarbeiterAktionen.mitarbeiter.kennung}" />
-		<h:messages for="tf-mk" styleClass="error" />
+<ui:remove>
+						<p:outputLabel value="ID" />
+						<p:inputText id="tf-id"
+							value="#{mitarbeiterAktionen.mitarbeiter.id}"
+							disabled="#{cc.attrs.disableForUpdate}" />
+						<h:messages for="tf-id" styleClass="error" />
+</ui:remove>
+						<p:outputLabel value="Vorname" />
+						<p:inputText id="tf-fn"
+							value="#{mitarbeiterAktionen.mitarbeiter.vorname}"
+							disabled="#{cc.attrs.disableForUpdate}" />
+						<h:messages for="tf-fn" styleClass="error" />
 
-		<p:outputLabel value="Gruppe" />
-		<p:inputText id="tf-mg"
-			value="#{mitarbeiterAktionen.mitarbeiter.gruppe}" />
-		<h:messages for="tf-mg" styleClass="error" />
+						<p:outputLabel value="Nachname" />
+						<p:inputText id="tf-ln"
+							value="#{mitarbeiterAktionen.mitarbeiter.name}" />
+						<h:messages for="tf-ln" styleClass="error" />
 
-		<p:outputLabel value="Arbeitszeit" />
-		<p:inputText id="tf-ma"
-			value="#{mitarbeiterAktionen.mitarbeiter.arbeitszeit}" />
-		<h:messages for="tf-ma" styleClass="error" />
 
-		<p:outputLabel value="Hydro ID" />
-		<p:inputText id="tf-hi"
-			value="#{mitarbeiterAktionen.mitarbeiter.hydroid}" />
-		<h:messages for="tf-hi" styleClass="error" />
+						<p:outputLabel value="Kennung" />
+						<p:inputText id="tf-mk"
+							value="#{mitarbeiterAktionen.mitarbeiter.kennung}" />
+						<h:messages for="tf-mk" styleClass="error" />
 
-		<p:outputLabel value="Karten ID" />
-		<p:inputText id="tf-ki"
-			value="#{mitarbeiterAktionen.mitarbeiter.kartenid}" />
-		<h:messages for="tf-ki" styleClass="error" />
+						<p:outputLabel value="Gruppe" />
+						<p:inputText id="tf-mg"
+							value="#{mitarbeiterAktionen.mitarbeiter.gruppe}" />
+						<h:messages for="tf-mg" styleClass="error" />
 
-		<p:outputLabel value="Personal ID" />
-		<p:inputText id="tf-pi"
-			value="#{mitarbeiterAktionen.mitarbeiter.personalid}" />
-		<h:messages for="tf-pi" styleClass="error" />
+						<p:outputLabel value="Arbeitszeit" />
+						<p:inputText id="tf-ma"
+							value="#{mitarbeiterAktionen.mitarbeiter.arbeitszeit}" />
+						<h:messages for="tf-ma" styleClass="error" />
 
-		<p:outputLabel value="Bemerkung" />
-		<p:inputText id="tf-bm"
-			value="#{mitarbeiterAktionen.mitarbeiter.bemerkung}" />
-		<h:messages for="tf-bm" styleClass="error" />
+						<p:outputLabel value="Hydro ID" />
+						<p:inputText id="tf-hi"
+							value="#{mitarbeiterAktionen.mitarbeiter.hydroid}" />
+						<h:messages for="tf-hi" styleClass="error" />
 
-		<p:commandButton action="#{cc.attrs.buttonAction}"
-			value="#{cc.attrs.buttonLabel}" ajax="true" />
+						<p:outputLabel value="Karten ID" />
+						<p:inputText id="tf-ki"
+							value="#{mitarbeiterAktionen.mitarbeiter.kartenid}" />
+						<h:messages for="tf-ki" styleClass="error" />
 
-	</h:panelGrid>
+						<p:outputLabel value="Bemerkung" />
+						<p:inputText id="tf-bm"
+							value="#{mitarbeiterAktionen.mitarbeiter.bemerkung}" />
+						<h:messages for="tf-bm" styleClass="error" />
 
+						<p:outputLabel value="Personal ID" />
+						<p:inputText id="tf-pi"
+							value="#{mitarbeiterAktionen.mitarbeiter.personalid}" />
+						<h:messages for="tf-pi" styleClass="error" />
+
+
+
+
+
+					</h:panelGrid>
+
+				</p:tab>
+				<ui:remove>
+					<p:tab title="Zugelassene Projekte">
+
+						<p:pickList id="pickList"
+							value="#{projektAktionen.zugelasseneProjekte}" var="projects"
+							itemLabel="#{projects}" itemValue="#{projects}"
+							converter="projektConverter" />
+
+					</p:tab>
+				</ui:remove>
+				<p:tab title="Passwort">
+					<h:panelGrid columns="3">
+						<p:outputLabel value="Passwort" />
+						<p:password id="tf-pw"
+							value="#{mitarbeiterAktionen.mitarbeiter.passwort}" />
+						<h:messages for="tf-pw" styleClass="error" />
+
+					</h:panelGrid>
+				</p:tab>
+
+				<p:tab title="Rolle">
+
+					<p:outputLabel value="Rolle" />
+					<h:selectOneMenu id="rolle"
+						value="#{mitarbeiterAktionen.mitarbeiter.rolle}" var="ro">
+						<f:selectItems var="ro" value="#{rollenActions.alle}"
+							itemValue="#{ro}" itemLabel="#{ro}" />
+
+					</h:selectOneMenu>
+
+				</p:tab>
+
+			</p:accordionPanel>
+
+		</ui:define>
+
+		<ui:define name="action">
+			<p:commandButton action="#{cc.attrs.buttonAction}"
+				value="#{cc.attrs.buttonLabel}" ajax="true" />
+
+		</ui:define>
+	</ui:decorate>
 </cc:implementation>
 
 </html>
