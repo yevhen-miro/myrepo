@@ -1,7 +1,6 @@
 :TODO
 
 Mitarbeiter: zugelassene projekte
-Aktivitäten in Projekte
 Logische Prüfung buchungsdatum > als max buchungsdatum?
 Fehlermeldungen
 Logging
@@ -21,3 +20,8 @@ DONE:
 8. Dialogs for Aktivitaeten
 9. Login authentication JAAS
 10. Mitarbeiter: Passwort verwaltung
+11. Aktivitäten in Projekte
+
+
+select l.password from login l, mitarbeiter m where m.id = l.id and UPPER(m.hydroid)=UPPER(?)
+SELECT m.rolle, 'Roles' FROM mitarbeiter m WHERE UPPER(m.hydroid)=UPPER(?)

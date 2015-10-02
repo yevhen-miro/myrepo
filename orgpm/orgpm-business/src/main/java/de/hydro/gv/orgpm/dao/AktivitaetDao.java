@@ -25,7 +25,17 @@ public class AktivitaetDao {
 	}
 
 	public void addAktivitaet( Aktivitaet a ) {
-		this.entityManager.persist( a );
+		this.entityManager.merge( a );
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public List<Aktivitaet> readAllAktuellAktivitaeten() {
+		return this.entityManager.createNamedQuery( "aktivitaet.find.all.aktuell" ).getResultList();
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public List<Aktivitaet> readAllDisabledAktivitaeten() {
+		return this.entityManager.createNamedQuery( "aktivitaet.find.all.disabled" ).getResultList();
 	}
 
 	public List<Aktivitaet> readAllAktivitaeten() {
@@ -60,6 +70,15 @@ public class AktivitaetDao {
 
 		return this.entityManager.createNamedQuery( "aktivitaet.find.aktivitaet.by.projektname" )
 				.setParameter( "name", projektName ).getResultList();
+	}
+
+	public Aktivitaet getAktivitaetById( Long id ) {
+		return this.entityManager.find( Aktivitaet.class, id );
+	}
+
+	public Integer getMaxAktivitaetIdByProjektId( Long id ) {
+		return (Integer) this.entityManager.createNamedQuery( "aktivitaet.find.Max.aktivitaetId.by.projektid" )
+				.setParameter( "id", id ).getSingleResult();
 	}
 
 }

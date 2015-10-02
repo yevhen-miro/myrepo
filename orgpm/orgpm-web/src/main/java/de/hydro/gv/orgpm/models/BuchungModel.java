@@ -19,8 +19,8 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 	private static final long serialVersionUID = -2626028877968848831L;
 
 	private Long id;
-	private ProjektModel projekt;
-	private AktivitaetModel aktivitaet;
+	private Projekt projekt;
+	private Aktivitaet aktivitaet;
 	private Date datum;
 	private Date anfangZeit;
 	private Date endeZeit;
@@ -32,7 +32,7 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 	private String taetigkeiten;
 	private Integer wartungId;
 	private String hydroid;
-	private Collection<AktivitaetModel> activities;
+	private Collection<Aktivitaet> activities;
 
 	private Date initDate = new Date();
 
@@ -64,19 +64,24 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 		this.id = id;
 	}
 
-	public ProjektModel getProjekt() {
+	public Projekt getProjekt() {
 		return this.projekt;
 	}
 
-	public void setProjekt( ProjektModel projekt ) {
+	@Override
+	public String toString() {
+		return "BuchungModel [projekt=" + this.projekt + "]";
+	}
+
+	public void setProjekt( Projekt projekt ) {
 		this.projekt = projekt;
 	}
 
-	public AktivitaetModel getAktivitaet() {
+	public Aktivitaet getAktivitaet() {
 		return this.aktivitaet;
 	}
 
-	public void setAktivitaet( AktivitaetModel aktivitaet ) {
+	public void setAktivitaet( Aktivitaet aktivitaet ) {
 		this.aktivitaet = aktivitaet;
 	}
 
@@ -160,26 +165,25 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 		this.hydroid = hydroid;
 	}
 
-	public Collection<AktivitaetModel> getActivities() {
+	public Collection<Aktivitaet> getActivities() {
 		return this.activities;
 	}
 
-	public void setActivities( Collection<AktivitaetModel> activities ) {
+	public void setActivities( Collection<Aktivitaet> activities ) {
 		this.activities = activities;
 	}
 
 	@Override
 	public BuchungModel copyToModel() {
 		this.setId( this.entity.getId() );
-		this.setAktivitaet( new AktivitaetModel( this.entity.getAktivitaetId() != null ? this.entity.getAktivitaetId()
-				: new Aktivitaet() ) );
+		this.setAktivitaet( new Aktivitaet() );
 		this.setAnfangZeit( this.entity.getAnfangZeit() );
 		this.setDatum( this.entity.getDatum() );
 		this.setEndeZeit( this.entity.getEndeZeit() );
 		this.setMin( this.entity.getMin() );
 		this.setPauseBis( this.entity.getPauseBis() );
 		this.setPauseVon( this.entity.getPauseVon() );
-		this.setProjekt( new ProjektModel( this.entity.getProjekt() != null ? this.entity.getProjekt() : new Projekt() ) );
+		this.setProjekt( new Projekt() );
 		this.setStd( this.entity.getStd() );
 		this.setTaetigkeiten( this.entity.getTaetigkeiten() );
 		this.setWartungId( this.entity.getWartungId() );
@@ -194,7 +198,7 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 		Long eZeit = this.endeZeit.getTime();
 		long minutes = TimeUnit.MILLISECONDS.toMinutes( this.duration );
 		this.entity.setId( this.getId() );
-		this.entity.setAktivitaetId( this.getAktivitaet() != null ? this.getAktivitaet().convertToEntity() : null );
+		this.entity.setAktivitaetId( this.getAktivitaet() != null ? this.getAktivitaet() : null );
 		this.entity.setAnfangZeit( this.getAnfangZeit() );
 		this.entity.setDatum( this.getDatum() );
 		this.entity.setEndeZeit( this.getEndeZeit() );
@@ -208,7 +212,7 @@ public class BuchungModel extends Model<Buchung, BuchungModel> implements Serial
 						.toMinutes( eZeit ) >= 700 )
 						&& ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) < 740 || TimeUnit.MILLISECONDS.toMinutes( eZeit ) < 740 ) ? new Date(
 						42000000 ) : null );
-		this.entity.setProjekt( this.getProjekt() != null ? this.getProjekt().convertToEntity() : null );
+		this.entity.setProjekt( this.getProjekt() != null ? this.getProjekt() : null );
 		this.entity
 				.setStd( TimeUnit.MINUTES.toHours( ( TimeUnit.MILLISECONDS.toMinutes( aZeit ) >= 700 || TimeUnit.MILLISECONDS
 						.toMinutes( eZeit ) >= 700 )

@@ -1,7 +1,7 @@
 package de.hydro.gv.orgpm.data;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,6 +32,8 @@ import de.hydro.gv.orgpm.auth.RolleEnum;
 @NamedQueries( {
 		@NamedQuery( name = "mitarbeiter.delete.all", query = "DELETE FROM Mitarbeiter" ),
 		@NamedQuery( name = "mitarbeiter.find.all", query = "SELECT m FROM Mitarbeiter AS m" ),
+		@NamedQuery( name = "mitarbeiter.find.login.by.mitarbeiter",
+				query = "SELECT l FROM Login l, Mitarbeiter m WHERE l.mitarbeiter.id = m.id and m.hydroId = :hydroid" ),
 		@NamedQuery( name = "mitarbeiter.find.by.lastName",
 				query = "SELECT m FROM Mitarbeiter AS m WHERE m.vorname= :vorname" ),
 		@NamedQuery( name = "mitarbeiter.find.by.hydroid",
@@ -41,7 +43,7 @@ public class Mitarbeiter implements Serializable {
 	private static final long serialVersionUID = 7859236877492083050L;
 
 	@SequenceGenerator( name = "SEQ_MITARBEITER", sequenceName = "SEQ_MITARBEITER", allocationSize = 1 )
-	@GeneratedValue( strategy = GenerationType.TABLE, generator = "SEQ_MITARBEITER" )
+	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "SEQ_MITARBEITER" )
 	@Id
 	@Column( name = "id" )
 	private Long id;
@@ -54,21 +56,21 @@ public class Mitarbeiter implements Serializable {
 	@NotNull
 	private String nachname;
 
-	@Column( name = "PASSWORT", length = 300 )
-	@NotNull
-	private String passwort;
+	// @Column( name = "PASSWORT", length = 300 )
+	// @NotNull
+	// private String passwort;
 
 	@Column( name = "GEBURTSDATUM" )
 	@Temporal( TemporalType.DATE )
-	private Calendar geburtsdatum;
+	private Date geburtsdatum;
 
 	@Column( name = "EINSTELLUNGSDATUM" )
 	@Temporal( TemporalType.DATE )
-	private Calendar einstellungsdatum;
+	private Date einstellungsdatum;
 
 	@Column( name = "KUENDIGUNGSDATUM" )
 	@Temporal( TemporalType.DATE )
-	private Calendar kuendigungsdatum;
+	private Date kuendigungsdatum;
 
 	@Column( name = "gruppe" )
 	private String gruppe;
@@ -113,10 +115,10 @@ public class Mitarbeiter implements Serializable {
 		this.login = login;
 	}
 
-	@OneToMany( mappedBy = "mitarbeiter", fetch = FetchType.LAZY )
+	@OneToMany( mappedBy = "mitarbeiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	private List<MitarbeiterProjekte> projekte;
 
-	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
 	@PrimaryKeyJoinColumn
 	private Login login;
 
@@ -155,27 +157,27 @@ public class Mitarbeiter implements Serializable {
 		this.nachname = name;
 	}
 
-	public Calendar getGeburtsdatum() {
+	public Date getGeburtsdatum() {
 		return this.geburtsdatum;
 	}
 
-	public void setGeburtsdatum( Calendar geburtsdatum ) {
+	public void setGeburtsdatum( Date geburtsdatum ) {
 		this.geburtsdatum = geburtsdatum;
 	}
 
-	public Calendar getEinstellungsdatum() {
+	public Date getEinstellungsdatum() {
 		return this.einstellungsdatum;
 	}
 
-	public void setEinstellungsdatum( Calendar einstellungsdatum ) {
+	public void setEinstellungsdatum( Date einstellungsdatum ) {
 		this.einstellungsdatum = einstellungsdatum;
 	}
 
-	public Calendar getKuendigungsdatum() {
+	public Date getKuendigungsdatum() {
 		return this.kuendigungsdatum;
 	}
 
-	public void setKuendigungsdatum( Calendar kuendigungsdatum ) {
+	public void setKuendigungsdatum( Date kuendigungsdatum ) {
 		this.kuendigungsdatum = kuendigungsdatum;
 	}
 
@@ -244,9 +246,9 @@ public class Mitarbeiter implements Serializable {
 		this.kartenNum = kartenNum;
 	}
 
-	public String getPasswort() {
-		return this.passwort;
-	}
+	// public String getPasswort() {
+	// return this.passwort;
+	// }
 
 	@Override
 	public boolean equals( Object obj ) {
@@ -277,9 +279,9 @@ public class Mitarbeiter implements Serializable {
 		return true;
 	}
 
-	public void setPasswort( String passwort ) {
-		this.passwort = passwort;
-	}
+	// public void setPasswort( String passwort ) {
+	// this.passwort = passwort;
+	// }
 
 	@Override
 	public int hashCode() {
@@ -292,8 +294,7 @@ public class Mitarbeiter implements Serializable {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return this.hydroId;
 	}
 
 }

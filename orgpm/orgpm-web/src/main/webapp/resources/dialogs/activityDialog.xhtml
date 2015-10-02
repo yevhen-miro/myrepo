@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://java.sun.com/jsf/composite">
+
+<!-- INTERFACE -->
+<cc:interface>
+	<cc:attribute name="actButtonLabel" required="true"></cc:attribute>
+	<cc:attribute name="actButtonAction"
+		method-signature="java.lang.String action()" required="true"></cc:attribute>
+	<cc:attribute name="update" />
+	<cc:attribute name="widgetName" />
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+	<p:dialog id="Dialog" header="Neue Aktivität" widgetVar="dialogActivity"
+		minHeight="40" resizable="false" closable="false" draggable="false"
+		style="width:5%">
+		<h:form id="dialogForm">
+			<h:panelGrid columns="2">
+
+				<p:outputLabel value="Beschreibung" />
+	
+				<p:inputText id="af-ak"
+					value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetText}" />
+
+
+				<p:outputLabel value="Aufwand, Std" />
+	
+				<p:inputText id="af-au"  style="float:right"
+					value="#{aktivitaetAktionen.aktAktivitaet.planaufwand}" />
+
+
+				<p:commandButton id="actButton" value="#{cc.attrs.actButtonLabel}" styleClass="btn btn-default" style="float:left;width:110%"
+					action="#{cc.attrs.actButtonAction}" update="#{cc.attrs.update}"
+					oncomplete="PF('#{cc.attrs.widgetName}').hide();">
+				</p:commandButton>
+
+				<p:commandButton value="Abbrechen" styleClass="btn btn-default" style="float:right"
+					oncomplete="PF('#{cc.attrs.widgetName}').hide();" >
+				</p:commandButton>
+
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</cc:implementation>
+</html>

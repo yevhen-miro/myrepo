@@ -1,30 +1,33 @@
 package de.hydro.gv.orgpm.actions;
 
+import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 
 import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
 
-import de.hydro.gv.orgpm.auth.RolleEnum;
+import de.hydro.gv.orgpm.auth.Login;
+import de.hydro.gv.orgpm.dao.LoginDao;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
-import de.hydro.gv.orgpm.data.Projekt;
-import de.hydro.gv.orgpm.models.MitarbeiterModel;
-import de.hydro.gv.orgpm.models.ProjektModel;
-import de.hydro.gv.orgpm.models.RolleModel;
 import de.hydro.gv.orgpm.services.MitarbeiterService;
-import de.hydro.gv.orgpm.services.ProjektService;
 
 @RolesAllowed( "ADMIN" )
-@RequestScoped
+@SessionScoped
 @Named
-public class MitarbeiterAktionen {
+public class MitarbeiterAktionen implements Serializable {
 
-	private MitarbeiterModel mitarbeiter = new MitarbeiterModel( new Mitarbeiter() );;
+	private static final long serialVersionUID = 7278252373699029199L;
 
 	@Inject
 	private MitarbeiterService mitarbeiterService;
@@ -33,44 +36,20 @@ public class MitarbeiterAktionen {
 	private LoginAction loginAction;
 
 	@Inject
-	private RollenActions rollenActions;
+	private LoginDao loginDao;
 
-	@Inject
-	private ProjektService projektService;
-
-	@Inject
-	private ProjektAktionen projektAktionen;
-
-	private RolleModel rolleModel;
-
-	public RolleModel getRolleModel() {
-		return this.rolleModel;
-	}
-
-	public void setRolleModel( RolleModel rolleModel ) {
-		this.rolleModel = rolleModel;
-	}
-
-	private Boolean isAdmin;
+	private Mitarbeiter mitarbeiter = new Mitarbeiter();
 
 	String neuesPasswort;
 
-	private ArrayList<MitarbeiterModel> cachedMitarbeiterList;
+	private ArrayList<Mitarbeiter> cachedMitarbeiterList;
 
-	public MitarbeiterModel getMitarbeiter() {
+	public Mitarbeiter getMitarbeiter() {
 		return this.mitarbeiter;
 	}
 
-	public void setMitarbeiter( MitarbeiterModel mitarbeiter ) {
+	public void setMitarbeiter( Mitarbeiter mitarbeiter ) {
 		this.mitarbeiter = mitarbeiter;
-	}
-
-	public Boolean getIsAdmin() {
-		return this.isMitarbeiterAdmin();
-	}
-
-	public void setIsAdmin( Boolean isAdmin ) {
-		this.isAdmin = isAdmin;
 	}
 
 	public String getNeuesPasswort() {
@@ -81,134 +60,95 @@ public class MitarbeiterAktionen {
 		this.neuesPasswort = neuesPasswort;
 	}
 
-	public Collection<MitarbeiterModel> getAlleMitarbeiter() throws Exception {
+	public Collection<Mitarbeiter> getAlleMitarbeiter() throws Exception {
 		if( this.cachedMitarbeiterList == null ) {
-			this.cachedMitarbeiterList = this.readAndConvertMitarbeiter();
+			this.cachedMitarbeiterList = (ArrayList<Mitarbeiter>) this.mitarbeiterService.getAlleMitarbeiter();
 		}
 		return this.cachedMitarbeiterList;
 	}
 
-	public ArrayList<MitarbeiterModel> readAndConvertMitarbeiter() throws Exception {
-		Collection<Mitarbeiter> mitarbeiterEntities = this.mitarbeiterService.getAlleMitarbeiter();
-		ArrayList<MitarbeiterModel> mitarbeiterModel = this.convertieren( mitarbeiterEntities );
-		return mitarbeiterModel;
-	}
-
-	private ArrayList<MitarbeiterModel> convertieren( Collection<Mitarbeiter> mitarbeiterEntities ) {
-		ArrayList<MitarbeiterModel> mitarbeiterModel = new ArrayList<MitarbeiterModel>();
-		for ( Mitarbeiter mitarbeiterEntity : mitarbeiterEntities ) {
-			mitarbeiterModel.add( new MitarbeiterModel( mitarbeiterEntity ) );
-		}
-		return mitarbeiterModel;
-	}
-
-	// private ArrayList<RolleEnum> convertierenRolle( Collection<RolleEnum>
-	// rollenEntities ) {
-	// ArrayList<RolleEnum> rolleModel = new ArrayList<RolleEnum>();
-	// for ( RolleEnum rolleEntity : rollenEntities ) {
-	// rolleModel.add( new RolleModel( rolleEntity ) );
-	// }
-	// return rolleModel;
-	// }
-
 	public String addNewMitarbeiter() {
+		this.clearSessionCache();
 		return "mitarbeiter-input";
 	}
 
 	public String addMitarbeiter() throws Exception {
-
-		// if( this.mitarbeiterService.getRolleByHydroId(
-		// this.mitarbeiter.getHydroid() ) == null ) {
-		// this.mitarbeiter.setRolle( this.mitarbeiterService.getRolleById( 81L
-		// ) );
-		// } else {
-		// this.mitarbeiter.setRolle( this.mitarbeiterService.getRolleByHydroId(
-		// this.mitarbeiter.getHydroid() ) );
-		// }
-		//
-		// Rolle rol = new Rolle();
-		// rol.setId( 81L );
-		// rol.setName( "USER" );
-		// this.mitarbeiter.setRolle( this.mitarbeiterService.getRolleById( 81L
-		// ) );
-		// this.mitarbeiter.setRolle( rol );
-		this.mitarbeiterService.addMitarbeiter( this.mitarbeiter.convertToEntity() );
+		Login log = new Login();
+		log.setMitarbeiter( this.mitarbeiter );
+		log.setPassword( this.encryptPassword( this.getNeuesPasswort() ) );
+		this.loginDao.createLogin( log );
+		this.mitarbeiterService.updateMitarbeiter( this.mitarbeiter );
 		this.cachedMitarbeiterList = null;
 		return "mitarbeiter";
 	}
 
 	public String removeMitarbeiter() throws Exception {
-		de.hydro.gv.orgpm.data.Mitarbeiter tempEntity = new de.hydro.gv.orgpm.data.Mitarbeiter();
-		tempEntity.setId( this.mitarbeiter.getId() );
-		this.mitarbeiterService.deleteMitarbeiter( tempEntity );
+		this.mitarbeiterService.deleteMitarbeiter( this.mitarbeiter );
 		this.cachedMitarbeiterList = null;
 		return null;
 	}
 
 	public String updateMitarbeiter() throws Exception {
-		this.mitarbeiterService.updateMitarbeiter( this.mitarbeiter.convertToEntity() );
+		this.mitarbeiterService.updateMitarbeiter( this.mitarbeiter );
 		this.cachedMitarbeiterList = null;
 		return "mitarbeiter";
 	}
 
-	public Boolean isMitarbeiterAdmin() {
-		if( this.mitarbeiterService.getMitarbeiterRolleByHydroId( this.mitarbeiter.getHydroid() ) == "ADMIN" ) {
-			return true;
-		}
-		return false;
-	}
-
-	public Collection<ProjektModel> getProjekteByMitarbeiter() {
-		return this
-				.convertierenProjekte( this.projektService.getProjekteByMitarbeiter( this.mitarbeiter.getHydroid() ) );
-	}
-
-	private ArrayList<ProjektModel> convertierenProjekte( Collection<Projekt> projekteEntities ) {
-		ArrayList<ProjektModel> projektModel = new ArrayList<ProjektModel>();
-		for ( Projekt projekt : projekteEntities ) {
-			projektModel.add( new ProjektModel( projekt ) );
-		}
-
-		return projektModel;
-	}
-
-	public MitarbeiterModel getMitarbeiterByHydroId() {
+	public Mitarbeiter getMitarbeiterByHydroId() {
 		Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
 		String hydroid = principal.getName().toUpperCase();
 		this.mitarbeiterService.getMitarbeiterByHydroId( hydroid );
-		MitarbeiterModel mitarbeiter = new MitarbeiterModel( this.mitarbeiterService.getMitarbeiterByHydroId( hydroid ) );
+		Mitarbeiter mitarbeiter = this.mitarbeiterService.getMitarbeiterByHydroId( hydroid );
 		return mitarbeiter;
 	}
 
 	public String updatePasswort() throws Exception {
 		Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
 		String hydroid = principal.getName().toUpperCase();
-		this.mitarbeiterService.getMitarbeiterByHydroId( hydroid );
-		MitarbeiterModel ma = new MitarbeiterModel( this.mitarbeiterService.getMitarbeiterByHydroId( hydroid ) );
-		ma.setPasswort( this.getNeuesPasswort() );
-		this.mitarbeiterService.updateMitarbeiter( ma.convertToEntity() );
-		this.cachedMitarbeiterList = null;
+		Login l = this.mitarbeiterService.getLoginByMitarbeiter( hydroid );
+		l.setPassword( this.encryptPassword( this.getNeuesPasswort() ) );
+		this.loginDao.updateLogin( l );
 		this.loginAction.logout();
 		return "/login.xhtml?faces-redirect=true";
 	}
 
-	// public Login getLoginByHydroId() {
-	// Principal principal =
-	// FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
-	// String hydroid = principal.getName().toUpperCase();
-	// return this.mitarbeiterService.getLoginByHydroId( hydroid );
-	// }
+	public String addLoginForMitarbeiter() {
+		Login l = new Login();
+		l.setMitarbeiter( this.mitarbeiter );
+		l.setPassword( this.getNeuesPasswort() );
+		this.loginDao.createLogin( l );
+		return "mitarbeiter";
 
-	public RolleEnum[] getAlleRollen() throws Exception {
-		return this.rollenActions.getAlle();
 	}
 
-	// private ArrayList<RolleEnum> readAndConvertRollen() {
-	// Collection<RolleEnum> rollenEntities =
-	// this.mitarbeiterService.getAlleRollen();
-	// ArrayList<RolleModel> rolleModel = this.convertierenRolle( rollenEntities
-	// );
-	// return rolleModel;
-	// }
+	private String encryptPassword( String password ) throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance( "SHA-256" );
+		byte[] passwordBytes = password.getBytes();
+		byte[] hash = md.digest( passwordBytes );
+		String passwordHash = Base64.getEncoder().encodeToString( hash );
+		return passwordHash;
+	}
+
+	@PostPersist
+	@PostUpdate
+	@PostRemove
+	public void clearSessionCache() {
+		this.mitarbeiter.setArbeitszeit( 0 );
+		this.mitarbeiter.setBemerkung( null );
+		this.mitarbeiter.setEinstellungsdatum( null );
+		this.mitarbeiter.setGeburtsdatum( null );
+		this.mitarbeiter.setGruppe( null );
+		this.mitarbeiter.setHydroId( null );
+		this.mitarbeiter.setId( null );
+		this.mitarbeiter.setKartenNum( 0 );
+		this.mitarbeiter.setKuendigungsdatum( null );
+		this.mitarbeiter.setLogin( null );
+		this.mitarbeiter.setMitarbeiterkennung( null );
+		this.mitarbeiter.setMitarbeiterStatus( 0 );
+		this.mitarbeiter.setName( null );
+		this.mitarbeiter.setPersonalNum( 0 );
+		this.mitarbeiter.setRolle( null );
+		this.mitarbeiter.setVorname( null );
+	}
 
 }

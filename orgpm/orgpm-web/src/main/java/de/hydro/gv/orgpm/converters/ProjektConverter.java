@@ -7,7 +7,7 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
-import de.hydro.gv.orgpm.models.ProjektModel;
+import de.hydro.gv.orgpm.data.Projekt;
 import de.hydro.gv.orgpm.services.ProjektService;
 
 @FacesConverter( "projektConverter" )
@@ -25,31 +25,21 @@ public class ProjektConverter implements Converter {
 			return null;
 		}
 
-		try {
-			for ( de.hydro.gv.orgpm.data.Projekt projekt : this.projektService.getAlleProjekte() ) {
-				if( projekt.getId().equals( id ) ) {
-					System.out.println( "Converted to Projekt: " + projekt.getProjektId() );
-					return new ProjektModel( projekt );
-				}
-			}
-		} catch ( Exception e ) {
-			e.printStackTrace();
-		}
+		return this.projektService.getProjektById( id );
 
-		return null;
 	}
 
 	@Override
 	public String getAsString( FacesContext context, UIComponent component, Object value ) {
-		ProjektModel projekt = (ProjektModel) value;
-		if( value == null ) {
+		Projekt projekt = (Projekt) value;
+		if( projekt == null ) {
 			return null;
 		}
 
-		if( !( value instanceof ProjektModel ) ) {
+		if( !( projekt instanceof Projekt ) ) {
 			throw new ConverterException( "The value is not a valid" );
 		}
-		Long id = ( (ProjektModel) value ).getId();
+		Long id = ( (Projekt) value ).getId();
 
 		return ( id != null ) ? String.valueOf( id ) : null;
 	}

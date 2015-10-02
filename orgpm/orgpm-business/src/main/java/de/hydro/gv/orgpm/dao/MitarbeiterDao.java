@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import de.hydro.gv.orgpm.auth.Login;
 import de.hydro.gv.orgpm.auth.RolleEnum;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 
@@ -117,4 +118,8 @@ public class MitarbeiterDao {
 	// ).setParameter( "hydroId", hydroid )
 	// .getSingleResult();
 
+	public Login getLoginByMitarbeiter( String hydroid ) {
+		return (Login) this.entityManager.createNamedQuery( "mitarbeiter.find.login.by.mitarbeiter" )
+				.setParameter( "hydroid", hydroid ).getSingleResult();
+	}
 }

@@ -23,10 +23,16 @@ import javax.persistence.Table;
 @NamedQueries( {
 		@NamedQuery( name = "aktivitaet.delete.all", query = "DELETE FROM Aktivitaet" ),
 		@NamedQuery( name = "aktivitaet.find.all", query = "SELECT a FROM Aktivitaet AS a" ),
+		@NamedQuery( name = "aktivitaet.find.all.aktuell",
+				query = "SELECT a FROM Aktivitaet AS a WHERE a.aktivitaetStatus = true" ),
+		@NamedQuery( name = "aktivitaet.find.disabled",
+				query = "SELECT a FROM Aktivitaet AS a WHERE a.aktivitaetStatus = false" ),
 		@NamedQuery( name = "aktivitaet.find.aktivitaet.by.projektname",
 				query = "SELECT a FROM Aktivitaet a INNER JOIN a.projekt p " + "WHERE p.projektId = :name" ),
 		@NamedQuery( name = "aktivitaet.find.aktivitaet.by.projektid",
 				query = "SELECT a FROM Aktivitaet a INNER JOIN a.projekt p " + "WHERE p.id = :id" ),
+		@NamedQuery( name = "aktivitaet.find.Max.aktivitaetId.by.projektid",
+				query = "SELECT max(a.aktivitaetNr) FROM Aktivitaet a INNER JOIN a.projekt p " + "WHERE p.id = :id" ),
 		@NamedQuery( name = "aktivitaet.find.aktivitaet.by.projekt",
 				query = "SELECT a FROM Aktivitaet a INNER JOIN a.projekt p " ) } )
 public class Aktivitaet implements Serializable {
@@ -54,7 +60,7 @@ public class Aktivitaet implements Serializable {
 	@Column( name = "bemerkung" )
 	private String bemerkung;
 
-	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.MERGE )
+	@ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	@JoinColumn( name = "PROJEKT", foreignKey = @ForeignKey( name = "FK_AKTIVITAET_PROJEKT" ) )
 	private Projekt projekt;
 

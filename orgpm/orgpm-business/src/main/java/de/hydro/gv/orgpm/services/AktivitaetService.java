@@ -45,4 +45,20 @@ public class AktivitaetService {
 		return this.aktivitaetDao.getAktivitaetenByProjekt( projekt.getProjektId() );
 	}
 
+	public Aktivitaet getAktivitaetById( Long id ) {
+		return this.aktivitaetDao.getAktivitaetById( id );
+	}
+
+	public Integer getMaxAktivitaetIdByProjektId( Long id ) {
+		return this.aktivitaetDao.getMaxAktivitaetIdByProjektId( id );
+	}
+
+	public Collection<Aktivitaet> getAlleAktuelleAktivitaeten() throws Exception {
+		return this.aktivitaetDao.readAllAktivitaeten();
+	}
+
+	public Collection<Aktivitaet> getAlleDisabledAktivitaeten() throws Exception {
+		return this.aktivitaetDao.readAllAktivitaeten();
+	}
+
 }

@@ -9,7 +9,6 @@ import javax.inject.Inject;
 
 import de.hydro.gv.orgpm.actions.SecurityActions;
 import de.hydro.gv.orgpm.data.Aktivitaet;
-import de.hydro.gv.orgpm.models.AktivitaetModel;
 import de.hydro.gv.orgpm.services.AktivitaetService;
 
 @FacesConverter( "aktionConverter" )
@@ -35,7 +34,7 @@ public class AktionConverter implements Converter {
 				if( aktivitaet.getId().equals( id ) ) {
 					System.out.println( "Converted to Aktivitaet: " + aktivitaet.getAktivitaetText() + " "
 							+ this.securityActions.getSecurityPrincipalForLoggedInUser() );
-					return new AktivitaetModel( aktivitaet );
+					return new Aktivitaet();
 				}
 			}
 		} catch ( Exception e ) {
@@ -47,15 +46,15 @@ public class AktionConverter implements Converter {
 
 	@Override
 	public String getAsString( FacesContext context, UIComponent component, Object value ) {
-		AktivitaetModel aktivitaet = (AktivitaetModel) value;
+		Aktivitaet aktivitaet = (Aktivitaet) value;
 		if( value == null ) {
 			return null;
 		}
 
-		if( !( value instanceof AktivitaetModel ) ) {
+		if( !( value instanceof Aktivitaet ) ) {
 			throw new ConverterException( "The value is not a valid" );
 		}
-		Long id = ( (AktivitaetModel) value ).getId();
+		Long id = ( (Aktivitaet) value ).getId();
 
 		return ( id != null ) ? String.valueOf( id ) : null;
 	}

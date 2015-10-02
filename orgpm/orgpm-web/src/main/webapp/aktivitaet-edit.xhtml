@@ -3,17 +3,12 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:cc="http://java.sun.com/jsf/composite/forms">
 
-<ui:composition template="/WEB-INF/template.xhtml">
-	<ui:define name="content">
-	<h1>Aktivität ändern</h1>
 
-		<cc:aktivitaetForm buttonAction="#{aktivitaetAktionen.updateAktivitaet()}"
-			buttonLabel="Ändern"></cc:aktivitaetForm>
-
-	</ui:define>
-
-</ui:composition>
-
+<cc:aktivitaetForm
+	buttonAction="#{aktivitaetAktionen.updateAktivitaet()}"
+	buttonLabel="Speichern" disableForUpdate="true" >
+</cc:aktivitaetForm>
 </html>

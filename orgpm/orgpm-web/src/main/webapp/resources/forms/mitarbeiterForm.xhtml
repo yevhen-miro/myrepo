@@ -21,20 +21,19 @@
 <cc:implementation>
 	<ui:decorate template="/WEB-INF/template.xhtml">
 		<ui:define name="content">
+			<p:outputLabel value="#{cc.attrs.contentTitle}" />
 			<p:accordionPanel>
 
 				<p:tab title="Allgemeine Information">
 
 					<h:panelGrid columns="3">
 
-
-<ui:remove>
-						<p:outputLabel value="ID" />
-						<p:inputText id="tf-id"
-							value="#{mitarbeiterAktionen.mitarbeiter.id}"
+						<p:outputLabel value="Hydro ID" />
+						<p:inputText id="tf-hi"
+							value="#{mitarbeiterAktionen.mitarbeiter.hydroId}"
 							disabled="#{cc.attrs.disableForUpdate}" />
-						<h:messages for="tf-id" styleClass="error" />
-</ui:remove>
+						<h:messages for="tf-hi" styleClass="error" />
+
 						<p:outputLabel value="Vorname" />
 						<p:inputText id="tf-fn"
 							value="#{mitarbeiterAktionen.mitarbeiter.vorname}"
@@ -43,13 +42,14 @@
 
 						<p:outputLabel value="Nachname" />
 						<p:inputText id="tf-ln"
-							value="#{mitarbeiterAktionen.mitarbeiter.name}" />
+							value="#{mitarbeiterAktionen.mitarbeiter.name}"
+							disabled="#{cc.attrs.disableForUpdate}" />
 						<h:messages for="tf-ln" styleClass="error" />
 
 
-						<p:outputLabel value="Kennung" />
+						<p:outputLabel value="GAP" />
 						<p:inputText id="tf-mk"
-							value="#{mitarbeiterAktionen.mitarbeiter.kennung}" />
+							value="#{mitarbeiterAktionen.mitarbeiter.mitarbeiterkennung}" />
 						<h:messages for="tf-mk" styleClass="error" />
 
 						<p:outputLabel value="Gruppe" />
@@ -62,14 +62,14 @@
 							value="#{mitarbeiterAktionen.mitarbeiter.arbeitszeit}" />
 						<h:messages for="tf-ma" styleClass="error" />
 
-						<p:outputLabel value="Hydro ID" />
-						<p:inputText id="tf-hi"
-							value="#{mitarbeiterAktionen.mitarbeiter.hydroid}" />
-						<h:messages for="tf-hi" styleClass="error" />
+						<p:outputLabel value="Personalnummer" />
+						<p:inputText id="tf-pi"
+							value="#{mitarbeiterAktionen.mitarbeiter.personalNum}" />
+						<h:messages for="tf-pi" styleClass="error" />
 
-						<p:outputLabel value="Karten ID" />
+						<p:outputLabel value="Kartennummer" />
 						<p:inputText id="tf-ki"
-							value="#{mitarbeiterAktionen.mitarbeiter.kartenid}" />
+							value="#{mitarbeiterAktionen.mitarbeiter.kartenNum}" />
 						<h:messages for="tf-ki" styleClass="error" />
 
 						<p:outputLabel value="Bemerkung" />
@@ -77,40 +77,40 @@
 							value="#{mitarbeiterAktionen.mitarbeiter.bemerkung}" />
 						<h:messages for="tf-bm" styleClass="error" />
 
-						<p:outputLabel value="Personal ID" />
-						<p:inputText id="tf-pi"
-							value="#{mitarbeiterAktionen.mitarbeiter.personalid}" />
-						<h:messages for="tf-pi" styleClass="error" />
-
-
-
-
-
 					</h:panelGrid>
 
 				</p:tab>
-				<ui:remove>
-					<p:tab title="Zugelassene Projekte">
 
+
+				<p:tab title="Zusätzliche Information">
+
+					<p:outputLabel value="Geburtsdatum" />
+					<p:calendar id="tf-gd" locale="de"
+						value="#{mitarbeiterAktionen.mitarbeiter.geburtsdatum}" />
+					<h:messages for="tf-gd" styleClass="error" />
+
+					<p:outputLabel value="Einstellungsdatum" />
+					<p:calendar id="tf-ed" locale="de"
+						value="#{mitarbeiterAktionen.mitarbeiter.einstellungsdatum}" />
+					<h:messages for="tf-ed" styleClass="error" />
+
+					<p:outputLabel value="Kündigungsdatum" />
+					<p:calendar id="tf-kd" locale="de"
+						value="#{mitarbeiterAktionen.mitarbeiter.kuendigungsdatum}" />
+					<h:messages for="tf-kd" styleClass="error" />
+
+				</p:tab>
+
+				<p:tab title="Zugelassene Projekte">
+					<ui:remove>
 						<p:pickList id="pickList"
 							value="#{projektAktionen.zugelasseneProjekte}" var="projects"
 							itemLabel="#{projects}" itemValue="#{projects}"
 							converter="projektConverter" />
-
-					</p:tab>
-				</ui:remove>
-				<p:tab title="Passwort">
-					<h:panelGrid columns="3">
-						<p:outputLabel value="Passwort" />
-						<p:password id="tf-pw"
-							value="#{mitarbeiterAktionen.mitarbeiter.passwort}" />
-						<h:messages for="tf-pw" styleClass="error" />
-
-					</h:panelGrid>
+					</ui:remove>
 				</p:tab>
 
-				<p:tab title="Rolle">
-
+				<p:tab title="Rollen und Berechtigungen">
 					<p:outputLabel value="Rolle" />
 					<h:selectOneMenu id="rolle"
 						value="#{mitarbeiterAktionen.mitarbeiter.rolle}" var="ro">
@@ -121,6 +121,14 @@
 
 				</p:tab>
 
+				<p:tab title="Passwort" disabled="#{cc.attrs.disableForUpdate}">
+					<h:panelGrid columns="3">
+						<p:outputLabel value="Passwort" />
+						<p:password value="#{mitarbeiterAktionen.neuesPasswort}"></p:password>
+
+					</h:panelGrid>
+				</p:tab>
+
 			</p:accordionPanel>
 
 		</ui:define>
@@ -129,6 +137,8 @@
 			<p:commandButton action="#{cc.attrs.buttonAction}"
 				value="#{cc.attrs.buttonLabel}" ajax="true" />
 
+			<p:commandButton action="mitarbeiter.xhtml?faces-redirect=true"
+				value="Zurück" immediate="true" />
 		</ui:define>
 	</ui:decorate>
 </cc:implementation>

@@ -35,4 +35,8 @@ public class ProjektService {
 		return this.projektDao.getProjektByMitarbeiterId( hydroid );
 	}
 
+	public Projekt getProjektById( Long id ) {
+		return this.projektDao.getProjektById( id );
+	}
+
 }

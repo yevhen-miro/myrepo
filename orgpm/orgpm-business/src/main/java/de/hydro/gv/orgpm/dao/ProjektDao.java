@@ -45,6 +45,7 @@ public class ProjektDao {
 	// }
 
 	public void createProjekt( Projekt p ) {
+		this.entityManager.clear();
 		this.entityManager.persist( p );
 	}
 
@@ -53,7 +54,9 @@ public class ProjektDao {
 	}
 
 	public void updateProjekt( Projekt p ) {
+
 		this.entityManager.merge( p );
+		this.entityManager.flush();
 
 	}
 
@@ -69,8 +72,8 @@ public class ProjektDao {
 		return this.entityManager.createNamedQuery( queryName ).getResultList();
 	}
 
-	public void getProjektById( Long id ) {
-		this.entityManager.getReference( Projekt.class, id );
+	public Projekt getProjektById( Long id ) {
+		return this.entityManager.getReference( Projekt.class, id );
 
 	}
 

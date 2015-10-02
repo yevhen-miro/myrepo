@@ -72,3 +72,7 @@ button {
 .actionProj {
 	width:15%;
 }
+
+.ui-selectonemenu label.ui-selectonemenu-label{
+   width:100% !important;
+}

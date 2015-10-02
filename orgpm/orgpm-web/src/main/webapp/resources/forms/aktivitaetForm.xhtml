@@ -9,64 +9,97 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:cs="http://java.sun.com/jsf/composite/formelements">
 
+
 <!-- INTERFACE -->
 <cc:interface>
+	<cc:attribute name="disableForUpdate" required="true" />
 	<cc:attribute name="buttonLabel" required="true"></cc:attribute>
 	<cc:attribute name="buttonAction"
 		method-signature="java.lang.String action()" required="true"></cc:attribute>
 </cc:interface>
-
 <!-- IMPLEMENTATION -->
+
 <cc:implementation>
+	<ui:decorate template="/WEB-INF/template.xhtml">
+		<f:metadata>
+			<f:param name="act" valvalue="#{aktivitaetAktionen.aktAktivitaet.id}">
+			</f:param>
+		</f:metadata>
+		<ui:define name="content">
+			<p:accordionPanel id="activitiesPanel">
+				<p:tab id="act1" title="Aktivität info">
+					<h:panelGrid columns="4">
 
-	<h:form>
-		<h:panelGrid columns="3">
+						<p:outputLabel value="ID" />
+						<h:outputText value="&#160;" />
+						<p:inputText id="af-id"
+							value="#{aktivitaetAktionen.aktAktivitaet.id}" />
+						<h:messages for="af-id" styleClass="error" />
 
-			<p:outputLabel value="ID" />
-			<p:inputText id="af-id"
-				value="#{aktivitaetAktionen.aktAktivitaet.id}" />
-			<h:messages for="af-id" styleClass="error" />
 
-			<p:outputLabel value="Projekt" />
-			<p:selectOneMenu value="#{aktivitaetAktionen.aktAktivitaet.projekt}"
-				style="width:100%">
-				<f:converter converterId="projektConverter" />
-				<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
-					itemLabel="#{proj.projekt}" />
-			</p:selectOneMenu>
-			<h:messages for="af-projekt" styleClass="error" />
+						<p:outputLabel value="Projekt" />
+						<h:outputText value="&#160;" />
+						<p:selectOneMenu id="af-projekt" style="width:100%"
+							value="#{aktivitaetAktionen.aktAktivitaet.projekt}" styleClass="ui-selectonemenu">
+							<f:converter converterId="projektConverter" />
+							<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
+								itemLabel="#{proj.projektId}" />
+						</p:selectOneMenu>
+						<h:messages for="af-projekt" styleClass="error" />
 
-			<p:outputLabel value="Aktivität ID" />
-			<p:inputText id="af-aknr"
-				value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetNr}" />
-			<h:messages for="af-aknr" styleClass="error" />
 
-			<p:outputLabel value="Aktivität Text" />
-			<p:inputText id="af-ak"
-				value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetText}" />
-			<h:messages for="af-ak" styleClass="error" />
+						<p:outputLabel value="Aktivität ID" />
+						<h:outputText value="&#160;" />
+						<p:inputText id="af-aknr"
+							value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetNr}" />
+						<h:messages for="af-aknr" styleClass="error" />
 
-			<p:outputLabel value="Aufwand" />
-			<p:inputText id="af-au"
-				value="#{aktivitaetAktionen.aktAktivitaet.planaufwand}" />
-			<h:messages for="af-au" styleClass="error" />
+						<p:outputLabel value="Aktivität Text" />
+						<h:outputText value="&#160;" />
+						<p:inputText id="af-ak"
+							value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetText}" />
+						<h:messages for="af-ak" styleClass="error" />
 
-			<p:outputLabel value="Status" />
-			<p:inputText id="af-st"
-				value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetStatus}" />
-			<h:messages for="af-st" styleClass="error" />
+						<p:outputLabel value="Aufwand" />
+						<h:outputText value="&#160;" />
+						<p:inputText id="af-au"
+							value="#{aktivitaetAktionen.aktAktivitaet.planaufwand}" />
+						<h:messages for="af-au" styleClass="error" />
 
-			<p:outputLabel value="Bemerkung" />
-			<p:inputText id="af-bm"
-				value="#{aktivitaetAktionen.aktAktivitaet.bemerkung}" />
-			<h:messages for="af-bm" styleClass="error" />
+						<p:outputLabel value="Status" />
+						<h:outputText value="&#160;" />
+						<p:inputSwitch id="af-st" style="width:20%"
+							value="#{aktivitaetAktionen.aktAktivitaet.aktivitaetStatus}" />
+						<h:messages for="af-st" styleClass="error" />
+
+						<p:outputLabel value="Bemerkung" />
+						<h:outputText value="&#160;" />
+						<p:inputText id="af-bm"
+							value="#{aktivitaetAktionen.aktAktivitaet.bemerkung}" />
+						<h:messages for="af-bm" styleClass="error" />
+
+
+
+					</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+
+		</ui:define>
+
+		<ui:define name="action">
 
 			<p:commandButton action="#{cc.attrs.buttonAction}"
 				value="#{cc.attrs.buttonLabel}" ajax="true" />
 
-		</h:panelGrid>
+			<p:commandButton action="projekt-edit.xhtml?faces-redirect=true"
+				value="Zurück" immediate="true" />
 
-	</h:form>
+		</ui:define>
+
+	</ui:decorate>
+
+
+
 </cc:implementation>
 
 </html>

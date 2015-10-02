@@ -8,6 +8,7 @@ import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import de.hydro.gv.orgpm.auth.Login;
 import de.hydro.gv.orgpm.auth.RolleEnum;
 import de.hydro.gv.orgpm.dao.MitarbeiterDao;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
@@ -64,5 +65,9 @@ public class MitarbeiterService {
 
 	public List<RolleEnum> getAlleRollen() {
 		return this.mitarbeiterDao.readAllRollen();
+	}
+
+	public Login getLoginByMitarbeiter( String hydroid ) {
+		return this.mitarbeiterDao.getLoginByMitarbeiter( hydroid );
 	}
 }

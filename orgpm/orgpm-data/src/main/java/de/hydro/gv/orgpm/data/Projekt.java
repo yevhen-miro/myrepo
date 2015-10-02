@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,9 +47,6 @@ public class Projekt implements Serializable {
 	@Column( name = "hauptprojekt" )
 	private String hauptprojekt;
 
-	@Column( name = "begriff" )
-	private String Begriff;
-
 	@Column( name = "projektgruppe" )
 	private String projektGruppe;
 
@@ -67,17 +65,25 @@ public class Projekt implements Serializable {
 	@Column( name = "storno" )
 	private boolean storniertesProjekt;
 
-	@Column( name = "status" )
-	private Integer projektStatus;
-
 	@Column( name = "bemerkung" )
 	private String bemerkung;
 
 	@Column( name = "wartung" )
 	private boolean wartungsprojekt;
 
-	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER )
+	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
 	private List<MitarbeiterProjekte> mitarbeiter;
+
+	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
+	private List<Aktivitaet> aktivitaeten;
+
+	public List<Aktivitaet> getAktivitaeten() {
+		return this.aktivitaeten;
+	}
+
+	public void setAktivitaeten( List<Aktivitaet> aktivitaeten ) {
+		this.aktivitaeten = aktivitaeten;
+	}
 
 	public Projekt() {
 	}
@@ -112,14 +118,6 @@ public class Projekt implements Serializable {
 
 	public void setHauptprojekt( String hauptprojekt ) {
 		this.hauptprojekt = hauptprojekt;
-	}
-
-	public String getBegriff() {
-		return this.Begriff;
-	}
-
-	public void setBegriff( String begriff ) {
-		this.Begriff = begriff;
 	}
 
 	public String getProjektGruppe() {
@@ -170,14 +168,6 @@ public class Projekt implements Serializable {
 		this.storniertesProjekt = storniertesProjekt;
 	}
 
-	public Integer getProjektStatus() {
-		return this.projektStatus;
-	}
-
-	public void setProjektStatus( Integer projektStatus ) {
-		this.projektStatus = projektStatus;
-	}
-
 	public String getBemerkung() {
 		return this.bemerkung;
 	}
@@ -206,7 +196,11 @@ public class Projekt implements Serializable {
 			return false;
 		}
 		Projekt other = (Projekt) obj;
-		if( this.projektId != other.projektId ) {
+		if( this.projektId == null ) {
+			if( other.projektId != null ) {
+				return false;
+			}
+		} else if( !this.projektId.equals( other.projektId ) ) {
 			return false;
 		}
 		return true;
@@ -216,14 +210,14 @@ public class Projekt implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int) ( prime * result + this.id );
+		result = prime * result + ( ( this.projektId == null ) ? 0 : this.projektId.hashCode() );
 		return result;
 	}
 
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return super.toString();
+		return this.projektId;
 	}
 
 }

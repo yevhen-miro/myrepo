@@ -6,13 +6,13 @@ insert into ROLLEN (id, name) VALUES (80,  'ADMIN');
 insert into ROLLEN (id, name) VALUES (81,  'USER');
  
 
-insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname, passwort,rolle ) VALUES (1,8,'DWH-Entwickler','FAS','A136862',2456,0, 'gap87','Miroshnychenko',7772, 'Yevhen','rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=','ADMIN');
-insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname, passwort, rolle) VALUES (2,8,'SAS-Administrator','FCS','A136989',1236,0, 'gap01','Sinaga',4656, 'David','rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=','ADMIN');
-insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname, passwort, rolle) VALUES (3,8,'Java-Entwickler','FCS','A132362',2254,0, 'gap07','Reibiger',7772, 'Jens','rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=','USER');
+insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname, rolle ) VALUES (1,8,'DWH-Entwickler','FAS','A136862',2456,0, 'gap87','Miroshnychenko',7772, 'Yevhen','ADMIN');
+insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname,  rolle) VALUES (2,8,'SAS-Administrator','FCS','A136989',1236,0, 'gap01','Sinaga',4656, 'David','ADMIN');
+insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname,  rolle) VALUES (3,8,'Java-Entwickler','FCS','A132362',2254,0, 'gap07','Reibiger',7772, 'Jens','USER');
 
-insert into PROJEKTE  (id,begriff ,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,status ,ende ,start ,storno ,wartung ) VALUES (1,'kta114','Sammelprojekt','kta114',780,'FLS','kta114','Schmitz', 'Projektbezeichnung Erneuerung Produktionsbuch / Datawarehouse',1,sysdate,sysdate,false,false);
-insert into PROJEKTE (id,begriff ,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,status ,ende ,start ,storno ,wartung ) VALUES (2,'fls000','Sammelprojekt','fls000',1200,'FLS','fls000','Engemann', 'Hotline-Service / Maintenance FLS',1,sysdate,sysdate,false,false);
-insert into PROJEKTE (id,begriff ,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,status ,ende ,start ,storno ,wartung ) VALUES (3,'SAP000','Sammelprojekt','SAP000',440,'FLS','sap000','Schmitz', 'Hotline-Service SAP Interface',1,sysdate,sysdate,false,false);
+insert into PROJEKTE  (id,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,ende ,start ,storno ,wartung ) VALUES (2,'Sammelprojekt','fls000',1200,'FLS','fls000','Engemann', 'Hotline-Service / Maintenance FLS',sysdate,sysdate,false,false);
+insert into PROJEKTE  (id,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,ende ,start ,storno ,wartung ) VALUES (1,'Sammelprojekt','kta114',780,'FLS','kta114','Schmitz', 'Erneuerung Produktionsbuch / Datawarehouse',sysdate,sysdate,false,false);
+insert into PROJEKTE  (id,bemerkung,hauptprojekt ,aufwand ,projektgruppe ,projekt_id ,projektleiter ,projekt_name ,ende ,start ,storno ,wartung ) VALUES (3,'Sammelprojekt','SAP000',440,'FLS','sap000','Schmitz', 'Hotline-Service SAP Interface',sysdate,sysdate,false,false);
 
 
 
@@ -54,6 +54,7 @@ alter sequence seq_mitarbeiter restart with 200;
 alter sequence seq_projekt restart with 200;
 alter sequence seq_aktivitaet restart with 200;
 alter sequence seq_mitarbeiter_rollen restart with 200;
+alter sequence seq_login restart with 200;
 
 
 insert into MITARBEITER_ROLLEN ( id,  mitarbeiter, rolle) VALUES( 90,  1, 80);

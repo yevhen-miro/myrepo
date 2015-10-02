@@ -8,7 +8,6 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
 import de.hydro.gv.orgpm.data.Mitarbeiter;
-import de.hydro.gv.orgpm.models.MitarbeiterModel;
 import de.hydro.gv.orgpm.services.MitarbeiterService;
 
 @FacesConverter( "mitarbeiterConverter" )
@@ -29,8 +28,8 @@ public class MitarbeiterConverter implements Converter {
 		try {
 			for ( Mitarbeiter mitarbeiter : this.mitarbeiterService.getAlleMitarbeiter() ) {
 				if( mitarbeiter.getId().equals( id ) ) {
-					System.out.println( "Converted to Projekt: " + mitarbeiter.getHydroId() );
-					return new MitarbeiterModel( mitarbeiter );
+					System.out.println( "Converted to Mitarbeiter: " + mitarbeiter.getHydroId() );
+					return new Mitarbeiter();
 				}
 			}
 		} catch ( Exception e ) {
@@ -53,15 +52,15 @@ public class MitarbeiterConverter implements Converter {
 
 	@Override
 	public String getAsString( FacesContext context, UIComponent component, Object value ) {
-		MitarbeiterModel ma = (MitarbeiterModel) value;
+		Mitarbeiter ma = (Mitarbeiter) value;
 		if( value == null ) {
 			return null;
 		}
 
-		if( !( value instanceof MitarbeiterModel ) ) {
+		if( !( value instanceof Mitarbeiter ) ) {
 			throw new ConverterException( "The value is not a valid" );
 		}
-		Long id = ( (MitarbeiterModel) value ).getId();
+		Long id = ( (Mitarbeiter) value ).getId();
 
 		return ( id != null ) ? String.valueOf( id ) : null;
 	}

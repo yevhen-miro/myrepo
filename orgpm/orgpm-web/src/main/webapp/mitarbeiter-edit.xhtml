@@ -5,10 +5,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:comps="http://java.sun.com/jsf/composite/forms">
 
-<comps:mitarbeiterForm contentTitle="Mitarbeiter ändern"
-	disableForUpdate="false" id="mitarbeiter"
+<comps:mitarbeiterForm contentTitle="Mitarbeiter: #{mitarbeiterAktionen.mitarbeiter.name}"
+	disableForUpdate="true" id="mitarbeiter"
 	buttonAction="#{mitarbeiterAktionen.updateMitarbeiter()}"
-	buttonLabel="Ändern">
+	buttonLabel="Speichern">
 </comps:mitarbeiterForm>
 
 </html>

@@ -33,7 +33,7 @@
 							update="activity" />
 						<f:converter converterId="projektConverter" />
 						<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
-							itemLabel="#{proj.projekt}" />
+							itemLabel="#{proj.projektId}" />
 					</p:selectOneMenu></td>
 
 				<td><p:selectOneMenu id="activity"
@@ -74,7 +74,7 @@
 				style="margin-bottom:10px;font-size:15px;margin-right:7%">
 
 				<p:column headerText="Projekt" sortBy="#{actBuchungen.projekt}">
-					<h:outputText value="#{actBuchungen.projekt.projekt}">
+					<h:outputText value="#{actBuchungen.projekt.toString()}">
 					</h:outputText>
 				</p:column>
 

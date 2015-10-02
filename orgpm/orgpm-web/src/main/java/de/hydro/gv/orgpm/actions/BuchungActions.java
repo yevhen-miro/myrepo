@@ -19,9 +19,7 @@ import org.primefaces.event.SelectEvent;
 import de.hydro.gv.orgpm.data.Aktivitaet;
 import de.hydro.gv.orgpm.data.Buchung;
 import de.hydro.gv.orgpm.data.Projekt;
-import de.hydro.gv.orgpm.models.AktivitaetModel;
 import de.hydro.gv.orgpm.models.BuchungModel;
-import de.hydro.gv.orgpm.models.ProjektModel;
 import de.hydro.gv.orgpm.services.AktivitaetService;
 import de.hydro.gv.orgpm.services.BuchungService;
 import de.hydro.gv.orgpm.services.ProjektService;
@@ -36,8 +34,8 @@ public class BuchungActions {
 	private Date date; // filter Date variable
 
 	private ArrayList<BuchungModel> cachedBuchungList;
-	private ArrayList<ProjektModel> cachedProjektList;
-	private Collection<AktivitaetModel> cachedAktivitaetenList;
+	private ArrayList<Projekt> cachedProjektList;
+	private Collection<Aktivitaet> cachedAktivitaetenList;
 
 	@Inject
 	private BuchungService buchungService;
@@ -83,20 +81,20 @@ public class BuchungActions {
 		return this.cachedBuchungList;
 	}
 
-	public ArrayList<ProjektModel> getAlleProjekte() throws Exception {
+	public ArrayList<Projekt> getAlleProjekte() throws Exception {
 		if( this.cachedProjektList == null ) {
 			this.cachedProjektList = this.readAndConvertProjekte();
 		}
 		return this.cachedProjektList;
 	}
 
-	public Collection<AktivitaetModel> getAktivitaetenByProjekt() throws Exception {
-		ArrayList<AktivitaetModel> ret;
+	public Collection<Aktivitaet> getAktivitaetenByProjekt() throws Exception {
+		ArrayList<Aktivitaet> ret;
 		if( this.aktBuchung.getProjekt() == null ) {
-			ret = new ArrayList<AktivitaetModel>();
+			ret = new ArrayList<Aktivitaet>();
 		} else {
 			Collection<Aktivitaet> actEntities = this.aktivitaetService.getAktivitaetenByProjekt( this.aktBuchung
-					.getProjekt().convertToEntity() );
+					.getProjekt() );
 			ret = this.convertierenAktivitaeten( actEntities );
 		}
 		return ret;
@@ -133,25 +131,25 @@ public class BuchungActions {
 		return buchungModel;
 	}
 
-	public ArrayList<ProjektModel> readAndConvertProjekte() throws Exception {
+	public ArrayList<Projekt> readAndConvertProjekte() throws Exception {
 		Collection<Projekt> projektEntities = this.projektService.getAlleProjekte();
-		ArrayList<ProjektModel> projektModel = this.convertieren( projektEntities );
+		ArrayList<Projekt> projektModel = this.convertieren( projektEntities );
 
 		return projektModel;
 	}
 
-	private ArrayList<ProjektModel> convertieren( Collection<Projekt> projektEntities ) {
-		ArrayList<ProjektModel> projektModel = new ArrayList<ProjektModel>();
+	private ArrayList<Projekt> convertieren( Collection<Projekt> projektEntities ) {
+		ArrayList<Projekt> projektModel = new ArrayList<Projekt>();
 		for ( Projekt projektEntity : projektEntities ) {
-			projektModel.add( new ProjektModel( projektEntity ) );
+			projektModel.add( new Projekt() );
 		}
 		return projektModel;
 	}
 
-	private ArrayList<AktivitaetModel> convertierenAktivitaeten( Collection<Aktivitaet> aktivitaetEntities ) {
-		ArrayList<AktivitaetModel> aktivitaetModel = new ArrayList<AktivitaetModel>();
+	private ArrayList<Aktivitaet> convertierenAktivitaeten( Collection<Aktivitaet> aktivitaetEntities ) {
+		ArrayList<Aktivitaet> aktivitaetModel = new ArrayList<Aktivitaet>();
 		for ( Aktivitaet aktivitaetEntity : aktivitaetEntities ) {
-			aktivitaetModel.add( new AktivitaetModel( aktivitaetEntity ) );
+			aktivitaetModel.add( new Aktivitaet() );
 		}
 		return aktivitaetModel;
 	}

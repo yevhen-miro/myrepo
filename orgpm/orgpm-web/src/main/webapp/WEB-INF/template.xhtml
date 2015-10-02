@@ -21,28 +21,31 @@
 			<ui:insert name="header">
 				<p:menubar style="width:100%;">
 					<p:submenu label="Mitarbeiter">
-						<p:menuitem value="Mitarbeiter" url="/mitarbeiter.jsf" />
+						<p:menuitem value="Mitarbeiter" url="/mitarbeiter.xhtml" />
 					</p:submenu>
 
 					<p:submenu label="Projekte">
-						<p:menuitem value="Projekte" url="/projekte.jsf" />
+						<p:menuitem value="Projekte" url="/projekte.xhtml" />
 					</p:submenu>
 
 					<p:submenu label="Aktivitäten">
-						<p:menuitem value="Aktivitäten" url="/aktivitaeten.jsf" />
+						<p:menuitem value="Aktivitäten" url="/aktivitaeten.xhtml" />
 					</p:submenu>
 
 					<p:submenu label="Buchungen">
-						<p:menuitem value="Buchungen" url="/buchungen.jsf" />
+						<p:menuitem value="Buchungen" url="/buchungen.xhtml" />
 					</p:submenu>
 
 					<p:submenu label="Berichte">
-						<p:menuitem value="Berichte" icon="ui-icon-gear" url="/charts.jsf" />
+						<p:menuitem value="Berichte" icon="ui-icon-gear"
+							url="/charts.xhtml" />
 					</p:submenu>
 
-					<p:submenu label="My account" icon="ui-icon-gear" style="position:absolute; left: 80%; top:10px">
-						<p:menuitem value="Meine Information"  url="/myinformation.jsf" />
-						<p:menuitem value="Passwortverwaltung" url="/passwortverwaltung.jsf" />
+					<p:submenu label="My account" icon="ui-icon-gear"
+						style="position:absolute; left: 80%; top:10px">
+						<p:menuitem value="Meine Information" url="/myinformation.xhtml" />
+						<p:menuitem value="Passwortverwaltung"
+							url="/passwortverwaltung.xhtml" />
 					</p:submenu>
 
 
@@ -52,10 +55,10 @@
 						<h:commandButton class="btn btn-default" immediate="true"
 							value="Logout" action="#{loginAction.logout()}"
 							style="float:right;" />
-<ui:remove>							
-						<h:inputText style="float:right;" class="btn"
-							pt:placeholder="Search" />
-</ui:remove>
+						<ui:remove>
+							<h:inputText style="float:right;" class="btn"
+								pt:placeholder="Search" />
+						</ui:remove>
 					</f:facet>
 				</p:menubar>
 				<h:outputLabel value="0.0.1-SNAPSHOT"
@@ -89,6 +92,9 @@
 			</ui:insert>
 		</div>
 
+		<div
+			class="selectonemenu .ui-selectonemenu label.ui-selectonemenu-label">
+		</div>
 	</h:form>
 </body>
 </html>
