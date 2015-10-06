@@ -9,69 +9,94 @@
 <ui:composition template="/WEB-INF/template.xhtml">
 
 
-	<ui:define name="content">
-		<br></br>
 
-		<table>
-			<tr>
-				<td><p:outputLabel value="Kennung" /></td>
-				<td><p:outputLabel value="Projekt" /></td>
-				<td><p:outputLabel value="Aktivität" /></td>
-				<td><p:outputLabel value="Datum" /></td>
-				<td><p:outputLabel value="Anfang" /></td>
-				<td><p:outputLabel value="Ende" /></td>
-				<td><p:outputLabel value="Tätigkeit" /></td>
-			</tr>
-			<tr>
+	<ui:define name="buchungen">
 
 
-				<td><p:inputText value="#{buchungActions.hydroId}"
-						disabled="true" style="width:80px" /></td>
-				<td><p:selectOneMenu
-						value="#{buchungActions.aktBuchung.projekt}" style="width:100px">
-						<p:ajax listener="#{buchungActions.onProjektChange}"
-							update="activity" />
-						<f:converter converterId="projektConverter" />
-						<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
-							itemLabel="#{proj.projektId}" />
-					</p:selectOneMenu></td>
 
-				<td><p:selectOneMenu id="activity"
-						value="#{buchungActions.aktBuchung.aktivitaet}"
-						style="width:300px">
-						<f:converter converterId="aktionConverter" />
-						<f:selectItems value="#{buchungActions.aktivitaetenByProjekt}" />
-					</p:selectOneMenu></td>
+		<p:panelGrid columns="8" layout="grid"
+			style="margin-left:1%;margin-right:1%">
 
-				<td><p:calendar id="in-date"
-						value="#{buchungActions.aktBuchung.datum}" pattern="dd.MM.yy"
-						required="false" /></td>
-				<td><p:calendar id="in-anfang"
-						value="#{buchungActions.aktBuchung.anfangZeit}" pattern="HH:mm"
-						mask="true" required="false" /></td>
-				<td><p:calendar id="in-ende"
-						value="#{buchungActions.aktBuchung.endeZeit}" pattern="HH:mm"
-						mask="true" required="false" /></td>
-				<td><p:inputText id="in-taetigkeit"
-						value="#{buchungActions.aktBuchung.taetigkeiten}" /></td>
-				<td><p:commandButton value="Speichern"
-						action="#{buchungActions.saveBuchung()}" ajax="false"
-						update="table">
-						<f:ajax render=":templateForm" resetValues="true" />
-					</p:commandButton></td>
-			</tr>
-		</table>
+			<p:column style="width:80px">
+				<p:outputLabel value="Hydro ID" style="width:80px" />
+				<p:inputText value="#{buchungActions.hydroId}" disabled="true"
+					style="width:80px" />
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="Projekt" />
+				<h:selectOneMenu value="#{buchungActions.aktBuchung.projekt}"
+					style="width:90px">
+					<p:ajax listener="#{buchungActions.onProjektChange}"
+						update="activity" styleClass=".ui-selectonemenu-label" />
+					<f:converter converterId="projektConverter" />
+					<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
+						itemLabel="#{proj.projektId}" />
+				</h:selectOneMenu>
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="Aktivität" />
+				<h:selectOneMenu id="activity"
+					value="#{buchungActions.aktBuchung.aktivitaet}" style="width:250px">
+					<f:converter converterId="aktionConverter" />
+					<f:selectItems value="#{buchungActions.aktivitaetenByProjekt}" />
+				</h:selectOneMenu>
+			</p:column>
+			<p:column>
+				<p:outputLabel value="Datum" style="width:80px" />
+				<p:calendar id="in-date" inputStyleClass="primeCalendar"
+					
+					disabledWeekends="true" locale="de"
+					beforeShowDay= "disableAllTheseDays"
+					pagedate="#{buchungActions.date}"
+					value="#{buchungActions.aktBuchung.datum}" pattern="dd.MM.yy"
+					required="false" />
+			</p:column>
+			<p:column>
+				<p:outputLabel value="Anfang" />
+				<p:calendar id="in-anfang"
+					value="#{buchungActions.aktBuchung.anfangZeit}" locale="de"
+					timeControlType="select" timeOnly="true" pattern ="HH:mm" required="true" />
+			</p:column>
+			<p:column>
+				<p:outputLabel value="Ende" />
+				<p:calendar id="in-ende"
+					value="#{buchungActions.aktBuchung.endeZeit}" locale="de"
+					timeControlType="select" timeOnly="true" pattern ="HH:mm" required="true" />
+			</p:column>
+			<p:column>
+				<p:outputLabel value="Tätigkeit" />
+				<p:inputText id="in-taetigkeit"
+					value="#{buchungActions.aktBuchung.taetigkeiten}"
+					style="width:480px" />
+			</p:column>
+
+			<p:column>
+				<p:commandButton value="Speichern"
+					action="#{buchungActions.saveBuchung()}" ajax="false"
+					update="table">
+					<f:ajax render=":templateForm:table:buchungen" resetValues="true" />
+				</p:commandButton>
+			</p:column>
+		</p:panelGrid>
+
 
 		<p:separator style="width:100%;height:20px" />
+	</ui:define>
+
+	<ui:define name="content">
+
 
 		<h:form id="table">
 			<p:dataTable id="buchungen" value="#{buchungActions.alleBuchungen}"
 				widgetVar="Table" var="actBuchungen" editable="true"
 				resizableColumns="false" filteredValue="#{actBuchungen}" rows="10"
-				paginator="true"
-				rowKey="#{actBuchungen.id}"
-				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-				style="margin-bottom:10px;font-size:15px;margin-right:7%">
+				paginator="true" rowKey="#{actBuchungen.id}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+				<f:facet name="header">
+				Meine Buchungen
+				</f:facet>
 
 				<p:column headerText="Projekt" sortBy="#{actBuchungen.projekt}">
 					<h:outputText value="#{actBuchungen.projekt.toString()}">
@@ -145,20 +170,23 @@
 							target="#{buchungActions.aktBuchung}" />
 					</p:commandButton>
 				</p:column>
-				
+
 			</p:dataTable>
 		</h:form>
 	</ui:define>
 
 
 	<ui:define name="action">
-		<p:outputPanel style="margin-top:50%">
-			<p:outputLabel>Tag Filter </p:outputLabel>
-			<p:calendar id="date" value="#{buchungActions.date}" mode="inline">
-				<p:ajax event="dateSelect" listener="#{buchungActions.onDateSelect}"
-					update=":templateForm:table:buchungen" />
-			</p:calendar>
-		</p:outputPanel>
+
+
+
+		<p:spacer width="20" heigth="10"></p:spacer>
+
+		<p:calendar id="date" value="#{buchungActions.date}" mode="inline">
+			<p:ajax event="dateSelect" listener="#{buchungActions.onDateSelect}"
+				update=":templateForm:table:buchungen" />
+		</p:calendar>
+
 	</ui:define>
 
 

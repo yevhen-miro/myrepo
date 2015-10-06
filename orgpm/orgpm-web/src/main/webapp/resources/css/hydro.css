@@ -76,3 +76,15 @@ button {
 .ui-selectonemenu label.ui-selectonemenu-label{
    width:100% !important;
 }
+
+.ui-selectonemenu{
+     width: 100% !important;
+}
+.ui-selectonemenu-label{
+     width: 100% !important;
+}  
+
+.primeCalendar
+{
+width: 100px;
+}

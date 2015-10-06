@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -133,6 +134,7 @@ public class BuchungActions implements Serializable {
 	@PostPersist
 	@PostRemove
 	@PostUpdate
+	@PreDestroy
 	private void clearSessionCache() {
 		this.cachedBuchungList = null;
 		this.cachedAktivitaetenList = null;
