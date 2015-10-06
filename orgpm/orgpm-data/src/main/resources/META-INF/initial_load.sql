@@ -38,15 +38,15 @@ insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (19,2,true,'Anpassungen Schnittstellen',null,null,3);
 insert into AKTIVITAETEN (id,aktivitaet_nr,status,text,bemerkung,aufwand,projekt) VALUES (20,7,true,'Rufbereitschaft',null,null,3);
 
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (1,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'TBS-Integration',1,'A136862');
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (2,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'SAS-Support',1,'A136862');
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (3,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'DWH Besprechung',1,'A136862');
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (4,2,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'Materialized View for DM_PRODUCTION',1,'A566561');
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (5,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'Trigger-korrketur',1,'A566561');
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (6,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'Rheinwerk',1,'A566561');
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (7,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'LOGI-Schnittstelle',1,'A136862');
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (8,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'F3LS-DAO',1,'A136862');
-insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,hydroid) VALUES (9,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'Junit-test',1,'A136862');
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (1,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'TBS-Integration',1,1);
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (2,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'SAS-Support',1,1);
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (3,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'DWH Besprechung',1,1);
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (4,2,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'Materialized View for DM_PRODUCTION',1,2);
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (5,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,1,3,'Trigger-korrketur',1,2);
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (6,1,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'Rheinwerk',1,3);
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (7,18,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'LOGI-Schnittstelle',1,3);
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (8,19,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'F3LS-DAO',1,1);
+insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (9,20,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'Junit-test',1,1);
 
 
 alter sequence seq_buchungen restart with 200;

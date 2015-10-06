@@ -34,7 +34,8 @@ public class AktionConverter implements Converter {
 				if( aktivitaet.getId().equals( id ) ) {
 					System.out.println( "Converted to Aktivitaet: " + aktivitaet.getAktivitaetText() + " "
 							+ this.securityActions.getSecurityPrincipalForLoggedInUser() );
-					return new Aktivitaet();
+					// Aktivitaet a = new Aktivitaet();
+					return aktivitaet;
 				}
 			}
 		} catch ( Exception e ) {
@@ -56,7 +57,8 @@ public class AktionConverter implements Converter {
 		}
 		Long id = ( (Aktivitaet) value ).getId();
 
-		return ( id != null ) ? String.valueOf( id ) : null;
+		// return ( id != null ) ? String.valueOf( id ) : null;
+		return aktivitaet.getId().toString();
 	}
 
 }

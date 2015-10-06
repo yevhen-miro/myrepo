@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -17,9 +15,6 @@ public class BuchungService {
 
 	@Inject
 	private BuchungDao buchungDao;
-
-	@Resource
-	private SessionContext sessionContext;
 
 	public Collection<Buchung> getAlleBuchungen() throws Exception {
 		return this.buchungDao.readAllBuchungen();

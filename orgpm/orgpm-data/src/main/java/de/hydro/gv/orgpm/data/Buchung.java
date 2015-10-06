@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.faces.context.FacesContext;
@@ -22,6 +23,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
 @Entity
@@ -29,12 +31,15 @@ import javax.servlet.http.HttpServletRequest;
 @NamedQueries( {
 		@NamedQuery( name = "buchung.delete.all", query = "DELETE FROM Buchung" ),
 		@NamedQuery( name = "buchung.find.all", query = "SELECT b FROM Buchung AS b" ),
-		@NamedQuery( name = "buchung.find.duration.by.mitarbeiter",
-				query = "SELECT b.datum,sum(b.min) FROM Buchung AS b WHERE b.hydroid = :hydroid group by b.datum" ),
-		@NamedQuery( name = "buchung.find.by.date",
-				query = "SELECT b FROM Buchung AS b WHERE b.hydroid = :hydroid and b.datum = :datum" ),
-		@NamedQuery( name = "buchung.find.buchung.by.mitarbeiter",
-				query = "SELECT b FROM Buchung b WHERE b.hydroid = :hydroid and b.datum = :datum" ) } )
+		@NamedQuery(
+				name = "buchung.find.duration.by.mitarbeiter",
+				query = "SELECT b.datum,sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid group by b.datum" ),
+		@NamedQuery(
+				name = "buchung.find.by.date",
+				query = "SELECT b FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId = :hydroid and b.datum = :datum" ),
+		@NamedQuery(
+				name = "buchung.find.buchung.by.mitarbeiter",
+				query = "SELECT b FROM Buchung b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId = :hydroid and b.datum = :datum" ) } )
 public class Buchung implements Serializable {
 
 	private static final long serialVersionUID = 7859236877492083050L;
@@ -45,13 +50,25 @@ public class Buchung implements Serializable {
 	@Column( name = "id" )
 	private Long id;
 
-	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.MERGE )
+	@ManyToOne( fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE } )
 	@JoinColumn( name = "PROJEKT", foreignKey = @ForeignKey( name = "FK_BUCHUNG_PROJEKT" ) )
 	private Projekt projekt;
 
-	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.MERGE )
+	@ManyToOne( fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE } )
+	@JoinColumn( name = "mitarbeiter", foreignKey = @ForeignKey( name = "FK_BUCHUNG_MITARBEITER" ) )
+	private Mitarbeiter mitarbeiter;
+
+	public Mitarbeiter getMitarbeiter() {
+		return this.mitarbeiter;
+	}
+
+	public void setMitarbeiter( Mitarbeiter mitarbeiter ) {
+		this.mitarbeiter = mitarbeiter;
+	}
+
+	@ManyToOne( fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE } )
 	@JoinColumn( name = "AKTIVITAET", foreignKey = @ForeignKey( name = "FK_BUCHUNG_AKTIVITAET" ) )
-	private Aktivitaet aktivitaetId;
+	private Aktivitaet aktivitaet;
 
 	@Temporal( TemporalType.DATE )
 	@Column( name = "datum" )
@@ -85,16 +102,27 @@ public class Buchung implements Serializable {
 	@Column( name = "wartung_Id" )
 	private int wartungId;
 
-	@Column( name = "HydroId" )
-	private String hydroid;
+	// @Column( name = "HydroId" )
+	// private String hydroid;
 
-	public String getHydroid() {
-		return this.hydroid;
+	@Transient
+	private Collection<Aktivitaet> activities;
+
+	public Aktivitaet getAktivitaet() {
+		return this.aktivitaet;
 	}
 
-	public void setHydroid( String hydroid ) {
-		this.hydroid = this.getSecurityPrincipalForLoggedInUser().toUpperCase();
+	public void setAktivitaet( Aktivitaet aktivitaet ) {
+		this.aktivitaet = aktivitaet;
 	}
+
+	// public String getHydroid() {
+	// return this.hydroid;
+	// }
+	//
+	// public void setHydroid( String hydroid ) {
+	// this.hydroid = this.getSecurityPrincipalForLoggedInUser().toUpperCase();
+	// }
 
 	public Long getId() {
 		return this.id;
@@ -104,12 +132,12 @@ public class Buchung implements Serializable {
 		this.id = id;
 	}
 
-	public Aktivitaet getAktivitaetId() {
-		return this.aktivitaetId;
+	public Collection<Aktivitaet> getActivities() {
+		return this.activities;
 	}
 
-	public void setAktivitaetId( Aktivitaet aktivitaetId ) {
-		this.aktivitaetId = aktivitaetId;
+	public void setActivities( Collection<Aktivitaet> activities ) {
+		this.activities = activities;
 	}
 
 	public Date getDatum() {
@@ -203,18 +231,24 @@ public class Buchung implements Serializable {
 		if( this.getClass() != obj.getClass() ) {
 			return false;
 		}
-		Buchung other = (Buchung) obj;
-		if( this.id != other.id ) {
-			return false;
-		}
-		return true;
+
+		return ( (Buchung) obj ).id == this.id;
+		// Buchung other = (Buchung) obj;
+		// if( this.id == null ) {
+		// if( other.id != null ) {
+		// return false;
+		// }
+		// } else if( !this.id.equals( other.id ) ) {
+		// return false;
+		// }
+		// return true;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int) ( prime * result + this.id );
+		result = prime * result + ( ( this.id == null ) ? 0 : this.id.hashCode() );
 		return result;
 	}
 

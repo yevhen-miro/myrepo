@@ -43,6 +43,7 @@ public class BuchungDao {
 	}
 
 	public void createBuchung( Buchung b ) {
+		this.em.clear();
 		this.em.persist( b );
 
 	}

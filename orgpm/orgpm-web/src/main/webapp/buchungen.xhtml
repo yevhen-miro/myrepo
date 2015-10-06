@@ -40,7 +40,7 @@
 						value="#{buchungActions.aktBuchung.aktivitaet}"
 						style="width:300px">
 						<f:converter converterId="aktionConverter" />
-						<f:selectItems value="#{buchungActions.aktBuchung.activities}" />
+						<f:selectItems value="#{buchungActions.aktivitaetenByProjekt}" />
 					</p:selectOneMenu></td>
 
 				<td><p:calendar id="in-date"

@@ -136,7 +136,11 @@ public class Aktivitaet implements Serializable {
 			return false;
 		}
 		Aktivitaet other = (Aktivitaet) obj;
-		if( this.id != other.id ) {
+		if( this.aktivitaetText == null ) {
+			if( other.aktivitaetText != null ) {
+				return false;
+			}
+		} else if( !this.aktivitaetText.equals( other.aktivitaetText ) ) {
 			return false;
 		}
 		return true;
@@ -146,12 +150,12 @@ public class Aktivitaet implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int) ( prime * result + this.id );
+		result = prime * result + ( ( this.aktivitaetText == null ) ? 0 : this.aktivitaetText.hashCode() );
 		return result;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return this.aktivitaetText;
 	}
 }
