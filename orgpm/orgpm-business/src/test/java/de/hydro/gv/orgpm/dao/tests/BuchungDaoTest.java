@@ -44,7 +44,7 @@ public class BuchungDaoTest {
 		mitarbeiter.setHydroId( "a136862" );
 		this.mitarbeiterDao.createMitarbeiter( mitarbeiter );
 
-		buchung.setAktivitaetId( new Aktivitaet() );
+		buchung.setAktivitaet( new Aktivitaet() );
 		buchung.setAnfangZeit( new Date() );
 		buchung.setDatum( new Date() );
 		buchung.setEndeZeit( new Date() );
