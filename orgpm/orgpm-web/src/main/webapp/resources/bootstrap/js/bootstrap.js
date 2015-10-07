@@ -2140,24 +2140,22 @@ PrimeFaces.locales['de'] = {
 	    allDayText: 'Ganzer Tag'
 	};
 
+//Following days (holidays) will be disabled for ORGPM bookings:
+var disabledDays = ["01.10.2015","01.01.2015","03.04.2015","06.04.2015","01.05.2015","14.05.2015","25.05.2015","04.06.2015","03.10.2015","01.11.2015","25.12.2015","26.12.2015",
+                    "01.01.2016","25.03.2016","28.03.2016","01.05.2016","05.05.2016","16.05.2016","26.05.2016","03.10.2016","01.11.2016","25.12.2016","26.12.2016",
+                    "01.01.2017","14.04.2017","17.04.2017","01.05.2017","25.05.2017","05.06.2017","15.06.2017","03.10.2017","31.10.2017","01.11.2017","25.12.2017","26.12.2017"];
 
-var disabledDays = ["10-8-2015", "10-7-2015"];
-
-function disableAllTheseDays(date) {
-    var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
-   
+function disableHolidaysAndWeekends(date) {
+    var m = ((date.getMonth()+1) < 10 ? '0' + (date.getMonth()+1) : (date.getMonth()+1));
+    var	d = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+    var y = date.getFullYear();
+    var day = date.getDay();
     for (i = 0; i < disabledDays.length; i++) {
-        if($.inArray((m+1) + '-' + d + '-' + y,disabledDays) != -1)  {
+        if(
+        		($.inArray( d + '.' + (m) + '.' + y, disabledDays) != -1) || (day == 6 || day == 0))
+        {
             return [false];
         }
     }
     return [true];
-}
-
-function disableWeekends(date) {
-  var day = date.getDay();
-  if( day != 6 && day != 0){
-	  return [true];
-  }
-  return [false];
 }

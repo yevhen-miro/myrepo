@@ -88,3 +88,21 @@ button {
 {
 width: 100px;
 }
+
+.separator {
+	width:98%;
+	height:10px;
+	margin-left:1%;
+	margin-right:1%;
+	border-color: #cc0000!important;
+	background: #cc0000 !important;
+}
+
+.separatorActions {
+	width:260px;
+	height:10px;
+	margin-left:1%;
+	margin-right:1%;
+	border-color: #cc0000!important;
+	background: #cc0000 !important;
+}

@@ -41,27 +41,10 @@
 				style="width:100%">
 				<f:converter converterId="projektConverter" />
 				<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
-					itemLabel="#{proj.projekt}" />
+					itemLabel="#{proj.projektId}" />
 			</p:selectOneMenu>
 			<h:messages for="bu-projekt" styleClass="error" />
 			
-<ui:remove>
-			<p:outputLabel value="Projekt2" />
-			<cs:projektWahl id="projektwahl"
-				source="#{projektAktionen.alleProjekte}"
-				destination="#{buchungActions.selectedProjekt}"
-				rerender=":mainForm:actions" />
-			<h:messages for="bu-projekt2" styleClass="error" />
-
-			<p:outputLabel value="Aktivität2" />
-			<h:panelGroup id="actions">
-				<cs:aktionWahl source="#{buchungActions.aktivitaetenByProjekt}"
-					destination="#{buchungActions.selectedAktivitaet}"
-					execute=":mainForm:projektwahl:select-projekt" />
-			</h:panelGroup>
-			<h:messages for="bu-projekt3" styleClass="error" />
-</ui:remove>
-
 			<p:outputLabel value="Aktivität" />
 			<p:selectOneMenu id="bu-akt" value="#{buchungActions.aktBuchung.aktivitaet}"
 				style="width:100%">

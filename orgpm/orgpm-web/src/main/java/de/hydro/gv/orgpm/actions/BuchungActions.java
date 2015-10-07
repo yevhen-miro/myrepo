@@ -18,6 +18,8 @@ import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 import javax.servlet.http.HttpServletRequest;
 
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
 
 import de.hydro.gv.orgpm.data.Aktivitaet;
@@ -148,6 +150,29 @@ public class BuchungActions implements Serializable {
 		this.aktBuchung.setPauseVon( null );
 		this.aktBuchung.setPauseBis( null );
 		this.aktBuchung.setProjekt( null );
+	}
+
+	public String updateBuchung() throws Exception {
+
+		this.buchungService.updateBuchung( this.aktBuchung );
+		this.cachedBuchungList = null;
+		return "projekte";
+	}
+
+	public void onCellEdit( CellEditEvent event ) throws Exception {
+		DataTable d = (DataTable) event.getSource();
+		Buchung b = (Buchung) d.getRowData();
+
+		Object oldValue = event.getOldValue();
+		Object newValue = event.getNewValue();
+
+		if( newValue != null && !newValue.equals( oldValue ) ) {
+			b.setTaetigkeiten( newValue.toString() );
+			FacesMessage msg = new FacesMessage( FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue
+					+ ", New:" + newValue );
+			this.buchungService.updateBuchung( b );
+			FacesContext.getCurrentInstance().addMessage( null, msg );
+		}
 	}
 
 }
