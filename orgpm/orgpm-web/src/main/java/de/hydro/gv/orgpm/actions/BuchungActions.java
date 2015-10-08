@@ -27,6 +27,7 @@ import de.hydro.gv.orgpm.data.Buchung;
 import de.hydro.gv.orgpm.services.AktivitaetService;
 import de.hydro.gv.orgpm.services.BuchungService;
 import de.hydro.gv.orgpm.services.MitarbeiterService;
+import de.hydro.gv.orgpm.utils.TimingService;
 
 @ManagedBean
 @ViewScoped
@@ -43,6 +44,9 @@ public class BuchungActions implements Serializable {
 
 	@Inject
 	private AktivitaetService aktivitaetService;
+
+	@Inject
+	private TimingService timingService;
 
 	private Date date = new Date(); // current Date variable
 	private ArrayList<Buchung> cachedBuchungList;
@@ -73,9 +77,20 @@ public class BuchungActions implements Serializable {
 		return this.cachedBuchungList;
 	}
 
+	@SuppressWarnings( "static-access" )
 	public String saveBuchung() throws Exception {
 		this.aktBuchung.setMitarbeiter( this.mitarbeiterService.getMitarbeiterByHydroId( this.getHydroId()
 				.toUpperCase() ) );
+		this.aktBuchung.setMin( this.timingService.calculateMinutes( this.aktBuchung.getAnfangZeit(),
+				this.aktBuchung.getEndeZeit() ) );
+		this.aktBuchung.setPauseVon( this.timingService.isPauseTime( this.aktBuchung.getAnfangZeit(),
+				this.aktBuchung.getEndeZeit() ) ? new Date( this.timingService.PAUSE_V ) : null );
+		this.aktBuchung.setPauseBis( this.timingService.isPauseTime( this.aktBuchung.getAnfangZeit(),
+				this.aktBuchung.getEndeZeit() ) ? new Date( this.timingService.PAUSE_B ) : null );
+		// this.aktBuchung.setStd( (long) Math.floor( this.aktBuchung.getMin() /
+		// 60 ) );
+		this.aktBuchung.setStd( this.timingService.calculateHours( this.aktBuchung.getAnfangZeit(),
+				this.aktBuchung.getEndeZeit() ) );
 		this.buchungService.addBuchung( this.aktBuchung );
 		this.cachedBuchungList = null;
 		this.aktBuchung = null;
@@ -146,7 +161,7 @@ public class BuchungActions implements Serializable {
 		this.aktBuchung.setEndeZeit( null );
 		this.aktBuchung.setDatum( null );
 		this.aktBuchung.setMin( 0L );
-		this.aktBuchung.setStd( 0L );
+		this.aktBuchung.setStd( 0.0 );
 		this.aktBuchung.setPauseVon( null );
 		this.aktBuchung.setPauseBis( null );
 		this.aktBuchung.setProjekt( null );

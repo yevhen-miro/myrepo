@@ -102,12 +102,13 @@
 				</p:tab>
 
 				<p:tab title="Zugelassene Projekte">
-					<ui:remove>
-						<p:pickList id="pickList"
-							value="#{projektAktionen.zugelasseneProjekte}" var="projects"
-							itemLabel="#{projects}" itemValue="#{projects}"
-							converter="projektConverter" />
-					</ui:remove>
+
+					<p:pickList id="pickList"
+						value="#{projektAktionen.zugelasseneProjekte}" var="projects"
+						itemLabel="#{projects}" itemValue="#{projects}"
+						converter="projektConverter" />
+
+
 				</p:tab>
 
 				<p:tab title="Rollen und Berechtigungen">

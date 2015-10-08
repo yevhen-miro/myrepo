@@ -91,7 +91,7 @@ public class Buchung implements Serializable {
 	private Date pauseBis;
 
 	@Column( name = "stunden" )
-	private Long std;
+	private Double std;
 
 	@Column( name = "minuten" )
 	private Long min;
@@ -180,11 +180,11 @@ public class Buchung implements Serializable {
 		this.pauseBis = pauseBis;
 	}
 
-	public Long getStd() {
+	public Double getStd() {
 		return this.std;
 	}
 
-	public void setStd( Long std ) {
+	public void setStd( Double std ) {
 		this.std = std;
 	}
 

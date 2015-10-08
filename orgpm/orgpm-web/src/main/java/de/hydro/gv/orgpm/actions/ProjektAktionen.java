@@ -3,7 +3,9 @@ package de.hydro.gv.orgpm.actions;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -50,7 +52,7 @@ public class ProjektAktionen implements Serializable {
 
 	private Collection<Aktivitaet> cachedAktivitaetenList;
 
-	private DualListModel<Projekt> allProjects;
+	// private DualListModel<Projekt> allProjects;
 
 	private DualListModel<Projekt> zugelasseneProjekte;
 
@@ -58,16 +60,22 @@ public class ProjektAktionen implements Serializable {
 		return this.zugelasseneProjekte;
 	}
 
-	public DualListModel<Projekt> getAllProjects() {
-		return this.allProjects;
-	}
+	// public DualListModel<Projekt> getAllProjects() {
+	// return this.allProjects;
+	// }
 
 	public void setZugelasseneProjekte( DualListModel<Projekt> zugelasseneProjekte ) {
 		this.zugelasseneProjekte = zugelasseneProjekte;
 	}
 
-	public void setAllProjects( DualListModel<Projekt> allProjects ) {
-		this.allProjects = allProjects;
+	@PostConstruct
+	public void init() throws Exception {
+		List<Projekt> projekteSource = new ArrayList<Projekt>();
+		List<Projekt> projekteTarget = new ArrayList<Projekt>();
+
+		projekteSource = (List<Projekt>) this.projektService.getAlleProjekte();
+
+		this.zugelasseneProjekte = new DualListModel<Projekt>( projekteSource, projekteTarget );
 	}
 
 	public Projekt getProjekt() {
