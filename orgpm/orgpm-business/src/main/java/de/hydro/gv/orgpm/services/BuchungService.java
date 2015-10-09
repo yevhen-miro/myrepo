@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import de.hydro.gv.orgpm.dao.BuchungDao;
 import de.hydro.gv.orgpm.data.Buchung;
+import de.hydro.gv.orgpm.util.InvalidDateException;
 
 @Stateless
 public class BuchungService {
@@ -41,4 +42,18 @@ public class BuchungService {
 		return this.buchungDao.getDauerByMitarbeiter( hydroid );
 	}
 
+	public Boolean isTimeViolated( String hydroid, Date date, Date azeit, Date ezeit ) throws Exception {
+		Boolean ret = false;
+		for ( Buchung b : this.getBuchungenByMitarbeiter( hydroid, date ) ) {
+			if( azeit.after( b.getAnfangZeit() ) && azeit.before( b.getEndeZeit() ) || ezeit.after( b.getAnfangZeit() )
+					&& ezeit.before( b.getEndeZeit() ) || azeit.after( b.getAnfangZeit() )
+					&& azeit.before( b.getEndeZeit() ) ) {
+				ret = true;
+				throw new InvalidDateException( "Your date is not valid" );
+			}
+			ret = false;
+		}
+		return ret;
+
+	}
 }

@@ -25,6 +25,9 @@ import javax.persistence.Table;
 		@NamedQuery( name = "projekt.alle", query = "SELECT p FROM Projekt AS p" ),
 		@NamedQuery( name = "proejekt.delete.all", query = "DELETE FROM Projekt" ),
 		@NamedQuery( name = "projekt.find.all", query = "SELECT p FROM Projekt AS p" ),
+		@NamedQuery( name = "projekt.find.ebabled.projects.by.mitarbeiter",
+				query = "SELECT p FROM Projekt p, MitarbeiterProjekte mp, Mitarbeiter m "
+						+ " WHERE mp.projekt.id = p.id AND mp.mitarbeiter.id = m.id and m.hydroId = :hydroid" ),
 		@NamedQuery( name = "projekt.find.by.mitarbeiter", query = "SELECT p FROM Projekt p, MitarbeiterProjekte mp, "
 				+ " Mitarbeiter m WHERE p.id = mp.projekt.id and mp.mitarbeiter.id = m.id and m.hydroId= :hydroid" ),
 		@NamedQuery( name = "projekt.find.by.name", query = "SELECT p FROM Projekt AS p WHERE p.projektId= :proejektId" ) } )
@@ -72,18 +75,7 @@ public class Projekt implements Serializable {
 	private boolean wartungsprojekt;
 
 	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
-	private List<MitarbeiterProjekte> mitarbeiter;
-
-	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
 	private List<Aktivitaet> aktivitaeten;
-
-	public List<Aktivitaet> getAktivitaeten() {
-		return this.aktivitaeten;
-	}
-
-	public void setAktivitaeten( List<Aktivitaet> aktivitaeten ) {
-		this.aktivitaeten = aktivitaeten;
-	}
 
 	public Projekt() {
 	}
@@ -182,6 +174,14 @@ public class Projekt implements Serializable {
 
 	public void setWartungsprojekt( boolean wartungsprojekt ) {
 		this.wartungsprojekt = wartungsprojekt;
+	}
+
+	public List<Aktivitaet> getAktivitaeten() {
+		return this.aktivitaeten;
+	}
+
+	public void setAktivitaeten( List<Aktivitaet> aktivitaeten ) {
+		this.aktivitaeten = aktivitaeten;
 	}
 
 	@Override

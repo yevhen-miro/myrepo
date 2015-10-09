@@ -2,9 +2,6 @@ insert into LOGIN(id,password) VALUES(1,'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxK
 insert into LOGIN(id,password) VALUES(2,'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
 insert into LOGIN(id,password) VALUES(3,'rdsPXngmyFfXN20b2bwzwMVEeQourJYUSoryKxKYyUA=');
 
-insert into ROLLEN (id, name) VALUES (80,  'ADMIN');
-insert into ROLLEN (id, name) VALUES (81,  'USER');
- 
 
 insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname, rolle ) VALUES (1,8,'DWH-Entwickler','FAS','A136862',2456,0, 'gap87','Miroshnychenko',7772, 'Yevhen','ADMIN');
 insert into MITARBEITER (id,arbeitszeit, bemerkung, gruppe, hydroid, kartenid, status, kennung, nachname, personalid,vorname,  rolle) VALUES (2,8,'SAS-Administrator','FCS','A136989',1236,0, 'gap01','Sinaga',4656, 'David','ADMIN');
@@ -48,19 +45,14 @@ insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, p
 insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (8,19,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'F3LS-DAO',1,1);
 insert into BUCHUNGEN (id,aktivitaet, anfang, datum, ende, minuten, pause_bis, pause_von, projekt, stunden,taetigkeiten,wartung_id,mitarbeiter) VALUES (9,20,sysdate,sysdate,sysdate,20,sysdate, sysdate,2,3,'Junit-test',1,1);
 
+insert into mitarbeiter_projekte ( id , mitarbeiter , projekt ) values(1,1,1);
+insert into mitarbeiter_projekte ( id , mitarbeiter , projekt ) values(2,1,2);
+insert into mitarbeiter_projekte ( id , mitarbeiter , projekt ) values(3,1,3);
 
 alter sequence seq_buchungen restart with 200;
 alter sequence seq_mitarbeiter restart with 200;
 alter sequence seq_projekt restart with 200;
 alter sequence seq_aktivitaet restart with 200;
-alter sequence seq_mitarbeiter_rollen restart with 200;
 alter sequence seq_login restart with 200;
+alter sequence seq_mitarbeiter_projekte restart with 200;
 
-
-insert into MITARBEITER_ROLLEN ( id,  mitarbeiter, rolle) VALUES( 90,  1, 80);
-insert into MITARBEITER_ROLLEN ( id,  mitarbeiter, rolle) VALUES( 91,  2, 81);
-insert into MITARBEITER_ROLLEN ( id,  mitarbeiter, rolle) VALUES( 92,  3, 80);
-
-insert into MITARBEITER_PROJEKTE (id, mitarbeiter, projekt) VALUES (30, 1, 1);
-insert into MITARBEITER_PROJEKTE (id, mitarbeiter, projekt) VALUES (31, 1, 2);
-insert into MITARBEITER_PROJEKTE (id, mitarbeiter, projekt) VALUES (32, 1, 3);

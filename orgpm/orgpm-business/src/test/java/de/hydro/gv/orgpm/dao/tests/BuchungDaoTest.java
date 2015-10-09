@@ -51,7 +51,7 @@ public class BuchungDaoTest {
 		buchung.setMin( 23L );
 		buchung.setPauseBis( null );
 		buchung.setPauseVon( null );
-		buchung.setStd( 23L );
+		buchung.setStd( 23.0 );
 		buchung.setTaetigkeiten( "JUNIT test" );
 		buchung.setWartungId( 0 );
 		return buchung;

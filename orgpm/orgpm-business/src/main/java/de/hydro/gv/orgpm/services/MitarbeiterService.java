@@ -51,23 +51,15 @@ public class MitarbeiterService {
 		return this.mitarbeiterDao.getMitarbeiterRolleByHydroId( hydroid );
 	}
 
-	// public Rolle getRolleByHydroId( String hydroid ) {
-	// return this.mitarbeiterDao.getRolleByHydroId( hydroid );
-	// }
-	//
-	// public Login getLoginByHydroId( String hydroid ) {
-	// return this.mitarbeiterDao.getLoginByHydroId( hydroid );
-	// }
-	//
-	// public Rolle getRolleById( Long id ) {
-	// return this.mitarbeiterDao.getRolleById( id );
-	// }
-
 	public List<RolleEnum> getAlleRollen() {
 		return this.mitarbeiterDao.readAllRollen();
 	}
 
 	public Login getLoginByMitarbeiter( String hydroid ) {
 		return this.mitarbeiterDao.getLoginByMitarbeiter( hydroid );
+	}
+
+	public void removeOldMitarbeiterProjekte( Mitarbeiter m ) {
+		this.mitarbeiterDao.removeOldMitarbeiterProjekte( m );
 	}
 }

@@ -1,6 +1,7 @@
 package de.hydro.gv.orgpm.services;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -37,6 +38,10 @@ public class ProjektService {
 
 	public Projekt getProjektById( Long id ) {
 		return this.projektDao.getProjektById( id );
+	}
+
+	public List<Projekt> getAlleZugelasseneProjekte( String hydroid ) {
+		return this.projektDao.getAlleZugelasseneProjekte( hydroid );
 	}
 
 }

@@ -7,7 +7,9 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -17,10 +19,17 @@ import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
+
 import de.hydro.gv.orgpm.auth.Login;
 import de.hydro.gv.orgpm.dao.LoginDao;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
+import de.hydro.gv.orgpm.data.MitarbeiterProjekte;
+import de.hydro.gv.orgpm.data.Projekt;
 import de.hydro.gv.orgpm.services.MitarbeiterService;
+import de.hydro.gv.orgpm.services.ProjektService;
 
 @RolesAllowed( "ADMIN" )
 @SessionScoped
@@ -33,13 +42,16 @@ public class MitarbeiterAktionen implements Serializable {
 	private MitarbeiterService mitarbeiterService;
 
 	@Inject
+	ProjektService projektService;
+
+	@Inject
 	private LoginAction loginAction;
 
 	@Inject
 	private LoginDao loginDao;
 
 	private Mitarbeiter mitarbeiter = new Mitarbeiter();
-
+	private DualListModel<Projekt> zugelasseneProjekte;
 	String neuesPasswort;
 
 	private ArrayList<Mitarbeiter> cachedMitarbeiterList;
@@ -58,6 +70,14 @@ public class MitarbeiterAktionen implements Serializable {
 
 	public void setNeuesPasswort( String neuesPasswort ) {
 		this.neuesPasswort = neuesPasswort;
+	}
+
+	public DualListModel<Projekt> getZugelasseneProjekte() {
+		return this.zugelasseneProjekte;
+	}
+
+	public void setZugelasseneProjekte( DualListModel<Projekt> zugelasseneProjekte ) {
+		this.zugelasseneProjekte = zugelasseneProjekte;
 	}
 
 	public Collection<Mitarbeiter> getAlleMitarbeiter() throws Exception {
@@ -149,6 +169,61 @@ public class MitarbeiterAktionen implements Serializable {
 		this.mitarbeiter.setPersonalNum( 0 );
 		this.mitarbeiter.setRolle( null );
 		this.mitarbeiter.setVorname( null );
+		this.mitarbeiter.setProjekte( null );
 	}
 
+	@PostConstruct
+	public void loadEnabledProjects() throws Exception {
+		List<Projekt> projekteSource = new ArrayList<Projekt>();
+		List<Projekt> projekteTarget = new ArrayList<Projekt>();
+
+		projekteSource = (List<Projekt>) this.projektService.getAlleProjekte();
+
+		try {
+			projekteTarget = this.projektService.getAlleZugelasseneProjekte( this.mitarbeiter.getHydroId() );
+		} catch ( Exception e ) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if( projekteTarget.size() != 0 ) {
+			List<Projekt> projsource = new ArrayList<Projekt>();
+			for ( Projekt p : projekteSource ) {
+				projsource.add( p );
+			}
+			for ( Projekt ps : projekteSource ) {
+				for ( Projekt pt : projekteTarget ) {
+					if( ps.equals( pt ) ) {
+						projsource.remove( ps );
+					}
+				}
+
+			}
+			projekteSource = projsource;
+		}
+
+		this.zugelasseneProjekte = new DualListModel<Projekt>( projekteSource, projekteTarget );
+
+	}
+
+	public void onTransfer( TransferEvent event ) {
+		if( event.isAdd() || event.isRemove() ) {
+			List<Projekt> projekte = this.zugelasseneProjekte.getTarget();
+			List<MitarbeiterProjekte> mprojekte = new ArrayList<MitarbeiterProjekte>();
+			for ( Projekt p : projekte ) {
+				MitarbeiterProjekte mprojekt = new MitarbeiterProjekte();
+				mprojekt.setMitarbeiter( this.mitarbeiter );
+				mprojekt.setProjekt( p );
+				mprojekte.add( mprojekt );
+			}
+			this.mitarbeiterService.removeOldMitarbeiterProjekte( this.mitarbeiter );
+			this.mitarbeiter.setProjekte( mprojekte );
+			;
+		}
+
+	}
+
+	public void onTabChange( TabChangeEvent event ) throws Exception {
+		this.loadEnabledProjects();
+	}
 }

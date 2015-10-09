@@ -30,7 +30,7 @@
 					<p:ajax listener="#{buchungActions.onProjektChange}"
 						update="activity" styleClass=".ui-selectonemenu-label" />
 					<f:converter converterId="projektConverter" />
-					<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
+					<f:selectItems var="proj" value="#{buchungActions.alleZugelasseneProjekte}"
 						itemLabel="#{proj.projektId}" />
 				</h:selectOneMenu>
 			</p:column>

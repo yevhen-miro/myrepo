@@ -3,7 +3,6 @@ package de.hydro.gv.orgpm.dao;
 import java.util.Collection;
 import java.util.List;
 
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -19,30 +18,8 @@ public class ProjektDao {
 	// CDI Annotation
 	private LogService logService;
 
-	private SessionContext sessionContext;
-
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	// @PostConstruct
-	// public void postConstruct() {
-	// this.logService.logMessage( "bean was created via PostConstruct" ); //
-	// @PostConstruct
-	// // creates
-	// // a
-	// // bean
-	// };
-	//
-	// @PreDestroy
-	// public void preDestroy() {
-	// this.logService.logMessage( "bean was removed via preDestroy" ); // kills
-	// // the
-	// // bean
-	// }
-	//
-	// public ProjektDao() {
-	//
-	// }
 
 	public void createProjekt( Projekt p ) {
 		this.entityManager.clear();
@@ -79,6 +56,11 @@ public class ProjektDao {
 
 	public Collection<Projekt> getProjektByMitarbeiterId( String hydroid ) {
 		return this.entityManager.createNamedQuery( "projekt.find.by.mitarbeiter", Projekt.class )
+				.setParameter( "hydroid", hydroid ).getResultList();
+	}
+
+	public List<Projekt> getAlleZugelasseneProjekte( String hydroid ) {
+		return this.entityManager.createNamedQuery( "projekt.find.ebabled.projects.by.mitarbeiter", Projekt.class )
 				.setParameter( "hydroid", hydroid ).getResultList();
 	}
 

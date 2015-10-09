@@ -21,9 +21,13 @@
 <cc:implementation>
 	<ui:decorate template="/WEB-INF/template.xhtml">
 		<ui:define name="content">
+			<p:growl id="msgs" showDetail="true" />
 			<p:outputLabel value="#{cc.attrs.contentTitle}" />
-			<p:accordionPanel>
+			<p:accordionPanel id="acc">
 
+				<p:ajax event="tabChange"
+					listener="#{mitarbeiterAktionen.onTabChange}"
+					update=":mitarbeiter:templateForm:acc" />
 				<p:tab title="Allgemeine Information">
 
 					<h:panelGrid columns="3">
@@ -83,7 +87,6 @@
 
 
 				<p:tab title="Zusätzliche Information">
-
 					<p:outputLabel value="Geburtsdatum" />
 					<p:calendar id="tf-gd" locale="de"
 						value="#{mitarbeiterAktionen.mitarbeiter.geburtsdatum}" />
@@ -103,10 +106,15 @@
 
 				<p:tab title="Zugelassene Projekte">
 
-					<p:pickList id="pickList"
-						value="#{projektAktionen.zugelasseneProjekte}" var="projects"
+
+					<p:pickList id="pickList" showSourceControls="true"
+						showTargetControls="true"
+						value="#{mitarbeiterAktionen.zugelasseneProjekte}" var="projects"
 						itemLabel="#{projects}" itemValue="#{projects}"
-						converter="projektConverter" />
+						converter="projektConverter">
+						<p:ajax event="transfer"
+							listener="#{mitarbeiterAktionen.onTransfer}" resetValues="true" />
+					</p:pickList>
 
 
 				</p:tab>

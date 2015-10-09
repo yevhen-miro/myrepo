@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.SessionContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -21,8 +20,6 @@ public class MitarbeiterDao {
 	@ImplByConsole
 	// CDI Annotation
 	private LogService logService;
-
-	private SessionContext sessionContext;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -88,10 +85,6 @@ public class MitarbeiterDao {
 
 	}
 
-	// public Rolle getRolleById( Long id ) {
-	// return this.entityManager.getReference( Rolle.class, id );
-	// }
-
 	public Mitarbeiter getMitarbeiterByName( String _name ) {
 		return (Mitarbeiter) this.entityManager.createNamedQuery( "mitarbeiter.find.by.lastName" )
 				.setParameter( "vorname", _name ).getSingleResult();
@@ -107,19 +100,14 @@ public class MitarbeiterDao {
 				.setParameter( "hydroid", hydroid ).getSingleResult().toString();
 	}
 
-	// public Rolle getRolleByHydroId( String hydroid ) {
-	// return (Rolle) this.entityManager.createNamedQuery(
-	// "mitarbeiter.get.rolle.by.hydroid" )
-	// .setParameter( "hydroid", hydroid ).getSingleResult();
-	// }
-	//
-	// public Login getLoginByHydroId( String hydroid ) {
-	// return (Login) this.entityManager.createNamedQuery( "login.find.login"
-	// ).setParameter( "hydroId", hydroid )
-	// .getSingleResult();
-
 	public Login getLoginByMitarbeiter( String hydroid ) {
 		return (Login) this.entityManager.createNamedQuery( "mitarbeiter.find.login.by.mitarbeiter" )
 				.setParameter( "hydroid", hydroid ).getSingleResult();
 	}
+
+	public void removeOldMitarbeiterProjekte( Mitarbeiter m ) {
+		this.entityManager.createNamedQuery( "mitarbeiter.delete.projects.by.mitarbeiter" )
+				.setParameter( "mitarbeiter", m ).executeUpdate();
+	}
+
 }

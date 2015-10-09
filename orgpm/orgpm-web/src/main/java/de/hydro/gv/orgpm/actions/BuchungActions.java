@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
@@ -24,9 +25,12 @@ import org.primefaces.event.SelectEvent;
 
 import de.hydro.gv.orgpm.data.Aktivitaet;
 import de.hydro.gv.orgpm.data.Buchung;
+import de.hydro.gv.orgpm.data.Projekt;
 import de.hydro.gv.orgpm.services.AktivitaetService;
 import de.hydro.gv.orgpm.services.BuchungService;
 import de.hydro.gv.orgpm.services.MitarbeiterService;
+import de.hydro.gv.orgpm.services.ProjektService;
+import de.hydro.gv.orgpm.util.InvalidDateException;
 import de.hydro.gv.orgpm.utils.TimingService;
 
 @ManagedBean
@@ -38,6 +42,9 @@ public class BuchungActions implements Serializable {
 
 	@Inject
 	private BuchungService buchungService;
+
+	@Inject
+	private ProjektService projektService;
 
 	@Inject
 	private MitarbeiterService mitarbeiterService;
@@ -77,8 +84,23 @@ public class BuchungActions implements Serializable {
 		return this.cachedBuchungList;
 	}
 
+	public Collection<Projekt> getAlleZugelasseneProjekte() throws Exception {
+		return this.projektService.getAlleZugelasseneProjekte( this.getHydroId().toUpperCase() );
+	}
+
 	@SuppressWarnings( "static-access" )
 	public String saveBuchung() throws Exception {
+		try {
+			this.buchungService.isTimeViolated( this.getHydroId().toUpperCase(), this.aktBuchung.getDatum(),
+					this.aktBuchung.getAnfangZeit(), this.aktBuchung.getEndeZeit() );
+		} catch ( InvalidDateException e ) {
+			String message = "Your date is not valid: " + e.getMessage();
+			FacesContext.getCurrentInstance().addMessage( null,
+					new FacesMessage( FacesMessage.SEVERITY_ERROR, message, null ) );
+			e.printStackTrace(); // Or use a logger.
+			return "buchungen";
+		}
+
 		this.aktBuchung.setMitarbeiter( this.mitarbeiterService.getMitarbeiterByHydroId( this.getHydroId()
 				.toUpperCase() ) );
 		this.aktBuchung.setMin( this.timingService.calculateMinutes( this.aktBuchung.getAnfangZeit(),
@@ -87,8 +109,6 @@ public class BuchungActions implements Serializable {
 				this.aktBuchung.getEndeZeit() ) ? new Date( this.timingService.PAUSE_V ) : null );
 		this.aktBuchung.setPauseBis( this.timingService.isPauseTime( this.aktBuchung.getAnfangZeit(),
 				this.aktBuchung.getEndeZeit() ) ? new Date( this.timingService.PAUSE_B ) : null );
-		// this.aktBuchung.setStd( (long) Math.floor( this.aktBuchung.getMin() /
-		// 60 ) );
 		this.aktBuchung.setStd( this.timingService.calculateHours( this.aktBuchung.getAnfangZeit(),
 				this.aktBuchung.getEndeZeit() ) );
 		this.buchungService.addBuchung( this.aktBuchung );
@@ -103,23 +123,10 @@ public class BuchungActions implements Serializable {
 		return null;
 	}
 
-	public void onDateSelect( SelectEvent event ) throws Exception {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		SimpleDateFormat format = new SimpleDateFormat( "dd.MM.yyyy" );
-		Date filterDate = (Date) event.getObject();
-		facesContext.addMessage( null,
-				new FacesMessage( FacesMessage.SEVERITY_INFO, "Date Selected", format.format( event.getObject() ) ) );
-		facesContext.addMessage( null, new FacesMessage( "Date selected" ) );
-		this.filterBuchungenByDate( filterDate );
-	}
-
-	public void onProjektChange() throws Exception {
-		if( this.aktBuchung.getProjekt() != null ) {
-			this.cachedAktivitaetenList = this.getAktivitaetenByProjekt();
-			this.aktBuchung.setActivities( this.cachedAktivitaetenList );
-		} else {
-			this.cachedAktivitaetenList = this.getAktivitaetenByProjekt();
-		}
+	public String updateBuchung() throws Exception {
+		this.buchungService.updateBuchung( this.aktBuchung );
+		this.cachedBuchungList = null;
+		return "projekte";
 	}
 
 	public String getHydroId() {
@@ -133,7 +140,12 @@ public class BuchungActions implements Serializable {
 	public Collection<Aktivitaet> getAktivitaetenByProjekt() throws Exception {
 		ArrayList<Aktivitaet> ret;
 		if( this.aktBuchung.getProjekt() == null ) {
-			ret = null;
+			List<Projekt> collection = (List<Projekt>) this.projektService.getProjekteByMitarbeiter( this.getHydroId()
+					.toUpperCase() );
+			this.aktBuchung.setProjekt( collection.get( 0 ) );
+			Collection<Aktivitaet> actEntities = this.aktivitaetService.getAktivitaetenByProjekt( this.aktBuchung
+					.getProjekt() );
+			ret = (ArrayList<Aktivitaet>) actEntities;
 		} else {
 			Collection<Aktivitaet> actEntities = this.aktivitaetService.getAktivitaetenByProjekt( this.aktBuchung
 					.getProjekt() );
@@ -167,17 +179,9 @@ public class BuchungActions implements Serializable {
 		this.aktBuchung.setProjekt( null );
 	}
 
-	public String updateBuchung() throws Exception {
-
-		this.buchungService.updateBuchung( this.aktBuchung );
-		this.cachedBuchungList = null;
-		return "projekte";
-	}
-
 	public void onCellEdit( CellEditEvent event ) throws Exception {
 		DataTable d = (DataTable) event.getSource();
 		Buchung b = (Buchung) d.getRowData();
-
 		Object oldValue = event.getOldValue();
 		Object newValue = event.getNewValue();
 
@@ -187,6 +191,25 @@ public class BuchungActions implements Serializable {
 					+ ", New:" + newValue );
 			this.buchungService.updateBuchung( b );
 			FacesContext.getCurrentInstance().addMessage( null, msg );
+		}
+	}
+
+	public void onDateSelect( SelectEvent event ) throws Exception {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		SimpleDateFormat format = new SimpleDateFormat( "dd.MM.yyyy" );
+		Date filterDate = (Date) event.getObject();
+		facesContext.addMessage( null,
+				new FacesMessage( FacesMessage.SEVERITY_INFO, "Date Selected", format.format( event.getObject() ) ) );
+		facesContext.addMessage( null, new FacesMessage( "Date selected" ) );
+		this.filterBuchungenByDate( filterDate );
+	}
+
+	public void onProjektChange() throws Exception {
+		if( this.aktBuchung.getProjekt() != null ) {
+			this.cachedAktivitaetenList = this.getAktivitaetenByProjekt();
+			this.aktBuchung.setActivities( this.cachedAktivitaetenList );
+		} else {
+			this.cachedAktivitaetenList = this.getAktivitaetenByProjekt();
 		}
 	}
 

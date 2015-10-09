@@ -1,8 +1,9 @@
 :TODO
 
-Mitarbeiter: zugelassene projekte
-Logische Prüfung buchungsdatum > als max buchungsdatum?
+
 Fehlermeldungen
+Validation
+Exception Handling
 Logging
 10. CSS + HTML5
 11. Statistics and Reports
@@ -21,6 +22,8 @@ DONE:
 9. Login authentication JAAS
 10. Mitarbeiter: Passwort verwaltung
 11. Aktivitäten in Projekte
+12. Mitarbeiter: zugelassene projekte
+13. Logische Prüfung buchungsdatum > als max buchungsdatum?
 
 
 select l.password from login l, mitarbeiter m where m.id = l.id and UPPER(m.hydroid)=UPPER(?)

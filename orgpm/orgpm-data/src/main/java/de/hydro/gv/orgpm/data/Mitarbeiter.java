@@ -36,6 +36,8 @@ import de.hydro.gv.orgpm.auth.RolleEnum;
 				query = "SELECT l FROM Login l, Mitarbeiter m WHERE l.mitarbeiter.id = m.id and m.hydroId = :hydroid" ),
 		@NamedQuery( name = "mitarbeiter.find.by.lastName",
 				query = "SELECT m FROM Mitarbeiter AS m WHERE m.vorname= :vorname" ),
+		@NamedQuery( name = "mitarbeiter.delete.projects.by.mitarbeiter",
+				query = "DELETE FROM MitarbeiterProjekte AS mp WHERE mp.mitarbeiter = :mitarbeiter" ),
 		@NamedQuery( name = "mitarbeiter.find.by.hydroid",
 				query = "SELECT m FROM Mitarbeiter AS m WHERE m.hydroId= :hydroid" ) } )
 public class Mitarbeiter implements Serializable {
@@ -55,10 +57,6 @@ public class Mitarbeiter implements Serializable {
 	@Column( name = "NACHNAME", length = 50 )
 	@NotNull
 	private String nachname;
-
-	// @Column( name = "PASSWORT", length = 300 )
-	// @NotNull
-	// private String passwort;
 
 	@Column( name = "GEBURTSDATUM" )
 	@Temporal( TemporalType.DATE )
@@ -99,30 +97,35 @@ public class Mitarbeiter implements Serializable {
 	@Enumerated( EnumType.STRING )
 	private RolleEnum rolle;
 
-	public RolleEnum getRolle() {
-		return this.rolle;
-	}
-
-	public void setRolle( RolleEnum rolle ) {
-		this.rolle = rolle;
-	}
-
-	public Login getLogin() {
-		return this.login;
-	}
-
-	public void setLogin( Login login ) {
-		this.login = login;
-	}
-
 	@OneToMany( mappedBy = "mitarbeiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	private List<MitarbeiterProjekte> projekte;
-
+	// @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+	// @JoinColumn( name = "M_PROJEKT" )
+	// @JoinTable( name = "MITARBEITER_PROJEKTE", joinColumns = @JoinColumn(
+	// name = "mitarbeiter_id" ),
+	// inverseJoinColumns = @JoinColumn( name = "projekt_id" ) )
+	// private List<Projekt> projekte;
+	// public List<Projekt> getProjekte() {
+	// return this.projekte;
+	// }
+	//
+	// public void setProjekte( List<Projekt> projekte ) {
+	// this.projekte = projekte;
+	// }
 	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
 	@PrimaryKeyJoinColumn
 	private Login login;
 
 	public Mitarbeiter( Integer id, String vorname, String name, String gruppe, String mitarbeiterkennung ) {
+	}
+
+	public Mitarbeiter( String vorname, String name, String gruppe ) {
+		this.vorname = vorname;
+		this.nachname = name;
+		this.gruppe = gruppe;
+	}
+
+	public Mitarbeiter() {
 	}
 
 	public String getGruppe() {
@@ -181,15 +184,6 @@ public class Mitarbeiter implements Serializable {
 		this.kuendigungsdatum = kuendigungsdatum;
 	}
 
-	public Mitarbeiter() {
-	}
-
-	public Mitarbeiter( String vorname, String name, String gruppe ) {
-		this.vorname = vorname;
-		this.nachname = name;
-		this.gruppe = gruppe;
-	}
-
 	public String getMitarbeiterkennung() {
 		return this.mitarbeiterkennung;
 	}
@@ -246,9 +240,29 @@ public class Mitarbeiter implements Serializable {
 		this.kartenNum = kartenNum;
 	}
 
-	// public String getPasswort() {
-	// return this.passwort;
-	// }
+	public RolleEnum getRolle() {
+		return this.rolle;
+	}
+
+	public void setRolle( RolleEnum rolle ) {
+		this.rolle = rolle;
+	}
+
+	public Login getLogin() {
+		return this.login;
+	}
+
+	public void setLogin( Login login ) {
+		this.login = login;
+	}
+
+	public List<MitarbeiterProjekte> getProjekte() {
+		return this.projekte;
+	}
+
+	public void setProjekte( List<MitarbeiterProjekte> projekte ) {
+		this.projekte = projekte;
+	}
 
 	@Override
 	public boolean equals( Object obj ) {
