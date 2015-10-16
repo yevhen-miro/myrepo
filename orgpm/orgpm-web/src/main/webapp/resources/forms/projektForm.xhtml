@@ -26,8 +26,8 @@
 	<ui:decorate template="/WEB-INF/template.xhtml">
 
 		<ui:define name="content">
-				<p:outputLabel value="#{cc.attrs.contentTitle}"/>
-			<h:form id="projektForm">
+			<p:outputLabel value="#{cc.attrs.contentTitle}" />
+		
 				<p:accordionPanel id="activityPanel">
 					<p:tab id="tab1" title="Projekt info">
 						<h:panelGrid columns="3">
@@ -120,6 +120,7 @@
 										target="#{aktivitaetAktionen.aktAktivitaet}" />
 									<f:param name="aktivitaetId" value="#{activity.id}" />
 									<f:param name="faces-redirect" value="true" />
+									<f:param name="pageFrom" value="#{view.viewId}" />
 								</p:commandLink>
 							</p:column>
 
@@ -128,13 +129,14 @@
 								<h:outputText value="#{activity.planaufwand}" />
 							</p:column>
 
-							<p:column headerText="Löschen" style="width:55px">
-								<p:commandButton icon="ui-icon-close"
-									action="#{aktivitaetAktionen.removeAktivitaet()}" ajax="false"
-									style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+							<p:column style="width:2%">
+								<p:commandLink value="" process="@this"
+									action="#{aktivitaetAktionen.removeAktivitaet()}"
+									styleClass="ui-icon ui-icon-trash"
+									ajax="false" >
 									<f:setPropertyActionListener value="#{activity}"
 										target="#{aktivitaetAktionen.aktAktivitaet}" />
-								</p:commandButton>
+								</p:commandLink>
 							</p:column>
 
 						</p:dataTable>
@@ -143,7 +145,7 @@
 						<dialogs:activityDialog
 							actButtonAction="#{aktivitaetAktionen.addAktivitaet()}"
 							actButtonLabel="Hinzufügen"
-							update=":projektMaske:templateForm:projektForm:activityPanel:tableActivities"
+							update=":projektMaske:templateForm:activityPanel:tableActivities"
 							widgetName="dialogActivity">
 						</dialogs:activityDialog>
 
@@ -156,7 +158,7 @@
 
 
 				</p:accordionPanel>
-			</h:form>
+		
 		</ui:define>
 
 		<ui:define name="action">
@@ -165,7 +167,7 @@
 				value="#{cc.attrs.buttonLabel}" ajax="true" />
 
 			<p:commandButton
-				update=":projektMaske:templateForm:projektForm:activityPanel:dialogForm:"
+				update=":projektMaske:templateForm:activityPanel:dialogForm:"
 				value="Aktivität hinzufügen" type="reset"
 				onclick="PF('dialogActivity').show();"
 				oncomplete="PF('dialogActivity').reset()">

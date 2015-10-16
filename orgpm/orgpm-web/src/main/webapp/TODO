@@ -4,7 +4,7 @@
 Fehlermeldungen
 Validation
 Exception Handling
-Logging
+
 10. CSS + HTML5
 11. Statistics and Reports
 
@@ -24,6 +24,7 @@ DONE:
 11. Aktivitäten in Projekte
 12. Mitarbeiter: zugelassene projekte
 13. Logische Prüfung buchungsdatum > als max buchungsdatum?
+14. Logging
 
 
 select l.password from login l, mitarbeiter m where m.id = l.id and UPPER(m.hydroid)=UPPER(?)

@@ -24,17 +24,12 @@
 		<f:metadata>
 			<f:param name="act" valvalue="#{aktivitaetAktionen.aktAktivitaet.id}">
 			</f:param>
+			<f:viewParam name="pageFrom" value="#{aktivitaetAktionen.pageFrom}" />
 		</f:metadata>
 		<ui:define name="content">
 			<p:accordionPanel id="activitiesPanel">
 				<p:tab id="act1" title="Aktivität info">
 					<h:panelGrid columns="4">
-
-						<p:outputLabel value="ID" />
-						<h:outputText value="&#160;" />
-						<p:inputText id="af-id"
-							value="#{aktivitaetAktionen.aktAktivitaet.id}" />
-						<h:messages for="af-id" styleClass="error" />
 
 
 						<p:outputLabel value="Projekt" />
@@ -91,8 +86,10 @@
 			<p:commandButton action="#{cc.attrs.buttonAction}"
 				value="#{cc.attrs.buttonLabel}" ajax="true" />
 
-			<p:commandButton action="projekt-edit.xhtml?faces-redirect=true"
-				value="Zurück" immediate="true" />
+			<p:commandButton action="/verwaltung/projekte.xhtml?faces-redirect=true"
+				value="Zurück" immediate="true">
+				
+				 </p:commandButton>
 
 		</ui:define>
 

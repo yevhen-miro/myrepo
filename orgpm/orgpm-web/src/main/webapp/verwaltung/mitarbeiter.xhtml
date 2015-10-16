@@ -11,7 +11,8 @@
 	<ui:define name="content">
 
 		<p:dataTable value="#{mitarbeiterAktionen.alleMitarbeiter}"
-			var="actMitarbeiter" editable="false" resizableColumns="false">
+			var="actMitarbeiter" editable="false" resizableColumns="false"
+			rowKey="#{actMitarbeiter.id}">
 			<f:facet name="header">
            Mitarbeiterinformation
        </f:facet>
@@ -19,10 +20,8 @@
 			<p:column headerText="Hydro ID" sortBy="#{actMitarbeiter.hydroId}"
 				style="width:8%">
 				<p:commandLink value="#{actMitarbeiter.hydroId.toLowerCase()}"
-					action="mitarbeiter-edit">
-					<f:setPropertyActionListener value="#{actMitarbeiter}"
-						target="#{mitarbeiterAktionen.mitarbeiter}" />
-					<f:param name="ma-id" value="#{actM.id}" />
+					action="mitarbeiter-edit" >
+					<f:param name="ma-id" value="#{actMitarbeiter.id}" />
 					<f:param name="faces-redirect" value="true" />
 				</p:commandLink>
 			</p:column>
@@ -70,13 +69,13 @@
 			</p:column>
 
 
-			<p:column headerText="Löschen" style="width:6%">
-				<p:commandButton icon="ui-icon-close"
-					action="#{mitarbeiterAktionen.removeMitarbeiter()}" ajax="false"
-					style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+			<p:column style="width:3%">
+				<p:commandLink value =""
+					action="#{mitarbeiterAktionen.removeMitarbeiter()}" ajax="false" 
+					styleClass="ui-icon ui-icon-trash">
 					<f:setPropertyActionListener value="#{actMitarbeiter}"
 						target="#{mitarbeiterAktionen.mitarbeiter}" />
-				</p:commandButton>
+				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>

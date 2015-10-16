@@ -44,16 +44,30 @@ public class BuchungService {
 
 	public Boolean isTimeViolated( String hydroid, Date date, Date azeit, Date ezeit ) throws Exception {
 		Boolean ret = false;
+		if( azeit == null || ezeit == null ) {
+			throw new InvalidDateException( "Anfangszeit / Endezeit darf nicht null sein" );
+		}
+		if( azeit.after( ezeit ) ) {
+			throw new InvalidDateException( "Die Anfangszeit muss kleiner Endezeit sein" );
+		}
 		for ( Buchung b : this.getBuchungenByMitarbeiter( hydroid, date ) ) {
 			if( azeit.after( b.getAnfangZeit() ) && azeit.before( b.getEndeZeit() ) || ezeit.after( b.getAnfangZeit() )
 					&& ezeit.before( b.getEndeZeit() ) || azeit.after( b.getAnfangZeit() )
 					&& azeit.before( b.getEndeZeit() ) ) {
 				ret = true;
-				throw new InvalidDateException( "Your date is not valid" );
+				throw new InvalidDateException( "Die Aktivitätszeit wurde schon gebucht " );
 			}
 			ret = false;
 		}
 		return ret;
 
+	}
+
+	public Long findDurationByDate( String hydroid, Date date ) throws Exception {
+		return this.buchungDao.findDurationByDate( hydroid, date );
+	}
+
+	public Buchung getBuchungById( Long id ) {
+		return this.buchungDao.getBuchungById( id );
 	}
 }

@@ -31,6 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 @NamedQueries( {
 		@NamedQuery( name = "buchung.delete.all", query = "DELETE FROM Buchung" ),
 		@NamedQuery( name = "buchung.find.all", query = "SELECT b FROM Buchung AS b" ),
+		@NamedQuery( name = "buchung.find.duration.by.date",
+				query = "SELECT sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id "
+						+ " AND m.hydroId = :hydroid and b.datum = :datum" ),
 		@NamedQuery(
 				name = "buchung.find.duration.by.mitarbeiter",
 				query = "SELECT b.datum,sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid group by b.datum" ),
@@ -66,7 +69,7 @@ public class Buchung implements Serializable {
 		this.mitarbeiter = mitarbeiter;
 	}
 
-	@ManyToOne( fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE } )
+	@ManyToOne( fetch = FetchType.LAZY, cascade = { CascadeType.MERGE } )
 	@JoinColumn( name = "AKTIVITAET", foreignKey = @ForeignKey( name = "FK_BUCHUNG_AKTIVITAET" ) )
 	private Aktivitaet aktivitaet;
 

@@ -8,17 +8,20 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 
+import org.jboss.logging.Logger;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -32,11 +35,11 @@ import de.hydro.gv.orgpm.services.MitarbeiterService;
 import de.hydro.gv.orgpm.services.ProjektService;
 
 @RolesAllowed( "ADMIN" )
-@SessionScoped
+@ViewScoped
 @Named
 public class MitarbeiterAktionen implements Serializable {
-
 	private static final long serialVersionUID = 7278252373699029199L;
+	private static final Logger logger = Logger.getLogger( MitarbeiterAktionen.class );
 
 	@Inject
 	private MitarbeiterService mitarbeiterService;
@@ -53,6 +56,7 @@ public class MitarbeiterAktionen implements Serializable {
 	private Mitarbeiter mitarbeiter = new Mitarbeiter();
 	private DualListModel<Projekt> zugelasseneProjekte;
 	String neuesPasswort;
+	private boolean loaded = false;
 
 	private ArrayList<Mitarbeiter> cachedMitarbeiterList;
 
@@ -97,18 +101,21 @@ public class MitarbeiterAktionen implements Serializable {
 		log.setMitarbeiter( this.mitarbeiter );
 		log.setPassword( this.encryptPassword( this.getNeuesPasswort() ) );
 		this.loginDao.createLogin( log );
+		logger.infov( "Ein neuer Mitarbeiter -{0}- wurde hinzugefügt.", this.mitarbeiter.getHydroId() );
 		this.mitarbeiterService.updateMitarbeiter( this.mitarbeiter );
 		this.cachedMitarbeiterList = null;
 		return "mitarbeiter";
 	}
 
 	public String removeMitarbeiter() throws Exception {
+		logger.infov( "Der Mitarbeiter -{0}- wurde gelöscht.", this.mitarbeiter.getHydroId() );
 		this.mitarbeiterService.deleteMitarbeiter( this.mitarbeiter );
 		this.cachedMitarbeiterList = null;
 		return null;
 	}
 
 	public String updateMitarbeiter() throws Exception {
+		logger.infov( "Der Mitarbeiter -{0}- wurde aktualisiert.", this.mitarbeiter.getHydroId() );
 		this.mitarbeiterService.updateMitarbeiter( this.mitarbeiter );
 		this.cachedMitarbeiterList = null;
 		return "mitarbeiter";
@@ -172,7 +179,7 @@ public class MitarbeiterAktionen implements Serializable {
 		this.mitarbeiter.setProjekte( null );
 	}
 
-	@PostConstruct
+	// @PostConstruct
 	public void loadEnabledProjects() throws Exception {
 		List<Projekt> projekteSource = new ArrayList<Projekt>();
 		List<Projekt> projekteTarget = new ArrayList<Projekt>();
@@ -206,7 +213,7 @@ public class MitarbeiterAktionen implements Serializable {
 
 	}
 
-	public void onTransfer( TransferEvent event ) {
+	public void onTransfer( TransferEvent event ) throws Exception {
 		if( event.isAdd() || event.isRemove() ) {
 			List<Projekt> projekte = this.zugelasseneProjekte.getTarget();
 			List<MitarbeiterProjekte> mprojekte = new ArrayList<MitarbeiterProjekte>();
@@ -223,7 +230,27 @@ public class MitarbeiterAktionen implements Serializable {
 
 	}
 
+	@PostConstruct
+	public void init() throws Exception {
+		/** Mitarbeiter aus DB lesen */
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String mitarbeiterId = params.get( "ma-id" );
+		if( mitarbeiterId != null && !mitarbeiterId.equals( "" ) && !this.loaded ) {
+			try {
+				this.mitarbeiter = this.mitarbeiterService.getMitarbeiterById( new Long( mitarbeiterId ) );
+				this.mitarbeiter.setId( new Long( mitarbeiterId ) );
+				this.loaded = true;
+			} catch ( Exception e ) {
+				FacesContext.getCurrentInstance().addMessage( null,
+						new FacesMessage( FacesMessage.SEVERITY_INFO, "Mitarbeiter ist nicht vorhanden.", null ) );
+				logger.warnv( e, "Mitarbeiter {0} nicht gefunden", mitarbeiterId );
+			}
+		}
+		this.loadEnabledProjects();
+	}
+
 	public void onTabChange( TabChangeEvent event ) throws Exception {
 		this.loadEnabledProjects();
 	}
+
 }

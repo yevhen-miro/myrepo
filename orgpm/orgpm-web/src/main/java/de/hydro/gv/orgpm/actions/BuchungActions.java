@@ -2,12 +2,13 @@ package de.hydro.gv.orgpm.actions;
 
 import java.io.Serializable;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -19,6 +20,7 @@ import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.logging.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -31,15 +33,18 @@ import de.hydro.gv.orgpm.services.BuchungService;
 import de.hydro.gv.orgpm.services.MitarbeiterService;
 import de.hydro.gv.orgpm.services.ProjektService;
 import de.hydro.gv.orgpm.util.InvalidDateException;
+import de.hydro.gv.orgpm.util.Logged;
 import de.hydro.gv.orgpm.utils.TimingService;
 
 @ManagedBean
 @ViewScoped
+@Logged
 public class BuchungActions implements Serializable {
 	private static final long serialVersionUID = 8776872386309781977L;
+	private static final Logger logger = Logger.getLogger( BuchungActions.class );
 
 	private Buchung aktBuchung = new Buchung();
-
+	private boolean loaded = false;
 	@Inject
 	private BuchungService buchungService;
 
@@ -90,15 +95,23 @@ public class BuchungActions implements Serializable {
 
 	@SuppressWarnings( "static-access" )
 	public String saveBuchung() throws Exception {
+
+		if( this.aktBuchung.getDatum() == null ) {
+			String message = "Das Datum darf nicht leer sein";
+			FacesContext.getCurrentInstance().addMessage( null,
+					new FacesMessage( FacesMessage.SEVERITY_ERROR, message, null ) );
+			logger.warnv( "Benutzer {0} hat ein Eingabefehler : {1}", this.getHydroId(), message );
+			return null;
+		}
+
 		try {
 			this.buchungService.isTimeViolated( this.getHydroId().toUpperCase(), this.aktBuchung.getDatum(),
 					this.aktBuchung.getAnfangZeit(), this.aktBuchung.getEndeZeit() );
 		} catch ( InvalidDateException e ) {
-			String message = "Your date is not valid: " + e.getMessage();
 			FacesContext.getCurrentInstance().addMessage( null,
-					new FacesMessage( FacesMessage.SEVERITY_ERROR, message, null ) );
-			e.printStackTrace(); // Or use a logger.
-			return "buchungen";
+					new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(), null ) );
+			logger.warnv( "Benutzer {0} hat ein Eingabefehler : {1}", this.getHydroId(), e.toString() );
+			return null;
 		}
 
 		this.aktBuchung.setMitarbeiter( this.mitarbeiterService.getMitarbeiterByHydroId( this.getHydroId()
@@ -111,6 +124,9 @@ public class BuchungActions implements Serializable {
 				this.aktBuchung.getEndeZeit() ) ? new Date( this.timingService.PAUSE_B ) : null );
 		this.aktBuchung.setStd( this.timingService.calculateHours( this.aktBuchung.getAnfangZeit(),
 				this.aktBuchung.getEndeZeit() ) );
+		logger.infov( "Der Benutzer {0} hat eine neue Buchung -{1}- für {2} erfasst.", this.getHydroId(),
+				this.aktBuchung.getTaetigkeiten(), this.aktBuchung.getDatum().toString() );
+		this.setDate( this.aktBuchung.getDatum() );
 		this.buchungService.addBuchung( this.aktBuchung );
 		this.cachedBuchungList = null;
 		this.aktBuchung = null;
@@ -118,15 +134,19 @@ public class BuchungActions implements Serializable {
 	}
 
 	public String removeBuchung() throws Exception {
+		logger.infov( "Der Benutzer {0} hat die Buchung -{1}- von {2} gelöscht.", this.getHydroId(),
+				this.aktBuchung.getTaetigkeiten(), this.aktBuchung.getDatum().toString() );
 		this.buchungService.deleteBuchung( this.aktBuchung );
 		this.clearSessionCache();
 		return null;
 	}
 
 	public String updateBuchung() throws Exception {
+		logger.infov( "Der Benutzer {0} hat die Buchung -{1}- von {2} aktualisiert.", this.getHydroId(),
+				this.aktBuchung.getTaetigkeiten(), this.aktBuchung.getDatum().toString() );
 		this.buchungService.updateBuchung( this.aktBuchung );
 		this.cachedBuchungList = null;
-		return "projekte";
+		return "/buchungen/buchungen.xhtml";
 	}
 
 	public String getHydroId() {
@@ -142,7 +162,11 @@ public class BuchungActions implements Serializable {
 		if( this.aktBuchung.getProjekt() == null ) {
 			List<Projekt> collection = (List<Projekt>) this.projektService.getProjekteByMitarbeiter( this.getHydroId()
 					.toUpperCase() );
-			this.aktBuchung.setProjekt( collection.get( 0 ) );
+			if( collection != null ) {
+				this.aktBuchung.setProjekt( collection.get( 0 ) );
+			} else {
+				ret = null;
+			}
 			Collection<Aktivitaet> actEntities = this.aktivitaetService.getAktivitaetenByProjekt( this.aktBuchung
 					.getProjekt() );
 			ret = (ArrayList<Aktivitaet>) actEntities;
@@ -195,12 +219,8 @@ public class BuchungActions implements Serializable {
 	}
 
 	public void onDateSelect( SelectEvent event ) throws Exception {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		SimpleDateFormat format = new SimpleDateFormat( "dd.MM.yyyy" );
 		Date filterDate = (Date) event.getObject();
-		facesContext.addMessage( null,
-				new FacesMessage( FacesMessage.SEVERITY_INFO, "Date Selected", format.format( event.getObject() ) ) );
-		facesContext.addMessage( null, new FacesMessage( "Date selected" ) );
+		this.setDate( filterDate );
 		this.filterBuchungenByDate( filterDate );
 	}
 
@@ -213,4 +233,46 @@ public class BuchungActions implements Serializable {
 		}
 	}
 
+	public Long findDurationAsLong() throws Exception {
+		return this.buchungService.findDurationByDate( this.getHydroId().toUpperCase(), this.getDate() );
+	}
+
+	public String findDurationByDate() throws Exception {
+		Long t = this.buchungService.findDurationByDate( this.getHydroId().toUpperCase(), this.getDate() );
+		if( t == null ) {
+			t = new Long( 0 );
+		}
+		int hours = (int) Math.floor( t / 60 );
+		int minutes = (int) ( t % 60 );
+		return String.format( "%d:%02d", hours, minutes );
+	}
+
+	public String calculateRest() throws Exception {
+		Long t = this.buchungService.findDurationByDate( this.getHydroId().toUpperCase(), this.getDate() );
+		if( t == null ) {
+			t = new Long( 0 );
+		}
+		Long rest = 480 - t;
+		int hours = (int) Math.floor( rest / 60 );
+		int minutes = (int) ( rest % 60 );
+		return String.format( "%d:%02d", hours, minutes );
+	}
+
+	@PostConstruct
+	public void init() throws Exception {
+		/** Buchung aus DB lesen */
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String buchungId = params.get( "buchung" );
+		if( buchungId != null && !buchungId.equals( "" ) && !this.loaded ) {
+			try {
+				this.aktBuchung = this.buchungService.getBuchungById( new Long( buchungId ) );
+				this.aktBuchung.setId( new Long( buchungId ) );
+				this.loaded = true;
+			} catch ( Exception e ) {
+				FacesContext.getCurrentInstance().addMessage( null,
+						new FacesMessage( FacesMessage.SEVERITY_INFO, "Buchung ist nicht vorhanden.", null ) );
+				logger.warnv( e, "Aktivität {0} nicht gefunden", buchungId );
+			}
+		}
+	}
 }

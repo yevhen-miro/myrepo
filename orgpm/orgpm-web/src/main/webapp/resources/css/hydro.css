@@ -98,6 +98,19 @@ width: 100px;
 	background: #cc0000 !important;
 }
 
+.banner {
+	position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.panel {
+	width:260px;
+	height:10px;
+	border-color: #cc0000!important;
+	background: #cc0000 !important;
+}
+
 .separatorActions {
 	width:260px;
 	height:10px;

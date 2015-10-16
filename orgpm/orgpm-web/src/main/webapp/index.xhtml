@@ -9,7 +9,16 @@
 	xmlns:comps="http://java.sun.com/jsf/composite/forms">
 
 <ui:composition template="/WEB-INF/template.xhtml">
-	<ui:define name="navigation">
+	<ui:define name="content">
+
+
+		<h3>Line Chart</h3>
+
+		<p:chart type="pie" model="#{charts.pieModel}" />
+		<p:chart type="line" model="#{charts.lineChartModel}" />
+		<p:chart type="line" model="#{charts.dateModel}" style="height:400px;" />
+
+
 	</ui:define>
 </ui:composition>
 

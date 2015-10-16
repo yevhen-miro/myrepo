@@ -4,6 +4,12 @@
 	version="3.1">
 
 	<display-name>orgpm</display-name>
+
+	<listener>
+		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+	</listener>
+
+
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -29,14 +35,32 @@
 		<param-value>blitzer</param-value>
 	</context-param>
 
+	<context-param>
+		<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<session-config>
+		<session-timeout>480</session-timeout>
+	</session-config>
+
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>/pages/index.xhtml</welcome-file>
+		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
+
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/index.xhtml?faces-redirect=true</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.enterprise.context.NonexistentConversationException</exception-type>
+		<location>/index.xhtml?nocid=true</location>
+	</error-page>
 
 	<context-param>
 		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
@@ -44,24 +68,33 @@
 	</context-param>
 
 	<!-- Protected Areas -->
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Angemeldete Benutzer</web-resource-name>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>*</role-name>
-		</auth-constraint>
-	</security-constraint>
+
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Admin</web-resource-name>
-			<url-pattern>/orgpm/*</url-pattern>
+			<url-pattern>/verwaltung/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>ADMIN</role-name>
 		</auth-constraint>
 	</security-constraint>
+	<security-role>
+		<role-name>ADMIN</role-name>
+	</security-role>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>User</web-resource-name>
+			<url-pattern>/buchungen/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>USER</role-name>
+			<role-name>ADMIN</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<role-name>USER</role-name>
+	</security-role>
 
 	<!-- Validation By Form -->
 	<login-config>
@@ -72,12 +105,7 @@
 		</form-login-config>
 	</login-config>
 
-	<!-- Allowed Roles -->
-	<security-role>
-		<role-name>STAMMDATEN</role-name>
-	</security-role>
-	<security-role>
-		<role-name>ADMIN</role-name>
-	</security-role>
+
+
 
 </web-app>

@@ -74,7 +74,7 @@ public class Projekt implements Serializable {
 	@Column( name = "wartung" )
 	private boolean wartungsprojekt;
 
-	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
+	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH )
 	private List<Aktivitaet> aktivitaeten;
 
 	public Projekt() {

@@ -17,7 +17,7 @@
        </f:facet>
 
 			<p:column headerText="Projektname" sortBy="#{actProjekt.projektId}"
-				style="width:12%">
+				style="width:11%">
 				<p:commandLink value="#{actProjekt.projektId}" action="projekt-edit">
 					<f:setPropertyActionListener value="#{actProjekt}"
 						target="#{projektAktionen.projekt}" />
@@ -31,7 +31,7 @@
 				<h:outputText value="#{actProjekt.planaufwand}" />
 			</p:column>
 
-			<p:column headerText="Name" style="width:20%">
+			<p:column headerText="Name" style="width:27%">
 				<h:outputText value="#{actProjekt.projektName}" />
 			</p:column>
 
@@ -70,13 +70,13 @@
 					<h:outputText value="#{actProjekt.storniertesProjekt}" />
 				</p:column>
 			</ui:remove>
-			<p:column headerText="Löschen" style="width:8%">
-				<p:commandButton icon="ui-icon-close"
+			<p:column style="width:3%">
+				<p:commandLink value=""
 					action="#{projektAktionen.removeProjekt()}" ajax="false"
-					style="text-align: center; margin-left:auto; margin-right:auto; display: block">
+					styleClass="ui-icon ui-icon-trash">
 					<f:setPropertyActionListener value="#{actProjekt}"
 						target="#{projektAktionen.projekt}" />
-				</p:commandButton>
+				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>

@@ -12,6 +12,8 @@
 <cc:interface>
 	<cc:attribute name="contentTitle" required="true" />
 	<cc:attribute name="disableForUpdate" required="true" />
+	<cc:attribute name="disableProjekte" required="true" />
+	<cc:attribute name="disableAjax" required="true" />
 	<cc:attribute name="buttonLabel" required="true"></cc:attribute>
 	<cc:attribute name="buttonAction"
 		method-signature="java.lang.String action()" required="true"></cc:attribute>
@@ -21,13 +23,16 @@
 <cc:implementation>
 	<ui:decorate template="/WEB-INF/template.xhtml">
 		<ui:define name="content">
-			<p:growl id="msgs" showDetail="true" />
+
+
 			<p:outputLabel value="#{cc.attrs.contentTitle}" />
 			<p:accordionPanel id="acc">
 
 				<p:ajax event="tabChange"
 					listener="#{mitarbeiterAktionen.onTabChange}"
-					update=":mitarbeiter:templateForm:acc" />
+					update=":mitarbeiter:templateForm:acc"
+					disabled="#{cc.attrs.disableAjax}" />
+
 				<p:tab title="Allgemeine Information">
 
 					<h:panelGrid columns="3">
@@ -35,21 +40,25 @@
 						<p:outputLabel value="Hydro ID" />
 						<p:inputText id="tf-hi"
 							value="#{mitarbeiterAktionen.mitarbeiter.hydroId}"
-							disabled="#{cc.attrs.disableForUpdate}" />
-						<h:messages for="tf-hi" styleClass="error" />
+							required="true" disabled="#{cc.attrs.disableForUpdate}"
+							requiredMessage="Bitte Hydro Kennung eingeben (a12345)">
+						</p:inputText>
+						<p:message for="tf-hi" styleClass="error" />
+
 
 						<p:outputLabel value="Vorname" />
 						<p:inputText id="tf-fn"
 							value="#{mitarbeiterAktionen.mitarbeiter.vorname}"
-							disabled="#{cc.attrs.disableForUpdate}" />
-						<h:messages for="tf-fn" styleClass="error" />
+							required="true" disabled="#{cc.attrs.disableForUpdate}"
+							requiredMessage="Bitte Mitarbeiter Vorname eingeben" />
+						<p:message for="tf-fn" styleClass="error" />
 
 						<p:outputLabel value="Nachname" />
-						<p:inputText id="tf-ln"
-							value="#{mitarbeiterAktionen.mitarbeiter.name}"
-							disabled="#{cc.attrs.disableForUpdate}" />
-						<h:messages for="tf-ln" styleClass="error" />
-
+						<p:inputText id="tf-fns"
+							value="#{mitarbeiterAktionen.mitarbeiter.name}" required="true"
+							disabled="#{cc.attrs.disableForUpdate}"
+							requiredMessage="Bitte Mitarbeiter Nachname eingeben" />
+						<p:message for="tf-fns" styleClass="error" />
 
 						<p:outputLabel value="GAP" />
 						<p:inputText id="tf-mk"
@@ -78,7 +87,8 @@
 
 						<p:outputLabel value="Bemerkung" />
 						<p:inputText id="tf-bm"
-							value="#{mitarbeiterAktionen.mitarbeiter.bemerkung}" />
+							value="#{mitarbeiterAktionen.mitarbeiter.bemerkung}"
+							autocomplete="off" />
 						<h:messages for="tf-bm" styleClass="error" />
 
 					</h:panelGrid>
@@ -104,7 +114,8 @@
 
 				</p:tab>
 
-				<p:tab title="Zugelassene Projekte">
+				<p:tab title="Zugelassene Projekte"
+					rendered="#{cc.attrs.disableProjekte}">
 
 
 					<p:pickList id="pickList" showSourceControls="true"
@@ -130,11 +141,12 @@
 
 				</p:tab>
 
-				<p:tab title="Passwort" disabled="#{cc.attrs.disableForUpdate}">
+				<p:tab title="Passwort" rendered="#{!cc.attrs.disableForUpdate}">
 					<h:panelGrid columns="3">
 						<p:outputLabel value="Passwort" />
-						<p:password value="#{mitarbeiterAktionen.neuesPasswort}"></p:password>
-
+						<p:password id="tf-pw" value="#{mitarbeiterAktionen.neuesPasswort}" required="true" 
+						requiredMessage="Bitte das Initial-Passwort eingeben"></p:password>
+						<p:message for="tf-pw" styleClass="error" />
 					</h:panelGrid>
 				</p:tab>
 
@@ -144,7 +156,7 @@
 
 		<ui:define name="action">
 			<p:commandButton action="#{cc.attrs.buttonAction}"
-				value="#{cc.attrs.buttonLabel}" ajax="true" />
+				value="#{cc.attrs.buttonLabel}" ajax="false" />
 
 			<p:commandButton action="mitarbeiter.xhtml?faces-redirect=true"
 				value="Zurück" immediate="true" />

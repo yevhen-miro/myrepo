@@ -16,55 +16,79 @@
 	<h:outputStylesheet name="css/hydro.css" />
 </h:head>
 <body>
-	<h:form id="templateForm">
+	<h:form id="templateForm" autocomplete="off">
+	<p:growl id="msgs"></p:growl>
+
+		
 		<div class="col-lg-12 col-md-12">
 			<ui:insert name="header">
-				<p:menubar style="width:100%;">
-					<p:submenu label="Mitarbeiter">
-						<p:menuitem value="Mitarbeiter" url="/mitarbeiter.xhtml" />
-					</p:submenu>
 
-					<p:submenu label="Projekte">
-						<p:menuitem value="Projekte" url="/projekte.xhtml" />
-					</p:submenu>
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-2">
+						<h:graphicImage value="/resources/img/Hydro_logo.png" width="50%"
+							height="50%" />
+					</div>
+					<div class="ui-grid-col-10">
+						<p:menubar style="width:100%;">
+							<p:submenu label="Mitarbeiter">
+								<p:menuitem value="Mitarbeiter"
+									url="/verwaltung/mitarbeiter.xhtml" />
+							</p:submenu>
 
-					<p:submenu label="Aktivitäten">
-						<p:menuitem value="Aktivitäten" url="/aktivitaeten.xhtml" />
-					</p:submenu>
+							<p:submenu label="Projekte">
+								<p:menuitem value="Projekte" url="/verwaltung/projekte.xhtml" />
+							</p:submenu>
 
-					<p:submenu label="Buchungen">
-						<p:menuitem value="Buchungen" url="/buchungen.xhtml" />
-					</p:submenu>
+							<p:submenu label="Aktivitäten">
+								<p:menuitem value="Aktivitäten"
+									url="/verwaltung/aktivitaeten.xhtml" />
+							</p:submenu>
 
-					<p:submenu label="Berichte">
-						<p:menuitem value="Berichte" icon="ui-icon-gear"
-							url="/charts.xhtml" />
-					</p:submenu>
+							<p:submenu label="Buchungen">
+								<p:menuitem value="Buchungen" url="/buchungen/buchungen.xhtml" />
+							</p:submenu>
 
-					<p:submenu label="My account" icon="ui-icon-gear"
-						style="position:absolute; left: 80%; top:10px">
-						<p:menuitem value="Meine Information" url="/myinformation.xhtml" />
-						<p:menuitem value="Passwortverwaltung"
-							url="/passwortverwaltung.xhtml" />
-					</p:submenu>
+							<p:submenu label="Berichte">
+								<p:menuitem value="Berichte" icon="ui-icon-gear"
+									url="/charts.xhtml" />
+							</p:submenu>
 
 
+							<p:submenu label="#{securityActions.mitarbeiterByHydroId}"
+								icon="ui-icon-gear"
+								style="position:absolute; left: 64%; top:10px">
+								<p:menuitem value="Meine Information" url="/myinformation.xhtml" />
+								<p:menuitem value="Passwortverwaltung"
+									url="/passwortverwaltung.xhtml" />
+							</p:submenu>
 
-					<f:facet name="options">
 
-						<h:commandButton class="btn btn-default" immediate="true"
-							value="Logout" action="#{loginAction.logout()}"
-							style="float:right;" />
-						<ui:remove>
-							<h:inputText style="float:right;" class="btn"
-								pt:placeholder="Search" />
-						</ui:remove>
-					</f:facet>
-				</p:menubar>
-				<h:outputLabel value="0.0.1-SNAPSHOT"
-					style="float:right;font-size:12px;font-style:italic;font-weight:bold;margin-top:10px;" />
-				<h:outputLabel value="ORGPM2.0"
-					style="float:right;font-size:22px;font-style:italic;font-weight:bold;margin-right:25px;" />
+
+							<f:facet name="options">
+								<ui:remove>
+									<p:inplace>
+										<p:link value="#{securityActions.mitarbeiterByHydroId}"
+											outcome="/myinformation.xhtml" icon="ui-icon-gear"
+											style=" text-align:right; float:middle">
+										</p:link>
+									</p:inplace>
+								</ui:remove>
+								<h:commandButton class="btn btn-default" immediate="true"
+									value="Logout" action="#{loginAction.logout()}"
+									style="float:right;" />
+								<ui:remove>
+									<h:inputText style="float:right;" class="btn"
+										pt:placeholder="Search" />
+								</ui:remove>
+							</f:facet>
+						</p:menubar>
+					</div>
+				</div>
+				<p:spacer></p:spacer>
+				<ui:remove>
+					<h:outputLabel value="ORGPM2.0"
+						style="float:right;font-size:22px;font-style:italic;font-weight:bold;margin-right:25px;" />
+				</ui:remove>
 			</ui:insert>
 		</div>
 
@@ -109,7 +133,7 @@
 
 		<div class="footer col-lg-12 col-md-12">
 			<ui:insert name="footer">
-				<p:messages />
+				 <p:messages id="messages" autoUpdate="true" showDetail="false" closable="true"/>
 			</ui:insert>
 		</div>
 

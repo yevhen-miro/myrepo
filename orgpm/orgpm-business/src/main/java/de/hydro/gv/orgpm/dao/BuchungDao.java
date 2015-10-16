@@ -105,4 +105,9 @@ public class BuchungDao {
 		return this.em.find( Buchung.class, _id );
 	}
 
+	public Long findDurationByDate( String hydroid, Date date ) {
+		return (Long) this.em.createNamedQuery( "buchung.find.duration.by.date" ).setParameter( "hydroid", hydroid )
+				.setParameter( "datum", date ).getSingleResult();
+	}
+
 }

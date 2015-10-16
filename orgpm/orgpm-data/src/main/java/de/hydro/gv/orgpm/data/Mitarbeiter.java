@@ -97,22 +97,9 @@ public class Mitarbeiter implements Serializable {
 	@Enumerated( EnumType.STRING )
 	private RolleEnum rolle;
 
-	@OneToMany( mappedBy = "mitarbeiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	@OneToMany( mappedBy = "mitarbeiter", fetch = FetchType.EAGER, cascade = CascadeType.ALL )
 	private List<MitarbeiterProjekte> projekte;
-	// @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-	// @JoinColumn( name = "M_PROJEKT" )
-	// @JoinTable( name = "MITARBEITER_PROJEKTE", joinColumns = @JoinColumn(
-	// name = "mitarbeiter_id" ),
-	// inverseJoinColumns = @JoinColumn( name = "projekt_id" ) )
-	// private List<Projekt> projekte;
-	// public List<Projekt> getProjekte() {
-	// return this.projekte;
-	// }
-	//
-	// public void setProjekte( List<Projekt> projekte ) {
-	// this.projekte = projekte;
-	// }
-	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
+	@OneToOne( fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
 	@PrimaryKeyJoinColumn
 	private Login login;
 

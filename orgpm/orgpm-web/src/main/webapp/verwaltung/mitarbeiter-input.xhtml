@@ -6,7 +6,10 @@
 	xmlns:comps="http://java.sun.com/jsf/composite/forms">
 
 <comps:mitarbeiterForm
-	disableForUpdate="false" id="mitarbeiter"
+	disableForUpdate="false"
+	disableProjekte="false"
+	id="mitarbeiter"
+	disableAjax="true" 
 	buttonAction="#{mitarbeiterAktionen.addMitarbeiter()}"
 	buttonLabel="Speichern">
 </comps:mitarbeiterForm>

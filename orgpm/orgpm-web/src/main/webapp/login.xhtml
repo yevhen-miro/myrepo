@@ -63,27 +63,35 @@ body {
 	border-radius: 4px;
 
 }
+
+.image {
+content:url(https://intra.hydro.com/Resources/Design/img/Logo.png);
+}
+
 </style>
 </head>
 
 <body>
 
 	<div class="container">
-		<form name="loginForm" class="form-signin" method="post"
+		<form name="loginForm" class="form-signin" method="post" autocomplete="off"
 			action="j_security_check">
-			<h2 style="font-size: 48px; font-style:italic; font-weight:bold; margin: auto; margin-bottom: 50px;">ORGPM2.0</h2>
-
+			<IMG alt="Logo" src="http://i1.wp.com/stuffled.com/wp-content/uploads/2014/07/Norsk-Hydro-Logo-EPS-vector-image.png" width="50%" height="50%" />
+<br></br>
+<br></br>
 			<input 
 				name="j_username" 
 				type="text" 
 				class="input"
+				autocomplete="off"
 				placeholder="Hydro ID" /> 
 			<input
 				name="j_password" 
 				type="password" 
 				class="input"
+				autocomplete="off"
 				placeholder="Passwort" /> 
-			<input 
+			<input
 				type="submit" 
 				value="Anmelden"
 				class="input"

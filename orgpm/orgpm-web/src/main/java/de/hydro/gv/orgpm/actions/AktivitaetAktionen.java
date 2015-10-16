@@ -2,8 +2,9 @@ package de.hydro.gv.orgpm.actions;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.PostPersist;
 
+import org.jboss.logging.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
@@ -19,16 +21,12 @@ import de.hydro.gv.orgpm.data.Aktivitaet;
 import de.hydro.gv.orgpm.data.Projekt;
 import de.hydro.gv.orgpm.services.AktivitaetService;
 
-@RequestScoped
+@javax.faces.view.ViewScoped
 @Named
 public class AktivitaetAktionen implements Serializable {
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 7556527018928839740L;
+	private static final Logger logger = Logger.getLogger( AktivitaetAktionen.class );
 
-	// private Projekt aktProjekt = new Projekt();
 	private Aktivitaet aktAktivitaet = new Aktivitaet();
 
 	@Inject
@@ -40,17 +38,11 @@ public class AktivitaetAktionen implements Serializable {
 
 	private Collection<Aktivitaet> cachedAktivitaetenList;
 
+	private boolean loaded = false;
+
 	public Aktivitaet getAktAktivitaet() {
 		return this.aktAktivitaet;
 	}
-
-	// public Projekt getAktProjekt() {
-	// return this.aktProjekt;
-	// }
-	//
-	// public void setAktProjekt( Projekt aktProjekt ) {
-	// this.aktProjekt = aktProjekt;
-	// }
 
 	public void setAktAktivitaet( Aktivitaet aktAktivitaet ) {
 		this.aktAktivitaet = aktAktivitaet;
@@ -83,11 +75,6 @@ public class AktivitaetAktionen implements Serializable {
 		return this.cachedAktivitaetenList;
 	}
 
-	// if( this.cachedAktivitaetenList == null ) {
-	// this.cachedAktivitaetenList =
-	// this.aktivitaetService.getAktivitaetenByProjekt( this.projekt );
-	// }
-
 	public String addAktivitaet() throws Exception {
 		Integer aktId;
 		Projekt proj = this.projektAktionen.getProjekt();
@@ -99,6 +86,8 @@ public class AktivitaetAktionen implements Serializable {
 		this.aktAktivitaet.setAktivitaetNr( aktId + 1 );
 		this.aktAktivitaet.setAktivitaetStatus( true );
 		this.aktAktivitaet.setProjekt( this.projektAktionen.getProjekt() );
+		logger.infov( "Eine neue Aktivität -{0}- für das Projekt {1} wurde hinzugefügt.",
+				this.aktAktivitaet.getAktivitaetText(), this.aktAktivitaet.getProjekt().toString() );
 		this.aktivitaetService.addAktivitaet( this.aktAktivitaet );
 		this.cachedAktivitaetenList = null;
 		this.clearSessionCache();
@@ -113,6 +102,8 @@ public class AktivitaetAktionen implements Serializable {
 	public String removeAktivitaet() throws Exception {
 		de.hydro.gv.orgpm.data.Aktivitaet tempEntity = new de.hydro.gv.orgpm.data.Aktivitaet();
 		tempEntity.setId( this.aktAktivitaet.getId() );
+		logger.infov( "Die Aktivität -{0}- für das Projekt {1} wurde gelöscht.",
+				this.aktAktivitaet.getAktivitaetText(), this.aktAktivitaet.getProjekt().toString() );
 		this.aktivitaetService.deleteAktivitaet( tempEntity );
 		this.cachedAktivitaetenList = null;
 		this.clearSessionCache();
@@ -120,11 +111,10 @@ public class AktivitaetAktionen implements Serializable {
 	}
 
 	public String updateAktivitaet() throws Exception {
-
+		logger.infov( "Die Aktivität -{0}- für das Projekt {1} wurde aktualisiert.",
+				this.aktAktivitaet.getAktivitaetText(), this.aktAktivitaet.getProjekt().toString() );
 		this.aktivitaetService.updateAktivitaet( this.aktAktivitaet );
-		this.cachedAktivitaetenList = null;
-		this.clearSessionCache();
-		return "projekt-edit";
+		return "/verwaltung/projekte";
 	}
 
 	public Aktivitaet findAktivitaetById() {
@@ -183,5 +173,23 @@ public class AktivitaetAktionen implements Serializable {
 
 	public void onProjektChange( final AjaxBehaviorEvent event ) throws Exception {
 		this.aktivitaetService.getAktivitaetenByProjekt( this.projektAktionen.getProjekt() );
+	}
+
+	@PostConstruct
+	public void init() throws Exception {
+		/** Aktivität aus DB lesen */
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String aktId = params.get( "aktivitaetId" );
+		if( aktId != null && !aktId.equals( "" ) && !this.loaded ) {
+			try {
+				this.aktAktivitaet = this.aktivitaetService.getAktivitaetById( new Long( aktId ) );
+				this.aktAktivitaet.setId( new Long( aktId ) );
+				this.loaded = true;
+			} catch ( Exception e ) {
+				FacesContext.getCurrentInstance().addMessage( null,
+						new FacesMessage( FacesMessage.SEVERITY_INFO, "Aktivität ist nicht vorhanden.", null ) );
+				logger.warnv( e, "Aktivität {0} nicht gefunden", aktId );
+			}
+		}
 	}
 }

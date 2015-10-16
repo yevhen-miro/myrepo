@@ -2,8 +2,6 @@ package de.hydro.gv.orgpm.dao;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -24,20 +22,21 @@ public class MitarbeiterDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@PostConstruct
-	public void postConstruct() {
-		this.logService.logMessage( "bean was created via PostConstruct" ); // @PostConstruct
-																			// creates
-																			// a
-																			// bean
-	};
-
-	@PreDestroy
-	public void preDestroy() {
-		this.logService.logMessage( "bean was removed via preDestroy" ); // kills
-																			// the
-																			// bean
-	}
+	// @PostConstruct
+	// public void postConstruct() {
+	// this.logService.logMessage( "bean was created via PostConstruct" ); //
+	// @PostConstruct
+	// // creates
+	// // a
+	// // bean
+	// };
+	//
+	// @PreDestroy
+	// public void preDestroy() {
+	// this.logService.logMessage( "bean was removed via preDestroy" ); // kills
+	// // the
+	// // bean
+	// }
 
 	public MitarbeiterDao() {
 
@@ -63,7 +62,8 @@ public class MitarbeiterDao {
 	}
 
 	public void deleteMitarbeiter( Mitarbeiter m ) {
-
+		this.removeOldMitarbeiterProjekte( m );
+		this.entityManager.clear();
 		this.entityManager.remove( this.entityManager.merge( m ) );
 	}
 
