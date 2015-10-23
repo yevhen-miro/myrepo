@@ -1,11 +1,14 @@
 package de.hydro.gv.orgpm.services;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import de.hydro.gv.orgpm.dao.BuchungDao;
 import de.hydro.gv.orgpm.data.Buchung;
@@ -38,8 +41,25 @@ public class BuchungService {
 		return this.buchungDao.getBuchungByMitarbeiter( hydroid, date );
 	}
 
-	public HashMap<String, Long> getDauerByMitarbeiter( String hydroid ) throws Exception {
+	// public HashMap<String, Long> getDauerByMitarbeiter( String hydroid )
+	// throws Exception {
+	// return this.buchungDao.getDauerByMitarbeiter( hydroid );
+	// }
+
+	public List<Object[]> getDauerByMitarbeiter( String hydroid ) throws Exception {
 		return this.buchungDao.getDauerByMitarbeiter( hydroid );
+	}
+
+	public List<Object[]> getDauerByMitarbeiterAndMonth( String hydroid, Integer month ) throws Exception {
+		return this.buchungDao.getDauerByMitarbeiterAndMonth( hydroid, month );
+	}
+
+	public List<Object[]> getDauerByProjektUndMitarbeiter( String hydroid ) throws Exception {
+		return this.buchungDao.getDauerByProjektUndMitarbeiter( hydroid );
+	}
+
+	public List<Object[]> getDauerByProjektUndMitarbeiterAndMonth( String hydroid, Integer month ) throws Exception {
+		return this.buchungDao.getDauerByProjektUndMitarbeiterAndMonth( hydroid, month );
 	}
 
 	public Boolean isTimeViolated( String hydroid, Date date, Date azeit, Date ezeit ) throws Exception {
@@ -69,5 +89,12 @@ public class BuchungService {
 
 	public Buchung getBuchungById( Long id ) {
 		return this.buchungDao.getBuchungById( id );
+	}
+
+	public String getHydroId() {
+		HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance()
+				.getExternalContext().getRequest();
+		Principal principal = httpServletRequest.getUserPrincipal();
+		return principal != null ? principal.toString() : "UNAUTHORIZED";
 	}
 }

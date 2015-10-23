@@ -9,15 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
@@ -42,9 +38,13 @@ import de.hydro.gv.orgpm.utils.TimingService;
 public class BuchungActions implements Serializable {
 	private static final long serialVersionUID = 8776872386309781977L;
 	private static final Logger logger = Logger.getLogger( BuchungActions.class );
+	private static final long ANFANG = 28800000L;
+	private static final long ENDE = 60000000L;
+	private static final String TÄTIGKEIT = "Urlaub / Schulung / Gleittag";
 
 	private Buchung aktBuchung = new Buchung();
 	private boolean loaded = false;
+
 	@Inject
 	private BuchungService buchungService;
 
@@ -61,6 +61,16 @@ public class BuchungActions implements Serializable {
 	private TimingService timingService;
 
 	private Date date = new Date(); // current Date variable
+	private Date filterDate;
+
+	public Date getFilterDate() {
+		return this.filterDate;
+	}
+
+	public void setFilterDate( Date filterDate ) {
+		this.filterDate = filterDate;
+	}
+
 	private ArrayList<Buchung> cachedBuchungList;
 	private Collection<Aktivitaet> cachedAktivitaetenList;
 
@@ -81,12 +91,21 @@ public class BuchungActions implements Serializable {
 	}
 
 	public Collection<Buchung> getAlleBuchungen() throws Exception {
-		if( this.cachedBuchungList == null ) {
-			this.cachedBuchungList = this.filterBuchungenByDate( this.date );
+		Collection<Buchung> retVal = new ArrayList<Buchung>();
+
+		// if( this.cachedBuchungList == null ) {
+		// this.cachedBuchungList = this.filterBuchungenByDate( this.date );
+		// } else {
+		// this.cachedBuchungList = this.filterBuchungenByDate( this.filterDate
+		// );
+		// }
+		// return this.cachedBuchungList;
+		if( this.filterDate == null ) {
+			retVal = this.filterBuchungenByDate( this.date );
 		} else {
-			this.cachedBuchungList = this.filterBuchungenByDate( this.date );
+			retVal = this.filterBuchungenByDate( this.filterDate );
 		}
-		return this.cachedBuchungList;
+		return retVal;
 	}
 
 	public Collection<Projekt> getAlleZugelasseneProjekte() throws Exception {
@@ -128,8 +147,8 @@ public class BuchungActions implements Serializable {
 				this.aktBuchung.getTaetigkeiten(), this.aktBuchung.getDatum().toString() );
 		this.setDate( this.aktBuchung.getDatum() );
 		this.buchungService.addBuchung( this.aktBuchung );
-		this.cachedBuchungList = null;
-		this.aktBuchung = null;
+		// this.cachedBuchungList = null;
+		// this.aktBuchung = null;
 		return "buchungen";
 	}
 
@@ -142,18 +161,47 @@ public class BuchungActions implements Serializable {
 	}
 
 	public String updateBuchung() throws Exception {
-		logger.infov( "Der Benutzer {0} hat die Buchung -{1}- von {2} aktualisiert.", this.getHydroId(),
+		if( this.aktBuchung.getDatum() == null ) {
+			String message = "Das Datum darf nicht leer sein";
+			FacesContext.getCurrentInstance().addMessage( null,
+					new FacesMessage( FacesMessage.SEVERITY_ERROR, message, null ) );
+			logger.warnv( "Benutzer {0} hat ein Eingabefehler : {1}", this.getHydroId(), message );
+			return null;
+		}
+
+		try {
+			this.buchungService.isTimeViolated( this.getHydroId().toUpperCase(), this.aktBuchung.getDatum(),
+					this.aktBuchung.getAnfangZeit(), this.aktBuchung.getEndeZeit() );
+		} catch ( InvalidDateException e ) {
+			FacesContext.getCurrentInstance().addMessage( null,
+					new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(), null ) );
+			logger.warnv( "Benutzer {0} hat ein Eingabefehler : {1}", this.getHydroId(), e.toString() );
+			return null;
+		}
+
+		this.aktBuchung.setMitarbeiter( this.mitarbeiterService.getMitarbeiterByHydroId( this.getHydroId()
+				.toUpperCase() ) );
+		this.aktBuchung.setMin( this.timingService.calculateMinutes( this.aktBuchung.getAnfangZeit(),
+				this.aktBuchung.getEndeZeit() ) );
+		this.aktBuchung.setPauseVon( this.timingService.isPauseTime( this.aktBuchung.getAnfangZeit(),
+				this.aktBuchung.getEndeZeit() ) ? new Date( this.timingService.PAUSE_V ) : null );
+		this.aktBuchung.setPauseBis( this.timingService.isPauseTime( this.aktBuchung.getAnfangZeit(),
+				this.aktBuchung.getEndeZeit() ) ? new Date( this.timingService.PAUSE_B ) : null );
+		this.aktBuchung.setStd( this.timingService.calculateHours( this.aktBuchung.getAnfangZeit(),
+				this.aktBuchung.getEndeZeit() ) );
+		logger.infov( "Der Benutzer {0} hat eine neue Buchung -{1}- für {2} erfasst.", this.getHydroId(),
 				this.aktBuchung.getTaetigkeiten(), this.aktBuchung.getDatum().toString() );
+		this.setDate( this.aktBuchung.getDatum() );
 		this.buchungService.updateBuchung( this.aktBuchung );
-		this.cachedBuchungList = null;
-		return "/buchungen/buchungen.xhtml";
+		// this.cachedBuchungList = null;
+		// this.aktBuchung = null;
+		return "buchungen";
 	}
 
 	public String getHydroId() {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance()
 				.getExternalContext().getRequest();
 		Principal principal = httpServletRequest.getUserPrincipal();
-		System.out.println( principal.toString() );
 		return principal != null ? principal.toString() : "UNAUTHORIZED";
 	}
 
@@ -184,10 +232,6 @@ public class BuchungActions implements Serializable {
 		return (ArrayList<Buchung>) buchungEntities;
 	}
 
-	@PostPersist
-	@PostRemove
-	@PostUpdate
-	@PreDestroy
 	private void clearSessionCache() {
 		this.cachedBuchungList = null;
 		this.cachedAktivitaetenList = null;
@@ -220,7 +264,6 @@ public class BuchungActions implements Serializable {
 
 	public void onDateSelect( SelectEvent event ) throws Exception {
 		Date filterDate = (Date) event.getObject();
-		this.setDate( filterDate );
 		this.filterBuchungenByDate( filterDate );
 	}
 
@@ -228,9 +271,28 @@ public class BuchungActions implements Serializable {
 		if( this.aktBuchung.getProjekt() != null ) {
 			this.cachedAktivitaetenList = this.getAktivitaetenByProjekt();
 			this.aktBuchung.setActivities( this.cachedAktivitaetenList );
+			if( this.aktBuchung.getProjekt().isGanztaegig() == true ) {
+				this.aktBuchung.setAnfangZeit( new Date( ANFANG ) );
+				this.aktBuchung.setEndeZeit( new Date( ENDE ) );
+				this.aktBuchung.setTaetigkeiten( TÄTIGKEIT );
+			} else {
+				this.aktBuchung.setAnfangZeit( null );
+				this.aktBuchung.setEndeZeit( null );
+				this.aktBuchung.setTaetigkeiten( "" );
+
+			}
 		} else {
 			this.cachedAktivitaetenList = this.getAktivitaetenByProjekt();
 		}
+	}
+
+	public void onAktivitätChange() throws Exception {
+		if( this.aktBuchung.getProjekt().isGanztaegig() == true ) {
+			this.aktBuchung.setAnfangZeit( new Date() );
+			this.aktBuchung.setEndeZeit( new Date() );
+			this.aktBuchung.setTaetigkeiten( "Test" );
+		}
+
 	}
 
 	public Long findDurationAsLong() throws Exception {
@@ -254,7 +316,7 @@ public class BuchungActions implements Serializable {
 		}
 		Long rest = 480 - t;
 		int hours = (int) Math.floor( rest / 60 );
-		int minutes = (int) ( rest % 60 );
+		int minutes = (int) Math.abs( ( rest % 60 ) );
 		return String.format( "%d:%02d", hours, minutes );
 	}
 
@@ -268,11 +330,14 @@ public class BuchungActions implements Serializable {
 				this.aktBuchung = this.buchungService.getBuchungById( new Long( buchungId ) );
 				this.aktBuchung.setId( new Long( buchungId ) );
 				this.loaded = true;
+
 			} catch ( Exception e ) {
 				FacesContext.getCurrentInstance().addMessage( null,
 						new FacesMessage( FacesMessage.SEVERITY_INFO, "Buchung ist nicht vorhanden.", null ) );
 				logger.warnv( e, "Aktivität {0} nicht gefunden", buchungId );
+
 			}
 		}
 	}
+
 }

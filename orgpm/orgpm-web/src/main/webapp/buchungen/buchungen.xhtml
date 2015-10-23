@@ -28,7 +28,7 @@
 				<h:selectOneMenu value="#{buchungActions.aktBuchung.projekt}"
 					style="width:90px">
 					<p:ajax listener="#{buchungActions.onProjektChange}"
-						update="activity" styleClass=".ui-selectonemenu-label" />
+						update="activity in-anfang in-ende in-taetigkeit" styleClass=".ui-selectonemenu-label" />
 					<f:converter converterId="projektConverter" />
 					<f:selectItems var="proj"
 						value="#{buchungActions.alleZugelasseneProjekte}"
@@ -44,6 +44,7 @@
 					<f:selectItems value="#{buchungActions.aktivitaetenByProjekt}" />
 				</h:selectOneMenu>
 			</p:column>
+
 			<p:column>
 				<p:outputLabel value="Datum" style="width:80px" />
 				<p:calendar id="in-date" inputStyleClass="primeCalendar"
@@ -80,7 +81,7 @@
 				<p:spacer width="20px"></p:spacer>
 				<p:commandButton value="Speichern"
 					action="#{buchungActions.saveBuchung()}" ajax="false"
-					style="width:100%" update="table">
+					style="width:100%" update=":templateForm:buchungen" >
 					<f:ajax render=":templateForm:buchungen" resetValues="true" />
 				</p:commandButton>
 			</p:column>
@@ -205,7 +206,7 @@
 
 	<ui:define name="action">
 
-		<p:calendar id="date" value="#{buchungActions.date}" mode="inline"
+		<p:calendar id="date" value="#{buchungActions.filterDate}" mode="inline"
 			beforeShowDay="disableHolidaysAndWeekends" locale="de">
 			<p:ajax event="dateSelect" listener="#{buchungActions.onDateSelect}"
 				update=":templateForm:buchungen :templateForm,stat" />
@@ -217,9 +218,13 @@
 		<p:outputLabel id="stat"
 			value="#{buchungActions.findDurationByDate()}">
 		</p:outputLabel>
-		<p:inputText id="stat2" value="#{buchungActions.findDurationAsLong()}" disabled="true" >
-			<p:slider for="stat2" maxValue="480" disabled="true" style="background:#cc0000"/>
+		<ui:remove>
+		<p:inputText id="stat2" value="#{buchungActions.findDurationAsLong()}"
+			disabled="true">
+			<p:slider for="stat2" maxValue="480" disabled="true"
+				style="background:#cc0000" />
 		</p:inputText>
+		</ui:remove>
 		<p:separator styleClass="separatorActions" />
 		<p:outputLabel value="Noch zu buchen: "></p:outputLabel>
 		<p:outputLabel id="rest" value="#{buchungActions.calculateRest()}"></p:outputLabel>

@@ -50,7 +50,7 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>index.xhtml</welcome-file>
+		<welcome-file>/index.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<error-page>
@@ -68,6 +68,30 @@
 	</context-param>
 
 	<!-- Protected Areas -->
+	
+		<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Angemeldete Benutzer</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Statistik</web-resource-name>
+			<url-pattern>/statistik/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADMIN</role-name>
+			<role-name>USER</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<role-name>USER</role-name>
+	</security-role>
 
 	<security-constraint>
 		<web-resource-collection>
@@ -84,7 +108,7 @@
 
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>User</web-resource-name>
+			<web-resource-name>Zeiterfassung</web-resource-name>
 			<url-pattern>/buchungen/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
@@ -92,9 +116,7 @@
 			<role-name>ADMIN</role-name>
 		</auth-constraint>
 	</security-constraint>
-	<security-role>
-		<role-name>USER</role-name>
-	</security-role>
+	
 
 	<!-- Validation By Form -->
 	<login-config>

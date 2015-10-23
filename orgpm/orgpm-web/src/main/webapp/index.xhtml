@@ -3,23 +3,52 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:cc="http://java.sun.com/jsf/composite/formelements"
-	xmlns:dialogs="http://java.sun.com/jsf/composite/components/dialogs"
-	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/template.xhtml">
+	<ui:define name="navigation">
+		<h:commandLink value="Mitarbeiter" action="/mitarbeiter"></h:commandLink>
+	</ui:define>
+
 	<ui:define name="content">
 
 
-		<h3>Line Chart</h3>
+	<p:chart id="pie" type="pie" model="#{charts.pieModel}" style="margin-left:3.5%;width:96%"
+			/>
+		<p:chart id="bar" type="bar" model="#{charts.barModel}"
+			/>
 
-		<p:chart type="pie" model="#{charts.pieModel}" />
-		<p:chart type="line" model="#{charts.lineChartModel}" />
-		<p:chart type="line" model="#{charts.dateModel}" style="height:400px;" />
+	
+
+
+
+
 
 
 	</ui:define>
+
+	<ui:define name="action">
+
+		
+		<p:calendar id="date" value="#{charts.filterMonth}" mode="inline" readonlyInput="true"
+			locale="de">
+			<p:ajax event="dateSelect" listener="#{charts.onMonthSelect}"
+				update=":templateForm:bar :templateForm:pie" />
+		</p:calendar>
+
+<ui:remove>
+<p:commandButton actionListener="#{charts.decrementMonth}"
+    id="navLeft" update=":templateForm:bar :templateForm:pie" icon="ui-icon-triangle-1-w" />
+
+<h:panelGroup class="tableView">
+    <p:calendar value="#{charts.filterMonth}" mode="inline" />
+</h:panelGroup>
+
+<p:commandButton actionListener="#{charts.incrementMonth}"
+    id="navRight" update=":templateForm:bar :templateForm:pie"  icon="ui-icon-triangle-1-e" />
+</ui:remove>
+	</ui:define>
+
 </ui:composition>
 
 </html>

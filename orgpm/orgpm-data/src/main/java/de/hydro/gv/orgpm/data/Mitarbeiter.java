@@ -38,6 +38,8 @@ import de.hydro.gv.orgpm.auth.RolleEnum;
 				query = "SELECT m FROM Mitarbeiter AS m WHERE m.vorname= :vorname" ),
 		@NamedQuery( name = "mitarbeiter.delete.projects.by.mitarbeiter",
 				query = "DELETE FROM MitarbeiterProjekte AS mp WHERE mp.mitarbeiter = :mitarbeiter" ),
+		@NamedQuery( name = "mitarbeiter.find.rolle.by.hydroid",
+				query = "SELECT m.rolle FROM Mitarbeiter AS m WHERE m.hydroId= :hydroid" ),
 		@NamedQuery( name = "mitarbeiter.find.by.hydroid",
 				query = "SELECT m FROM Mitarbeiter AS m WHERE m.hydroId= :hydroid" ) } )
 public class Mitarbeiter implements Serializable {

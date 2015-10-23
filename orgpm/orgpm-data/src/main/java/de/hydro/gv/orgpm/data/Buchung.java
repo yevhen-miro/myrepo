@@ -36,7 +36,16 @@ import javax.servlet.http.HttpServletRequest;
 						+ " AND m.hydroId = :hydroid and b.datum = :datum" ),
 		@NamedQuery(
 				name = "buchung.find.duration.by.mitarbeiter",
-				query = "SELECT b.datum,sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid group by b.datum" ),
+				query = "SELECT b.datum,sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid group by b.datum order by b.datum" ),
+		@NamedQuery(
+				name = "buchung.find.duration.by.mitarbeiter.and.month",
+				query = "SELECT b.datum,sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month group by b.datum order by b.datum" ),
+		@NamedQuery(
+				name = "buchung.find.duration.by.projekt.and.mitarbeiter",
+				query = "SELECT p.projektId,sum(b.min) FROM Buchung AS b, Mitarbeiter m, Projekt p WHERE b.mitarbeiter.id = m.id AND b.projekt.id = p.id AND m.hydroId  = :hydroid group by p.projektId" ),
+		@NamedQuery(
+				name = "buchung.find.duration.by.projekt.and.mitarbeiter.and.month",
+				query = "SELECT p.projektId, sum(b.min) FROM Buchung AS b, Mitarbeiter m, Projekt p WHERE b.mitarbeiter.id = m.id AND b.projekt.id = p.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month group by p.projektId" ),
 		@NamedQuery(
 				name = "buchung.find.by.date",
 				query = "SELECT b FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId = :hydroid and b.datum = :datum" ),
@@ -53,7 +62,7 @@ public class Buchung implements Serializable {
 	@Column( name = "id" )
 	private Long id;
 
-	@ManyToOne( fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE } )
+	@ManyToOne( fetch = FetchType.LAZY, cascade = { CascadeType.DETACH } )
 	@JoinColumn( name = "PROJEKT", foreignKey = @ForeignKey( name = "FK_BUCHUNG_PROJEKT" ) )
 	private Projekt projekt;
 

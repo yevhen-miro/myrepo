@@ -27,138 +27,142 @@
 
 		<ui:define name="content">
 			<p:outputLabel value="#{cc.attrs.contentTitle}" />
-		
-				<p:accordionPanel id="activityPanel">
-					<p:tab id="tab1" title="Projekt info">
-						<h:panelGrid columns="3">
 
-							<p:outputLabel value="Projektname" />
-							<p:inputText id="pr-pid"
-								value="#{projektAktionen.projekt.projektId}"
-								disabled="#{cc.attrs.disableForUpdate}" />
-							<h:messages for="pr-pid" styleClass="error" />
+			<p:accordionPanel id="activityPanel">
+				<p:tab id="tab1" title="Projekt info">
+					<h:panelGrid columns="3">
 
-							<p:outputLabel value="Beschreibung" />
-							<p:inputText id="pr-pn"
-								value="#{projektAktionen.projekt.projektName}" />
-							<h:messages for="pr-pn" styleClass="error" />
+						<p:outputLabel value="Projektname" />
+						<p:inputText id="pr-pid"
+							value="#{projektAktionen.projekt.projektId}"
+							disabled="#{cc.attrs.disableForUpdate}" />
+						<h:messages for="pr-pid" styleClass="error" />
 
-							<p:outputLabel value="Aufwand" />
-							<p:inputText id="pr-aw"
-								value="#{projektAktionen.projekt.planaufwand}" />
-							<h:messages for="pr-aw" styleClass="error" />
+						<p:outputLabel value="Beschreibung" />
+						<p:inputText id="pr-pn"
+							value="#{projektAktionen.projekt.projektName}" />
+						<h:messages for="pr-pn" styleClass="error" />
 
-							<p:outputLabel value="Start" />
-							<p:calendar id="pr-st" locale="de"
-								value="#{projektAktionen.projekt.projektstart}" />
-							<h:messages for="pr-st" styleClass="error" />
+						<p:outputLabel value="Aufwand" />
+						<p:inputText id="pr-aw"
+							value="#{projektAktionen.projekt.planaufwand}" />
+						<h:messages for="pr-aw" styleClass="error" />
 
-							<p:outputLabel value="Ende" />
-							<p:calendar id="pr-en" locale="de"
-								value="#{projektAktionen.projekt.projektende}" />
-							<h:messages for="pr-en" styleClass="error" />
+						<p:outputLabel value="Start" />
+						<p:calendar id="pr-st" locale="de"
+							value="#{projektAktionen.projekt.projektstart}" />
+						<h:messages for="pr-st" styleClass="error" />
 
-							<p:outputLabel value="Projektgruppe" />
-							<p:inputText id="pr-pg"
-								value="#{projektAktionen.projekt.projektGruppe}" />
-							<h:messages for="pr-pg" styleClass="error" />
+						<p:outputLabel value="Ende" />
+						<p:calendar id="pr-en" locale="de"
+							value="#{projektAktionen.projekt.projektende}" />
+						<h:messages for="pr-en" styleClass="error" />
 
-							<p:outputLabel value="Projektleiter" />
-							<p:inputText id="pr-pl"
-								value="#{projektAktionen.projekt.projektLeiter}" />
-							<h:messages for="pr-pl" styleClass="error" />
+						<p:outputLabel value="Projektgruppe" />
+						<p:inputText id="pr-pg"
+							value="#{projektAktionen.projekt.projektGruppe}" />
+						<h:messages for="pr-pg" styleClass="error" />
 
-							<p:outputLabel value="Bemerkung" />
-							<p:inputText id="pr-bm"
-								value="#{projektAktionen.projekt.bemerkung}" />
-							<h:messages for="pr-bm" styleClass="error" />
+						<p:outputLabel value="Projektleiter" />
+						<p:inputText id="pr-pl"
+							value="#{projektAktionen.projekt.projektLeiter}" />
+						<h:messages for="pr-pl" styleClass="error" />
 
-							<p:outputLabel value="Hauptprojekt" />
-							<p:inputText id="pr-hp"
-								value="#{projektAktionen.projekt.hauptprojekt}" />
-							<h:messages for="pr-hp" styleClass="error" />
+						<p:outputLabel value="Bemerkung" />
+						<p:inputText id="pr-bm"
+							value="#{projektAktionen.projekt.bemerkung}" />
+						<h:messages for="pr-bm" styleClass="error" />
 
-							<p:outputLabel value="Wartung" />
-							<p:inputSwitch id="pr-wa" style="width:20%"
-								value="#{projektAktionen.projekt.wartungsprojekt}" />
-							<h:messages for="pr-wa" styleClass="error" />
+						<p:outputLabel value="Hauptprojekt" />
+						<p:inputText id="pr-hp"
+							value="#{projektAktionen.projekt.hauptprojekt}" />
+						<h:messages for="pr-hp" styleClass="error" />
 
-							<p:outputLabel value="Storno" />
-							<p:inputSwitch id="pr-sto" style="width:20%"
-								value="#{projektAktionen.projekt.storniertesProjekt}" />
-							<h:messages for="pr-sto" styleClass="error" />
+						<p:outputLabel value="Wartung" />
+						<p:inputSwitch id="pr-wa" style="width:20%"
+							value="#{projektAktionen.projekt.wartungsprojekt}" />
+						<h:messages for="pr-wa" styleClass="error" />
 
-						</h:panelGrid>
-					</p:tab>
+						<p:outputLabel value="Storno" />
+						<p:inputSwitch id="pr-sto" style="width:20%"
+							value="#{projektAktionen.projekt.storniertesProjekt}" />
+						<h:messages for="pr-sto" styleClass="error" />
 
+						<p:outputLabel value="Ganztägig" />
+						<p:inputSwitch id="pr-gt" style="width:20%"
+							value="#{projektAktionen.projekt.ganztaegig}" />
+						<h:messages for="pr-gt" styleClass="error" />
 
-					<p:tab id="activities" title=" Projekt aktivitäten">
-
-
-
-						<p:dataTable id="tableActivities"
-							value="#{projektAktionen.aktivitaetenByProjekt}" var="activity"
-							widgetVar="cellActivities" editable="false"
-							resizableColumns="false" rowKey="#{activity.id}"
-							style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
-
-							<p:column headerText="Projekt"
-								sortBy="#{activity.projekt.projektId}" style="width:80px">
-								<h:outputText value="#{activity.projekt.projektId}" />
-							</p:column>
-
-							<p:column headerText="Aktivität Nummer"
-								sortBy="#{activity.aktivitaetNr}" style="width:100px">
-								<h:outputText value="#{activity.aktivitaetNr}" />
-							</p:column>
-
-							<p:column headerText="Aktivität Beschreibung"
-								sortBy="#{activity.aktivitaetText}" style="width:300px">
-								<p:commandLink value="#{activity.aktivitaetText}"
-									action="aktivitaet-edit">
-									<f:setPropertyActionListener value="#{activity}"
-										target="#{aktivitaetAktionen.aktAktivitaet}" />
-									<f:param name="aktivitaetId" value="#{activity.id}" />
-									<f:param name="faces-redirect" value="true" />
-									<f:param name="pageFrom" value="#{view.viewId}" />
-								</p:commandLink>
-							</p:column>
-
-							<p:column headerText="Aufwand" sortBy="#{activity.planaufwand}"
-								style="width:100px">
-								<h:outputText value="#{activity.planaufwand}" />
-							</p:column>
-
-							<p:column style="width:2%">
-								<p:commandLink value="" process="@this"
-									action="#{aktivitaetAktionen.removeAktivitaet()}"
-									styleClass="ui-icon ui-icon-trash"
-									ajax="false" >
-									<f:setPropertyActionListener value="#{activity}"
-										target="#{aktivitaetAktionen.aktAktivitaet}" />
-								</p:commandLink>
-							</p:column>
-
-						</p:dataTable>
+					</h:panelGrid>
+				</p:tab>
 
 
-						<dialogs:activityDialog
-							actButtonAction="#{aktivitaetAktionen.addAktivitaet()}"
-							actButtonLabel="Hinzufügen"
-							update=":projektMaske:templateForm:activityPanel:tableActivities"
-							widgetName="dialogActivity">
-						</dialogs:activityDialog>
+				<p:tab id="activities" title=" Projekt aktivitäten">
 
 
 
+					<p:dataTable id="tableActivities"
+						value="#{projektAktionen.aktivitaetenByProjekt}" var="activity"
+						widgetVar="cellActivities" editable="false"
+						resizableColumns="false" rowKey="#{activity.id}"
+						style="margin-bottom:10px;font-size:15px;margin-right:7%; margin-left:7%">
+
+						<p:column headerText="Projekt"
+							sortBy="#{activity.projekt.projektId}" style="width:80px">
+							<h:outputText value="#{activity.projekt.projektId}" />
+						</p:column>
+
+						<p:column headerText="Aktivität Nummer"
+							sortBy="#{activity.aktivitaetNr}" style="width:100px">
+							<h:outputText value="#{activity.aktivitaetNr}" />
+						</p:column>
+
+						<p:column headerText="Aktivität Beschreibung"
+							sortBy="#{activity.aktivitaetText}" style="width:300px">
+							<p:commandLink value="#{activity.aktivitaetText}"
+								action="aktivitaet-edit">
+								<f:setPropertyActionListener value="#{activity}"
+									target="#{aktivitaetAktionen.aktAktivitaet}" />
+								<f:param name="aktivitaetId" value="#{activity.id}" />
+								<f:param name="faces-redirect" value="true" />
+								<f:param name="pageFrom" value="#{view.viewId}" />
+							</p:commandLink>
+						</p:column>
+
+						<p:column headerText="Aufwand" sortBy="#{activity.planaufwand}"
+							style="width:100px">
+							<h:outputText value="#{activity.planaufwand}" />
+						</p:column>
+
+						<p:column style="width:2%">
+							<p:commandLink value="" process="@this"
+								action="#{aktivitaetAktionen.removeAktivitaet()}"
+								styleClass="ui-icon ui-icon-trash" ajax="false">
+								<f:setPropertyActionListener value="#{activity}"
+									target="#{aktivitaetAktionen.aktAktivitaet}" />
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
 
 
-					</p:tab>
+					<dialogs:activityDialog
+						actButtonAction="#{aktivitaetAktionen.addAktivitaet()}"
+						actButtonLabel="Hinzufügen"
+						update=":projektMaske:templateForm:activityPanel:tableActivities"
+						widgetName="dialogActivity">
+					</dialogs:activityDialog>
 
 
 
-				</p:accordionPanel>
-		
+
+
+				</p:tab>
+
+
+
+			</p:accordionPanel>
+
 		</ui:define>
 
 		<ui:define name="action">

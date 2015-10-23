@@ -17,9 +17,9 @@
 </h:head>
 <body>
 	<h:form id="templateForm" autocomplete="off">
-	<p:growl id="msgs"></p:growl>
+		<p:growl id="msgs"></p:growl>
 
-		
+
 		<div class="col-lg-12 col-md-12">
 			<ui:insert name="header">
 
@@ -29,28 +29,24 @@
 							height="50%" />
 					</div>
 					<div class="ui-grid-col-10">
-						<p:menubar style="width:100%;">
-							<p:submenu label="Mitarbeiter">
-								<p:menuitem value="Mitarbeiter"
-									url="/verwaltung/mitarbeiter.xhtml" />
-							</p:submenu>
+						<p:menubar style="width:100%">
 
-							<p:submenu label="Projekte">
-								<p:menuitem value="Projekte" url="/verwaltung/projekte.xhtml" />
-							</p:submenu>
-
-							<p:submenu label="Aktivitäten">
-								<p:menuitem value="Aktivitäten"
-									url="/verwaltung/aktivitaeten.xhtml" />
-							</p:submenu>
-
-							<p:submenu label="Buchungen">
+							<p:submenu label="Zeiterfassung">
 								<p:menuitem value="Buchungen" url="/buchungen/buchungen.xhtml" />
 							</p:submenu>
 
-							<p:submenu label="Berichte">
-								<p:menuitem value="Berichte" icon="ui-icon-gear"
-									url="/charts.xhtml" />
+							<p:submenu label="Statistik">
+								<p:menuitem value="Meine Statistik" icon="ui-icon-gear"
+									url="/statistik/charts.xhtml" />
+							</p:submenu>
+
+							<p:submenu label="Verwaltung"
+								styleClass="#{securityActions.isMitarbeiterAdmin() ? 'admin' : 'user'}">
+								<p:menuitem value="Mitarbeiter"
+									url="/verwaltung/mitarbeiter.xhtml" />
+								<p:menuitem value="Projekte" url="/verwaltung/projekte.xhtml" />
+								<p:menuitem value="Aktivitäten"
+									url="/verwaltung/aktivitaeten.xhtml" />
 							</p:submenu>
 
 
@@ -133,7 +129,8 @@
 
 		<div class="footer col-lg-12 col-md-12">
 			<ui:insert name="footer">
-				 <p:messages id="messages" autoUpdate="true" showDetail="false" closable="true"/>
+				<p:messages id="messages" autoUpdate="true" showDetail="false"
+					closable="true" />
 			</ui:insert>
 		</div>
 

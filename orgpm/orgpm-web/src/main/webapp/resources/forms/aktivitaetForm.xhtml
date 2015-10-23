@@ -24,7 +24,6 @@
 		<f:metadata>
 			<f:param name="act" valvalue="#{aktivitaetAktionen.aktAktivitaet.id}">
 			</f:param>
-			<f:viewParam name="pageFrom" value="#{aktivitaetAktionen.pageFrom}" />
 		</f:metadata>
 		<ui:define name="content">
 			<p:accordionPanel id="activitiesPanel">
@@ -35,7 +34,8 @@
 						<p:outputLabel value="Projekt" />
 						<h:outputText value="&#160;" />
 						<p:selectOneMenu id="af-projekt" style="width:100%"
-							value="#{aktivitaetAktionen.aktAktivitaet.projekt}" styleClass="ui-selectonemenu">
+							value="#{aktivitaetAktionen.aktAktivitaet.projekt}"
+							styleClass="ui-selectonemenu" disabled="#{cc.attrs.disableForUpdate}">
 							<f:converter converterId="projektConverter" />
 							<f:selectItems var="proj" value="#{projektAktionen.alleProjekte}"
 								itemLabel="#{proj.projektId}" />
@@ -84,13 +84,25 @@
 		<ui:define name="action">
 
 			<p:commandButton action="#{cc.attrs.buttonAction}"
-				value="#{cc.attrs.buttonLabel}" ajax="true" />
+				value="#{cc.attrs.buttonLabel}" ajax="true">
+				<f:param name="projektId"
+					value="#{aktivitaetAktionen.aktAktivitaet.projekt.id}" />
+				<f:param name="faces-redirect" value="true" />
+			</p:commandButton>
 
-			<p:commandButton action="/verwaltung/projekte.xhtml?faces-redirect=true"
-				value="Zurück" immediate="true">
-				
-				 </p:commandButton>
+			<p:commandLink value="Zurück" action="projekt-edit">
+				<f:param name="projektId"
+					value="#{aktivitaetAktionen.aktAktivitaet.projekt.id}" />
+				<f:param name="faces-redirect" value="true" />
+			</p:commandLink>
 
+			<p:commandButton
+				action="projekt-edit.xhtml"
+				value="Zurück" ajax="true">
+				<f:param name="projektId"
+					value="#{aktivitaetAktionen.aktAktivitaet.projekt.id}" />
+				<f:param name="faces-redirect" value="true" />
+			</p:commandButton>
 		</ui:define>
 
 	</ui:decorate>

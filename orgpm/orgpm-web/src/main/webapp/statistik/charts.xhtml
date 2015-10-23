@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+	<ui:define name="navigation">
+		<h:commandLink value="Mitarbeiter" action="/mitarbeiter"></h:commandLink>
+	</ui:define>
+
+	<ui:define name="content">
+
+
+		<p:chart id="pie" type="pie" model="#{charts.pieModel}"
+			style="margin-left:3.5%;width:96%" />
+		<p:chart id="bar" type="bar" model="#{charts.barModel}" />
+
+
+
+
+
+
+
+
+	</ui:define>
+
+	<ui:define name="action">
+
+		<ui:remove>
+			<p:calendar id="date" value="#{charts.filterMonth}" mode="inline"
+				readonlyInput="true" locale="de">
+				<p:ajax event="dateSelect" listener="#{charts.onMonthSelect}"
+					update=":templateForm:bar :templateForm:pie" />
+
+			</p:calendar>
+		</ui:remove>
+
+		<p:commandButton actionListener="#{charts.decrementMonth}" style="width:14%"
+			id="navLeft"
+			update=":templateForm:bar :templateForm:pie :templateForm:monthYear"
+			icon="ui-icon-triangle-1-w" />
+
+		<p:commandButton id="monthYear" value="#{charts.monthAndYear}" style="width:67%"/>
+
+		<p:commandButton actionListener="#{charts.incrementMonth}" style="width:14%"
+			id="navRight"
+			update=":templateForm:bar :templateForm:pie :templateForm:monthYear"
+			icon="ui-icon-triangle-1-e" />
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

@@ -114,7 +114,8 @@ public class AktivitaetAktionen implements Serializable {
 		logger.infov( "Die Aktivität -{0}- für das Projekt {1} wurde aktualisiert.",
 				this.aktAktivitaet.getAktivitaetText(), this.aktAktivitaet.getProjekt().toString() );
 		this.aktivitaetService.updateAktivitaet( this.aktAktivitaet );
-		return "/verwaltung/projekte";
+		return "/verwaltung/projekt-edit";
+		// return "/verwaltung/projekte";
 	}
 
 	public Aktivitaet findAktivitaetById() {

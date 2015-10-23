@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -74,7 +73,10 @@ public class Projekt implements Serializable {
 	@Column( name = "wartung" )
 	private boolean wartungsprojekt;
 
-	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH )
+	@Column( name = "ganztägig" )
+	private boolean isGanztaegig;
+
+	@OneToMany( mappedBy = "projekt", fetch = FetchType.EAGER )
 	private List<Aktivitaet> aktivitaeten;
 
 	public Projekt() {
@@ -174,6 +176,14 @@ public class Projekt implements Serializable {
 
 	public void setWartungsprojekt( boolean wartungsprojekt ) {
 		this.wartungsprojekt = wartungsprojekt;
+	}
+
+	public boolean isGanztaegig() {
+		return this.isGanztaegig;
+	}
+
+	public void setGanztaegig( boolean isGanztaegig ) {
+		this.isGanztaegig = isGanztaegig;
 	}
 
 	public List<Aktivitaet> getAktivitaeten() {

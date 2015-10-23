@@ -70,52 +70,80 @@ button {
 }
 
 .actionProj {
-	width:15%;
+	width: 15%;
 }
 
-.ui-selectonemenu label.ui-selectonemenu-label{
-   width:100% !important;
+.ui-selectonemenu label.ui-selectonemenu-label {
+	width: 100% !important;
 }
 
-.ui-selectonemenu{
-     width: 100% !important;
+.ui-selectonemenu {
+	width: 100% !important;
 }
-.ui-selectonemenu-label{
-     width: 100% !important;
-}  
 
-.primeCalendar
-{
-width: 100px;
+.ui-selectonemenu-label {
+	width: 100% !important;
+}
+
+.primeCalendar {
+	width: 100px;
 }
 
 .separator {
-	width:98%;
-	height:10px;
-	margin-left:1%;
-	margin-right:1%;
-	border-color: #cc0000!important;
+	width: 98%;
+	height: 10px;
+	margin-left: 1%;
+	margin-right: 1%;
+	border-color: #cc0000 !important;
 	background: #cc0000 !important;
 }
 
 .banner {
 	position: absolute;
-    top: 0px;
-    right: 0px;
+	top: 0px;
+	right: 0px;
 }
 
 .panel {
-	width:260px;
-	height:10px;
-	border-color: #cc0000!important;
+	width: 260px;
+	height: 10px;
+	border-color: #cc0000 !important;
 	background: #cc0000 !important;
 }
 
 .separatorActions {
-	width:260px;
-	height:10px;
-	margin-left:1%;
-	margin-right:1%;
-	border-color: #cc0000!important;
+	width: 260px;
+	height: 10px;
+	margin-left: 1%;
+	margin-right: 1%;
+	border-color: #cc0000 !important;
 	background: #cc0000 !important;
+}
+
+/* /*CHART TOOLTIP for barchart, linechart*/ */
+/* .ui-chart-tooltip, .jqplot-highlighter-tooltip { */
+/* 	display: none !important; */
+/* } */
+
+/* .ui-datepicker-calendar {
+	display: none;
+}
+ */
+.menubar {
+	width: 100%
+}
+
+.admin {
+	visibility:visible;
+	
+}
+
+.user {
+	visibility:collapse;
+}
+
+
+.tableView table, .tableView a.ui-datepicker-prev, .tableView a.ui-datepicker-next
+	{
+	display: none;
 }
