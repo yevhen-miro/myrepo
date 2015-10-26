@@ -2,8 +2,7 @@ package de.hydro.gv.orgpm.actions;
 
 import java.security.Principal;
 
-import javax.annotation.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -11,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import de.hydro.gv.orgpm.services.MitarbeiterService;
 
-@SessionScoped
-@ManagedBean
+@Stateless
 @Named
 public class SecurityActions {
 
@@ -23,7 +21,6 @@ public class SecurityActions {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance()
 				.getExternalContext().getRequest();
 		Principal principal = httpServletRequest.getUserPrincipal();
-		System.out.println( principal.toString() );
 		return principal != null ? principal.toString() : "UNAUTHORIZED";
 	}
 
@@ -49,4 +46,9 @@ public class SecurityActions {
 		Boolean retVal = ( rolle == "ADMIN" ) ? true : false;
 		return retVal;
 	}
+
+	// public RolleEnum[] getAlle() {
+	// return RolleEnum.values();
+	// }
+
 }

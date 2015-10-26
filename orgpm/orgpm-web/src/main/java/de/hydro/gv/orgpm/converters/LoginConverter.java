@@ -34,7 +34,6 @@ public class LoginConverter implements Converter {
 
 	@Override
 	public String getAsString( FacesContext context, UIComponent component, Object value ) {
-		// RolleModel rolle = (RolleModel) value;
 		if( value == null ) {
 			return null;
 		}
@@ -48,15 +47,3 @@ public class LoginConverter implements Converter {
 	}
 
 }
-
-// @Override
-// public String getAsString( FacesContext context, UIComponent component,
-// Object value ) {
-// Projekt projekt = (Projekt) value;
-// if( projekt == null ) {
-// return null;
-// }
-//
-// return projekt.getId().toString();
-// }
-

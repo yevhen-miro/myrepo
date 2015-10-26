@@ -41,6 +41,9 @@ import javax.servlet.http.HttpServletRequest;
 				name = "buchung.find.duration.by.mitarbeiter.and.month",
 				query = "SELECT b.datum,sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month group by b.datum order by b.datum" ),
 		@NamedQuery(
+				name = "buchung.find.duration.by.mitarbeiter.and.day",
+				query = "SELECT sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month AND FUNCTION('day_of_month',b.datum) = :day" ),
+		@NamedQuery(
 				name = "buchung.find.duration.by.projekt.and.mitarbeiter",
 				query = "SELECT p.projektId,sum(b.min) FROM Buchung AS b, Mitarbeiter m, Projekt p WHERE b.mitarbeiter.id = m.id AND b.projekt.id = p.id AND m.hydroId  = :hydroid group by p.projektId" ),
 		@NamedQuery(

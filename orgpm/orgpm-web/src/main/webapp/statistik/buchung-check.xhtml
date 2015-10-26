@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+
+		<p:dataTable id="check" var="mitarbeiter"
+			value="#{mitarbeiterAktionen.alleMitarbeiter}"
+			style="font-size:smaller">
+			<f:facet name="header">
+            Mitarbeiter Erfassung überprüfen
+        </f:facet>
+
+			<p:columnGroup type="header">
+				<p:row>
+					<p:column rowspan="2" headerText="Mitarbeiter"
+						style="width:8%;height:50%" />
+					<p:column
+						colspan="#{statistikActions.getMonthDays(statistikActions.filterMonth).size()}"
+						headerText="#{statistikActions.monthAndYear}" />
+				</p:row>
+				<p:row style="height:20%">
+					<ui:repeat value="#{statistikActions.monthD}" var="Tag"
+						style="height:30%;width:200%">
+						<p:column headerText="#{fn:substring(Tag,0,2)}" />
+					</ui:repeat>
+				</p:row>
+			</p:columnGroup>
+
+
+
+			<p:column>
+				<h:outputText value="#{mitarbeiter.name}" />
+			</p:column>
+
+
+
+
+			<p:columns value="#{statistikActions.monthD}" var="tag">
+				<h:outputText
+					value="#{statistikActions.getDauerByMitarbeiterAndDay(mitarbeiter.hydroId.toUpperCase(),tag)}" />
+			</p:columns>
+
+		</p:dataTable>
+
+
+
+
+
+
+	</ui:define>
+
+	<ui:define name="action">
+
+		<ui:remove>
+			<p:calendar id="date" value="#{statistikActions.filterMonth}" mode="inline"
+				readonlyInput="true" locale="de">
+				<p:ajax event="dateSelect" listener="#{statistikActions.onMonthSelect}"
+					update=":templateForm:bar :templateForm:pie" />
+
+			</p:calendar>
+		</ui:remove>
+
+		<p:commandButton actionListener="#{statistikActions.decrementMonth}"
+			style="width:14%" id="navLeft"
+			update=" :templateForm:monthYear :templateForm:check"
+			icon="ui-icon-triangle-1-w" />
+
+		<p:commandButton id="monthYear" value="#{statistikActions.monthAndYear}"
+			style="width:67%" />
+
+		<p:commandButton actionListener="#{statistikActions.incrementMonth}"
+			style="width:14%" id="navRight"
+			update=" :templateForm:monthYear :templateForm:check"
+			icon="ui-icon-triangle-1-e" />
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

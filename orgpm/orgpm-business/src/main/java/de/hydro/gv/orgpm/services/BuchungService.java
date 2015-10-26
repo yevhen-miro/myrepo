@@ -54,6 +54,10 @@ public class BuchungService {
 		return this.buchungDao.getDauerByMitarbeiterAndMonth( hydroid, month );
 	}
 
+	public Long getDauerByMitarbeiterAndDay( String hydroid, Integer day, Integer month ) throws Exception {
+		return this.buchungDao.getDauerByMitarbeiterAndDay( hydroid, day, month );
+	}
+
 	public List<Object[]> getDauerByProjektUndMitarbeiter( String hydroid ) throws Exception {
 		return this.buchungDao.getDauerByProjektUndMitarbeiter( hydroid );
 	}

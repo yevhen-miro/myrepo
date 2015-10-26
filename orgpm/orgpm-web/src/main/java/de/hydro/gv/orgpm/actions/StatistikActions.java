@@ -1,4 +1,4 @@
-package de.hydro.gv.orgpm.view;
+package de.hydro.gv.orgpm.actions;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -25,14 +25,13 @@ import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
-import de.hydro.gv.orgpm.actions.SecurityActions;
 import de.hydro.gv.orgpm.services.BuchungService;
 import de.hydro.gv.orgpm.util.Logged;
 
 @ManagedBean
 @ViewScoped
 @Logged
-public class Charts implements Serializable {
+public class StatistikActions implements Serializable {
 
 	private static final long serialVersionUID = 1322231899089156979L;
 
@@ -40,7 +39,7 @@ public class Charts implements Serializable {
 	private BuchungService buchungService;
 
 	@Inject
-	private SecurityActions securityActions;
+	private SecurityActions securityService;
 
 	private LineChartModel lineModel;
 
@@ -48,7 +47,20 @@ public class Charts implements Serializable {
 
 	private BarChartModel barModel;
 
-	private Date filterMonth;
+	List<String> monthD = new ArrayList<String>();
+	List<Integer> daysInMonth = new ArrayList<Integer>();
+
+	public List<Integer> getDaysInMonth() {
+		return this.daysInMonth;
+	}
+
+	public void setDaysInMonth( List<Integer> daysInMonth ) {
+		this.daysInMonth = daysInMonth;
+	}
+
+	private Date filterMonth = new Date();
+
+	DateFormat df = new SimpleDateFormat( "dd.MM.yyyy" );
 
 	private Integer monthNum = 10;
 
@@ -105,7 +117,7 @@ public class Charts implements Serializable {
 		ChartSeries buchungen = new ChartSeries();
 		DateFormat df = new SimpleDateFormat( "dd.MM.yyyy" );
 		Map<Object, Number> buchungMap = new HashMap<Object, Number>();
-		for ( Object[] b : this.buchungService.getDauerByMitarbeiter( this.securityActions
+		for ( Object[] b : this.buchungService.getDauerByMitarbeiter( this.securityService
 				.getSecurityPrincipalForLoggedInUser().toUpperCase() ) ) {
 			buchungMap.put( df.format( b[0] ), (Long) b[1] );
 		}
@@ -113,6 +125,34 @@ public class Charts implements Serializable {
 
 		buchungen.setData( sortedMap );
 		this.lineModel.addSeries( buchungen );
+	}
+
+	public List<String> getMonthDays( Date monthNumber ) {
+		List<String> monthDays = new ArrayList<String>();
+		Calendar cal = Calendar.getInstance();
+
+		if( monthNumber == null ) {
+			cal.setTime( new Date() );
+		} else {
+			cal.setTime( monthNumber );
+		}
+
+		cal.set( Calendar.DAY_OF_MONTH, 1 );
+		int myMonth = cal.get( Calendar.MONTH );
+		if( this.monthNum == null ) {
+			this.monthNum = myMonth;
+		}
+
+		while ( myMonth == cal.get( Calendar.MONTH ) ) {
+			monthDays.add( this.df.format( cal.getTime() ) );
+			cal.add( Calendar.DAY_OF_MONTH, 1 );
+		}
+		this.monthD = monthDays;
+		return monthDays;
+	}
+
+	public List<String> getMonthD() {
+		return this.monthD;
 	}
 
 	private void buildBarChart() throws Exception {
@@ -124,39 +164,18 @@ public class Charts implements Serializable {
 		this.barModel.getAxis( AxisType.X ).setTickFormat( "%d.%m.%y" );
 		this.barModel.setShowPointLabels( true );
 
-		DateFormat df = new SimpleDateFormat( "dd.MM.yyyy" );
-		List<String> monthDays = new ArrayList<String>();
-
-		Calendar cal = Calendar.getInstance();
-		if( this.filterMonth == null ) {
-			cal.setTime( new Date() );
-		} else {
-			cal.setTime( this.filterMonth );
-		}
-
-		cal.set( Calendar.DAY_OF_MONTH, 1 );
-		int myMonth = cal.get( Calendar.MONTH );
-		if( this.monthNum == null ) {
-			this.monthNum = myMonth;
-		}
-
-		while ( myMonth == cal.get( Calendar.MONTH ) ) {
-			monthDays.add( df.format( cal.getTime() ) );
-			cal.add( Calendar.DAY_OF_MONTH, 1 );
-		}
-
 		ChartSeries buchungen = new ChartSeries();
 		Map<Object, Number> buchungMap = new HashMap<Object, Number>();
-		for ( String day : monthDays ) {
+		for ( String day : this.getMonthDays( this.filterMonth ) ) {
 			if( this.buchungService.getDauerByMitarbeiterAndMonth(
-					this.securityActions.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum ).size() == 0 ) {
+					this.securityService.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum ).size() == 0 ) {
 				buchungMap.put( day, 0 );
 			}
-			for ( Object[] b : this.buchungService.getDauerByMitarbeiterAndMonth( this.securityActions
+			for ( Object[] b : this.buchungService.getDauerByMitarbeiterAndMonth( this.securityService
 					.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum ) ) {
-				String bDay = df.format( b[0] );
+				String bDay = this.df.format( b[0] );
 				if( bDay.compareTo( day ) == 0 || bDay == day || bDay.equals( day ) ) {
-					buchungMap.put( df.format( b[0] ), (Long) b[1] );
+					buchungMap.put( this.df.format( b[0] ), (Long) b[1] );
 				} else if( !buchungMap.containsKey( day ) ) {
 					buchungMap.put( day, 0 );
 				}
@@ -178,10 +197,10 @@ public class Charts implements Serializable {
 
 		Map<String, Number> buchungMap = new HashMap<String, Number>();
 		if( this.buchungService.getDauerByProjektUndMitarbeiterAndMonth(
-				this.securityActions.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum ).size() == 0 ) {
+				this.securityService.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum ).size() == 0 ) {
 			buchungMap.put( "Keine Buchungen gefunden", 0 );
 		}
-		for ( Object[] b : this.buchungService.getDauerByProjektUndMitarbeiterAndMonth( this.securityActions
+		for ( Object[] b : this.buchungService.getDauerByProjektUndMitarbeiterAndMonth( this.securityService
 				.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum ) ) {
 			buchungMap.put( (String) b[0], (Long) b[1] );
 		}
@@ -256,5 +275,17 @@ public class Charts implements Serializable {
 			output = month + " " + year;
 		}
 		return output;
+	}
+
+	public Long getDauerByMitarbeiterAndDay( String hydroid, String day ) throws Exception {
+		int dom = this.getDayOfMonthNumber( day );
+		int month = this.monthNum;
+		return this.buchungService.getDauerByMitarbeiterAndDay( hydroid, dom, month );
+
+	}
+
+	public Integer getDayOfMonthNumber( String strMonth ) {
+		int day = Integer.parseInt( strMonth.substring( 0, 2 ) );
+		return day;
 	}
 }

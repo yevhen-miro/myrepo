@@ -45,15 +45,3 @@ public class ProjektConverter implements Converter {
 	}
 
 }
-
-// @Override
-// public String getAsString( FacesContext context, UIComponent component,
-// Object value ) {
-// Projekt projekt = (Projekt) value;
-// if( projekt == null ) {
-// return null;
-// }
-//
-// return projekt.getId().toString();
-// }
-

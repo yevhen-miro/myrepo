@@ -39,20 +39,8 @@ public class MitarbeiterConverter implements Converter {
 		return null;
 	}
 
-	// @Override
-	// public String getAsString( FacesContext context, UIComponent component,
-	// Object value ) {
-	// MitarbeiterModel mitarbeiter = (MitarbeiterModel) value;
-	// if( mitarbeiter == null ) {
-	// return null;
-	// }
-	//
-	// return mitarbeiter.getId().toString();
-	// }
-
 	@Override
 	public String getAsString( FacesContext context, UIComponent component, Object value ) {
-		Mitarbeiter ma = (Mitarbeiter) value;
 		if( value == null ) {
 			return null;
 		}

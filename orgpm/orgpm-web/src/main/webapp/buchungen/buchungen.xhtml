@@ -28,7 +28,8 @@
 				<h:selectOneMenu value="#{buchungActions.aktBuchung.projekt}"
 					style="width:90px">
 					<p:ajax listener="#{buchungActions.onProjektChange}"
-						update="activity in-anfang in-ende in-taetigkeit" styleClass=".ui-selectonemenu-label" />
+						update="activity in-anfang in-ende in-taetigkeit"
+						styleClass=".ui-selectonemenu-label" />
 					<f:converter converterId="projektConverter" />
 					<f:selectItems var="proj"
 						value="#{buchungActions.alleZugelasseneProjekte}"
@@ -81,8 +82,8 @@
 				<p:spacer width="20px"></p:spacer>
 				<p:commandButton value="Speichern"
 					action="#{buchungActions.saveBuchung()}" ajax="false"
-					style="width:100%" update=":templateForm:buchungen" >
-					<f:ajax render=":templateForm:buchungen" resetValues="true" />
+					style="width:100%" update=":templateForm:buchungen">
+					<f:ajax render=":templateForm:buchungen" resetValues="false" />
 				</p:commandButton>
 			</p:column>
 		</p:panelGrid>
@@ -97,7 +98,7 @@
 
 
 		<p:dataTable id="buchungen" value="#{buchungActions.alleBuchungen}"
-			widgetVar="Table" var="actBuchungen" editable="true" editMode="cell"
+			widgetVar="Table" var="actBuchungen" editable="false" editMode="row"
 			resizableColumns="false" filteredValue="#{actBuchungen}" rows="10"
 			paginator="true" rowKey="#{actBuchungen.id}"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
@@ -107,6 +108,9 @@
 
 			<p:ajax event="cellEdit" listener="#{buchungActions.onCellEdit}"
 				process="@this" update=":templateForm:buchungen :templateForm:msgs" />
+			<p:ajax event="rowEdit" listener="#{buchungActions.onRowEdit}"
+				update=":templateForm:msgs" />
+
 
 			<p:column headerText="Datum" sortBy="#{actBuchungen.datum}"
 				style="width:8%">
@@ -165,20 +169,22 @@
 				style="width:9%">
 				<h:outputText value="#{actBuchungen.min}" />
 			</p:column>
-			<ui:remove>
-				<p:column headerText="Tätigkeit">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{actBuchungen.taetigkeiten}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText value="#{actBuchungen.taetigkeiten}"
-								style="width:100%" label="Tätigkeit" />
-						</f:facet>
-					</p:cellEditor>
-					<h:outputText />
-				</p:column>
-			</ui:remove>
+
+<ui:remove>
+			<p:column headerText="Tätigkeit">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{actBuchungen.taetigkeiten}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{actBuchungen.taetigkeiten}"
+							style="width:100%" label="Tätigkeit" />
+					</f:facet>
+				</p:cellEditor>
+				<h:outputText />
+			</p:column>
+</ui:remove>
+
 			<p:column headerText="Tätigkeit" style="width:20%">
 				<p:commandLink value="#{actBuchungen.taetigkeiten}"
 					action="buchungen-edit">
@@ -197,6 +203,11 @@
 				</p:commandLink>
 			</p:column>
 
+			<ui:remove>
+				<p:column style="width:32px">
+					<p:rowEditor />
+				</p:column>
+			</ui:remove>
 
 
 		</p:dataTable>
@@ -206,24 +217,30 @@
 
 	<ui:define name="action">
 
-		<p:calendar id="date" value="#{buchungActions.filterDate}" mode="inline"
-			beforeShowDay="disableHolidaysAndWeekends" locale="de">
-			<p:ajax event="dateSelect" listener="#{buchungActions.onDateSelect}"
-				update=":templateForm:buchungen :templateForm,stat" />
+		<p:calendar id="date" value="#{buchungActions.filterDate}"
+			mode="inline" beforeShowDay="disableHolidaysAndWeekends" locale="de">
+			<p:ajax event="dateSelect"
+				update=":templateForm:buchungen :templateForm,stat"
+				listener="#{buchungActions.onDateSelect}" />
 		</p:calendar>
-
+		<ui:remove>
+			<p:commandButton value="Go"
+				actionListener="#{buchungActions.onClick}"
+				update=":templateForm:buchungen :templateForm,stat"
+				style="width:110%"></p:commandButton>
+		</ui:remove>
 		<p:separator styleClass="separatorActions" />
 
-		<p:outputLabel value="Total: "></p:outputLabel>
+		<p:outputLabel value="Gebucht: "></p:outputLabel>
 		<p:outputLabel id="stat"
 			value="#{buchungActions.findDurationByDate()}">
 		</p:outputLabel>
 		<ui:remove>
-		<p:inputText id="stat2" value="#{buchungActions.findDurationAsLong()}"
-			disabled="true">
-			<p:slider for="stat2" maxValue="480" disabled="true"
-				style="background:#cc0000" />
-		</p:inputText>
+			<p:inputText id="stat2"
+				value="#{buchungActions.findDurationAsLong()}" disabled="true">
+				<p:slider for="stat2" maxValue="480" disabled="true"
+					style="background:#cc0000" />
+			</p:inputText>
 		</ui:remove>
 		<p:separator styleClass="separatorActions" />
 		<p:outputLabel value="Noch zu buchen: "></p:outputLabel>

@@ -36,7 +36,14 @@
 							</p:submenu>
 
 							<p:submenu label="Statistik">
-								<p:menuitem value="Meine Statistik" icon="ui-icon-gear"
+								<p:menuitem value="Meine Statistik"
+									url="/statistik/charts.xhtml" />
+								<p:menuitem value="Zeiterfassung überprüfen"
+									url="/statistik/buchung-check.xhtml" />
+							</p:submenu>
+
+							<p:submenu label="Hilfe">
+								<p:menuitem value="Über ORGPM2.0"
 									url="/statistik/charts.xhtml" />
 							</p:submenu>
 
@@ -44,9 +51,9 @@
 								styleClass="#{securityActions.isMitarbeiterAdmin() ? 'admin' : 'user'}">
 								<p:menuitem value="Mitarbeiter"
 									url="/verwaltung/mitarbeiter.xhtml" />
-								<p:menuitem value="Projekte" url="/verwaltung/projekte.xhtml" />
-								<p:menuitem value="Aktivitäten"
-									url="/verwaltung/aktivitaeten.xhtml" />
+								<p:menuitem value="Projekte &amp; Aktivitäten"
+									url="/verwaltung/projekte.xhtml" />
+
 							</p:submenu>
 
 

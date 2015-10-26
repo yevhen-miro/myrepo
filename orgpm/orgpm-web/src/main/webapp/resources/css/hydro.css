@@ -120,28 +120,26 @@ button {
 	background: #cc0000 !important;
 }
 
-/* /*CHART TOOLTIP for barchart, linechart*/ */
-/* .ui-chart-tooltip, .jqplot-highlighter-tooltip { */
-/* 	display: none !important; */
-/* } */
-
-/* .ui-datepicker-calendar {
+/* /*CHART TOOLTIP for barchart, linechart*/
+* /
+	/* .ui-chart-tooltip, .jqplot-highlighter-tooltip { */
+	/* 	display: none !important; */
+	/* } */
+	/* .ui-datepicker-calendar {
 	display: none;
 }
- */
+ */ 
 .menubar {
 	width: 100%
 }
 
 .admin {
-	visibility:visible;
-	
+	visibility: visible;
 }
 
 .user {
-	visibility:collapse;
+	visibility: collapse;
 }
-
 
 .tableView table, .tableView a.ui-datepicker-prev, .tableView a.ui-datepicker-next
 	{

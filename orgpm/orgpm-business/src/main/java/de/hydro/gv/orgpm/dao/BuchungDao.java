@@ -115,6 +115,12 @@ public class BuchungDao {
 		return buchungen;
 	}
 
+	public Long getDauerByMitarbeiterAndDay( String hydroid, Integer day, Integer month ) {
+		return (Long) this.em.createNamedQuery( "buchung.find.duration.by.mitarbeiter.and.day" )
+				.setParameter( "hydroid", hydroid ).setParameter( "day", day ).setParameter( "month", month )
+				.getSingleResult();
+	}
+
 	// @SuppressWarnings( "unchecked" )
 	// public List<Object[]> getDauerByMitarbeiterAndMonth( String _hydroid,
 	// Integer _month ) {

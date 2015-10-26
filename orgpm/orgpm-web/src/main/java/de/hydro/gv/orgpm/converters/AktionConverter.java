@@ -18,7 +18,7 @@ public class AktionConverter implements Converter {
 	private AktivitaetService aktivitaetService;
 
 	@Inject
-	private SecurityActions securityActions;
+	private SecurityActions securityService;
 
 	@Override
 	public Object getAsObject( FacesContext context, UIComponent component, String value ) {
@@ -33,7 +33,7 @@ public class AktionConverter implements Converter {
 			for ( Aktivitaet aktivitaet : this.aktivitaetService.getAlleAktivitaet() ) {
 				if( aktivitaet.getId().equals( id ) ) {
 					System.out.println( "Converted to Aktivitaet: " + aktivitaet.getAktivitaetText() + " "
-							+ this.securityActions.getSecurityPrincipalForLoggedInUser() );
+							+ this.securityService.getSecurityPrincipalForLoggedInUser() );
 					// Aktivitaet a = new Aktivitaet();
 					return aktivitaet;
 				}
@@ -55,9 +55,6 @@ public class AktionConverter implements Converter {
 		if( !( value instanceof Aktivitaet ) ) {
 			throw new ConverterException( "The value is not a valid" );
 		}
-		Long id = ( (Aktivitaet) value ).getId();
-
-		// return ( id != null ) ? String.valueOf( id ) : null;
 		return aktivitaet.getId().toString();
 	}
 
