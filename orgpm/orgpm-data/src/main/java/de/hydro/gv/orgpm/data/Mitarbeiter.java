@@ -32,6 +32,8 @@ import de.hydro.gv.orgpm.auth.RolleEnum;
 @NamedQueries( {
 		@NamedQuery( name = "mitarbeiter.delete.all", query = "DELETE FROM Mitarbeiter" ),
 		@NamedQuery( name = "mitarbeiter.find.all", query = "SELECT m FROM Mitarbeiter AS m" ),
+		@NamedQuery( name = "mitarbeiter.find.alle.mitarbeiter",
+				query = "SELECT m FROM Mitarbeiter AS m WHERE m.hydroId <> 'A120444'" ),
 		@NamedQuery( name = "mitarbeiter.find.login.by.mitarbeiter",
 				query = "SELECT l FROM Login l, Mitarbeiter m WHERE l.mitarbeiter.id = m.id and m.hydroId = :hydroid" ),
 		@NamedQuery( name = "mitarbeiter.find.by.lastName",

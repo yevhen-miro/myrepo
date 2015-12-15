@@ -12,7 +12,7 @@
 	<ui:define name="content">
 
 		<p:dataTable id="check" var="mitarbeiter"
-			value="#{mitarbeiterAktionen.alleMitarbeiter}"
+			value="#{mitarbeiterAktionen.alleITMitarbeiter}" lazy="true"
 			style="font-size:smaller">
 			<f:facet name="header">
             Mitarbeiter Erfassung überprüfen
@@ -45,7 +45,8 @@
 
 			<p:columns value="#{statistikActions.monthD}" var="tag">
 				<h:outputText
-					value="#{statistikActions.getDauerByMitarbeiterAndDay(mitarbeiter.hydroId.toUpperCase(),tag)}" />
+					value="#{statistikActions.getDauerByMitarbeiterAndDay (mitarbeiter.hydroId.toUpperCase(),tag)}"  
+					styleClass="#{statistikActions.isGebucht(mitarbeiter.hydroId.toUpperCase(),tag) ? 'green' : 'red'}" />
 			</p:columns>
 
 		</p:dataTable>
@@ -70,6 +71,7 @@
 
 		<p:commandButton actionListener="#{statistikActions.decrementMonth}"
 			style="width:14%" id="navLeft"
+			ajax="true"
 			update=" :templateForm:monthYear :templateForm:check"
 			icon="ui-icon-triangle-1-w" />
 
@@ -78,6 +80,7 @@
 
 		<p:commandButton actionListener="#{statistikActions.incrementMonth}"
 			style="width:14%" id="navRight"
+			ajax="true"
 			update=" :templateForm:monthYear :templateForm:check"
 			icon="ui-icon-triangle-1-e" />
 

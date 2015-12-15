@@ -78,6 +78,13 @@ public class ProjektAktionen implements Serializable {
 		return this.cachedProjektList;
 	}
 
+	public Collection<Projekt> getAlleAktiveProjekte() throws Exception {
+		if( this.cachedProjektList == null ) {
+			this.cachedProjektList = (ArrayList<Projekt>) this.projektService.getAlleAktiveProjekte();
+		}
+		return this.cachedProjektList;
+	}
+
 	public Collection<Aktivitaet> getAktivitaetenByProjekt() throws Exception {
 		Collection<Aktivitaet> retVal = null;
 		if( this.cachedAktivitaetenList == null ) {

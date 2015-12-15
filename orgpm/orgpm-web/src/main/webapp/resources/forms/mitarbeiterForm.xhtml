@@ -134,7 +134,7 @@
 					<p:outputLabel value="Rolle" />
 					<h:selectOneMenu id="rolle"
 						value="#{mitarbeiterAktionen.mitarbeiter.rolle}" var="ro">
-						<f:selectItems var="ro" value="#{rollenActions.alle}"
+						<f:selectItems var="ro" value="#{mitarbeiterAktionen.alleRollen}"
 							itemValue="#{ro}" itemLabel="#{ro}" />
 
 					</h:selectOneMenu>

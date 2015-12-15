@@ -30,6 +30,10 @@ public class ProjektDao {
 		return this.entityManager.createNamedQuery( "projekt.alle", Projekt.class ).getResultList();
 	}
 
+	public List<Projekt> readAlleAktiveProjekte() {
+		return this.entityManager.createNamedQuery( "projekt.alle.active", Projekt.class ).getResultList();
+	}
+
 	public void updateProjekt( Projekt p ) {
 
 		this.entityManager.merge( p );

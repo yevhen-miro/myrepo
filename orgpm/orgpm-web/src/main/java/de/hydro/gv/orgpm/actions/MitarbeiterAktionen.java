@@ -27,6 +27,7 @@ import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 import de.hydro.gv.orgpm.auth.Login;
+import de.hydro.gv.orgpm.auth.RolleEnum;
 import de.hydro.gv.orgpm.dao.LoginDao;
 import de.hydro.gv.orgpm.data.Mitarbeiter;
 import de.hydro.gv.orgpm.data.MitarbeiterProjekte;
@@ -87,6 +88,13 @@ public class MitarbeiterAktionen implements Serializable {
 	public Collection<Mitarbeiter> getAlleMitarbeiter() throws Exception {
 		if( this.cachedMitarbeiterList == null ) {
 			this.cachedMitarbeiterList = (ArrayList<Mitarbeiter>) this.mitarbeiterService.getAlleMitarbeiter();
+		}
+		return this.cachedMitarbeiterList;
+	}
+
+	public Collection<Mitarbeiter> getAlleITMitarbeiter() throws Exception {
+		if( this.cachedMitarbeiterList == null ) {
+			this.cachedMitarbeiterList = (ArrayList<Mitarbeiter>) this.mitarbeiterService.getAlleITMitarbeiter();
 		}
 		return this.cachedMitarbeiterList;
 	}
@@ -184,7 +192,7 @@ public class MitarbeiterAktionen implements Serializable {
 		List<Projekt> projekteSource = new ArrayList<Projekt>();
 		List<Projekt> projekteTarget = new ArrayList<Projekt>();
 
-		projekteSource = (List<Projekt>) this.projektService.getAlleProjekte();
+		projekteSource = (List<Projekt>) this.projektService.getAlleAktiveProjekte();
 
 		try {
 			projekteTarget = this.projektService.getAlleZugelasseneProjekte( this.mitarbeiter.getHydroId() );
@@ -251,6 +259,10 @@ public class MitarbeiterAktionen implements Serializable {
 
 	public void onTabChange( TabChangeEvent event ) throws Exception {
 		this.loadEnabledProjects();
+	}
+
+	public RolleEnum[] getAlleRollen() {
+		return RolleEnum.values();
 	}
 
 }

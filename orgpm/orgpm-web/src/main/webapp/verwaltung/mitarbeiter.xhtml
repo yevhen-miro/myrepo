@@ -12,7 +12,8 @@
 
 		<p:dataTable value="#{mitarbeiterAktionen.alleMitarbeiter}"
 			var="actMitarbeiter" editable="false" resizableColumns="false"
-			rowKey="#{actMitarbeiter.id}">
+			rowKey="#{actMitarbeiter.id}" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 			<f:facet name="header">
            Mitarbeiterinformation
        </f:facet>
@@ -20,17 +21,19 @@
 			<p:column headerText="Hydro ID" sortBy="#{actMitarbeiter.hydroId}"
 				style="width:8%">
 				<p:commandLink value="#{actMitarbeiter.hydroId.toLowerCase()}"
-					action="mitarbeiter-edit" >
+					action="mitarbeiter-edit">
 					<f:param name="ma-id" value="#{actMitarbeiter.id}" />
 					<f:param name="faces-redirect" value="true" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column headerText="Vorname" sortBy="#{actMitarbeiter.vorname}" style="width:9%">
+			<p:column headerText="Vorname" sortBy="#{actMitarbeiter.vorname}"
+				style="width:9%">
 				<h:outputText value="#{actMitarbeiter.vorname}" />
 			</p:column>
 
-			<p:column headerText="Name" sortBy="#{actMitarbeiter.name}" style="width:11%">
+			<p:column headerText="Name" sortBy="#{actMitarbeiter.name}"
+				style="width:11%">
 				<h:outputText value="#{actMitarbeiter.name}" />
 			</p:column>
 
@@ -39,11 +42,13 @@
 				<h:outputText value="#{actMitarbeiter.mitarbeiterkennung}" />
 			</p:column>
 
-			<p:column headerText="Rolle" sortBy="#{actMitarbeiter.rolle}" style="width:6%">
+			<p:column headerText="Rolle" sortBy="#{actMitarbeiter.rolle}"
+				style="width:6%">
 				<h:outputText value="#{actMitarbeiter.rolle}" />
 			</p:column>
 
-			<p:column headerText="Gruppe" sortBy="#{actMitarbeiter.gruppe}" style="width:8%">
+			<p:column headerText="Gruppe" sortBy="#{actMitarbeiter.gruppe}"
+				style="width:8%">
 				<h:outputText value="#{actMitarbeiter.gruppe}" />
 			</p:column>
 
@@ -60,18 +65,20 @@
 				<h:outputText value="#{actMitarbeiter.personalNum}" />
 			</p:column>
 
-			<p:column headerText="Karten Nr" sortBy="#{actMitarbeiter.kartenNum}" style="width:9%">
+			<p:column headerText="Karten Nr" sortBy="#{actMitarbeiter.kartenNum}"
+				style="width:9%">
 				<h:outputText value="#{actMitarbeiter.kartenNum}" />
 			</p:column>
 
-			<p:column headerText="Bemerkung" sortBy="#{actMitarbeiter.bemerkung}" style="width:13%">
+			<p:column headerText="Bemerkung" sortBy="#{actMitarbeiter.bemerkung}"
+				style="width:13%">
 				<h:outputText value="#{actMitarbeiter.bemerkung}" />
 			</p:column>
 
 
 			<p:column style="width:3%">
-				<p:commandLink value =""
-					action="#{mitarbeiterAktionen.removeMitarbeiter()}" ajax="false" 
+				<p:commandLink value=""
+					action="#{mitarbeiterAktionen.removeMitarbeiter()}" ajax="false"
 					styleClass="ui-icon ui-icon-trash">
 					<f:setPropertyActionListener value="#{actMitarbeiter}"
 						target="#{mitarbeiterAktionen.mitarbeiter}" />

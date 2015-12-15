@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+
+	<ui:define name="content">
+
+		<p:dataTable id="buchungReport" var="buchungen"
+			value="#{statistikActions.readAlleBuchungenByMonth()}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+			paginator="true" rows="10" style="margin-bottom:20px">
+
+			<f:facet name="{Exporters}">
+				<h:commandLink>
+					<p:graphicImage name="/img/CsvLogo.png" width="24"
+						style="float:right" />
+					<p:dataExporter type="csv" target="buchungReport"
+						fileName="orgpm_buchungen" pageOnly="false" />
+				</h:commandLink>
+
+				<h:commandLink>
+					<p:graphicImage name="/img/PdfLogo.png" width="24"
+						style="float:right" />
+					<p:dataExporter type="pdf" target="buchungReport" 
+						fileName="orgpm_buchungen" pageOnly="false" />
+				</h:commandLink>
+
+				<h:commandLink>
+					<p:graphicImage name="/img/ExcelLogo.png" width="24"
+						style="float:right" />
+					<p:dataExporter type="xls" target="buchungReport"
+						fileName="orgpm_buchungen" pageOnly="false" />
+				</h:commandLink>
+			</f:facet>
+
+			<p:column headerText="Hydro ID">
+				<h:outputText value="#{buchungen[0]}" style="width:6%"/>
+			</p:column>
+
+			<p:column headerText="Mitarbeiter">
+				<h:outputText value="#{buchungen[1]}" />
+			</p:column>
+
+			<p:column headerText="Projekt ID">
+				<h:outputText value="#{buchungen[2]}" />
+			</p:column>
+
+			<p:column headerText="Projekt Name">
+				<h:outputText value="#{buchungen[3]}" />
+			</p:column>
+
+			<p:column headerText="Aktivitaet Nr">
+				<h:outputText value="#{buchungen[4]}" />
+			</p:column>
+
+			<p:column headerText="Aktivitaet">
+				<h:outputText value="#{buchungen[5]}" />
+			</p:column>
+
+			<p:column headerText="Taetigkeit">
+				<h:outputText value="#{buchungen[6]}" />
+			</p:column>
+
+			<p:column headerText="Datum">
+				<h:outputText value="#{buchungen[7]}" >
+				<f:convertDateTime pattern="dd.MM.yyyy" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Dauer, min">
+				<h:outputText value="#{buchungen[8]}" />
+			</p:column>
+
+		</p:dataTable>
+
+<ui:remove>
+		<h3>Export Page Data Only</h3>
+		<h:commandLink>
+			<p:graphicImage name="/img/ExcelLogo.png" width="24" />
+			<p:dataExporter type="xlsx" target="buchungReport"
+				fileName="orgpm_buchungen" pageOnly="false" />
+		</h:commandLink>
+
+		<h:commandLink>
+			<p:graphicImage name="/img/PdfLogo.png" width="24" />
+			<p:dataExporter type="pdf" target="buchungReport"
+				fileName="orgpm_buchungen" pageOnly="false" />
+		</h:commandLink>
+
+		<h:commandLink>
+			<p:graphicImage name="/img/CsvLogo.png" width="24" />
+			<p:dataExporter type="csv" target="buchungReport"
+				fileName="orgpm_buchungen" pageOnly="false" />
+		</h:commandLink>
+</ui:remove>
+	</ui:define>
+
+	<ui:define name="action">
+
+		<p:commandButton actionListener="#{statistikActions.decrementMonth}"
+			style="width:14%" id="navLeft"
+			update=" :templateForm:monthYear, :templateForm:buchungReport"
+			icon="ui-icon-triangle-1-w" />
+
+		<p:commandButton id="monthYear"
+			value="#{statistikActions.monthAndYear}" style="width:67%" />
+
+		<p:commandButton actionListener="#{statistikActions.incrementMonth}"
+			style="width:14%" id="navRight"
+			update=" :templateForm:monthYear, :templateForm:buchungReport"
+			icon="ui-icon-triangle-1-e" />
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

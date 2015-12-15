@@ -43,8 +43,7 @@
 							</p:submenu>
 
 							<p:submenu label="Hilfe">
-								<p:menuitem value="Über ORGPM2.0"
-									url="/statistik/charts.xhtml" />
+								<p:menuitem value="Über ORGPM2.0" url="/statistik/charts.xhtml" />
 							</p:submenu>
 
 							<p:submenu label="Verwaltung"
@@ -54,6 +53,11 @@
 								<p:menuitem value="Projekte &amp; Aktivitäten"
 									url="/verwaltung/projekte.xhtml" />
 
+							</p:submenu>
+
+							<p:submenu label="Reports"
+							styleClass="#{securityActions.isMitarbeiterAdmin() ? 'admin' : 'user'}">
+								<p:menuitem value="SAP Verrechnung" url="/reports/month-report.xhtml" />
 							</p:submenu>
 
 

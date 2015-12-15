@@ -24,6 +24,10 @@ public class BuchungService {
 		return this.buchungDao.readAllBuchungen();
 	}
 
+	public Collection<Object> getAlleBuchungenByMonth( Integer month, Integer year ) throws Exception {
+		return this.buchungDao.readAlleBuchungenByMonth( month, year );
+	}
+
 	public void deleteBuchung( Buchung b ) throws Exception {
 		this.buchungDao.deleteBuchung( b );
 	};
@@ -54,16 +58,18 @@ public class BuchungService {
 		return this.buchungDao.getDauerByMitarbeiterAndMonth( hydroid, month );
 	}
 
-	public Long getDauerByMitarbeiterAndDay( String hydroid, Integer day, Integer month ) throws Exception {
-		return this.buchungDao.getDauerByMitarbeiterAndDay( hydroid, day, month );
+	public Long getDauerByMitarbeiterAndDay( String hydroid, Integer day, Integer month, Integer year )
+			throws Exception {
+		return this.buchungDao.getDauerByMitarbeiterAndDay( hydroid, day, month, year );
 	}
 
 	public List<Object[]> getDauerByProjektUndMitarbeiter( String hydroid ) throws Exception {
 		return this.buchungDao.getDauerByProjektUndMitarbeiter( hydroid );
 	}
 
-	public List<Object[]> getDauerByProjektUndMitarbeiterAndMonth( String hydroid, Integer month ) throws Exception {
-		return this.buchungDao.getDauerByProjektUndMitarbeiterAndMonth( hydroid, month );
+	public List<Object[]> getDauerByProjektUndMitarbeiterAndMonth( String hydroid, Integer month, Integer year )
+			throws Exception {
+		return this.buchungDao.getDauerByProjektUndMitarbeiterAndMonth( hydroid, month, year );
 	}
 
 	public Boolean isTimeViolated( String hydroid, Date date, Date azeit, Date ezeit ) throws Exception {
@@ -77,7 +83,8 @@ public class BuchungService {
 		for ( Buchung b : this.getBuchungenByMitarbeiter( hydroid, date ) ) {
 			if( azeit.after( b.getAnfangZeit() ) && azeit.before( b.getEndeZeit() ) || ezeit.after( b.getAnfangZeit() )
 					&& ezeit.before( b.getEndeZeit() ) || azeit.after( b.getAnfangZeit() )
-					&& azeit.before( b.getEndeZeit() ) ) {
+					&& azeit.before( b.getEndeZeit() ) || azeit.before( b.getAnfangZeit() )
+					&& ( ezeit.after( b.getEndeZeit() ) || ezeit.equals( b.getEndeZeit() ) ) ) {
 				ret = true;
 				throw new InvalidDateException( "Die Aktivitätszeit wurde schon gebucht " );
 			}

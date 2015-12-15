@@ -30,6 +30,10 @@ import javax.servlet.http.HttpServletRequest;
 @Table( name = "buchungen" )
 @NamedQueries( {
 		@NamedQuery( name = "buchung.delete.all", query = "DELETE FROM Buchung" ),
+		@NamedQuery(
+				name = "buchung.find.all.by.month",
+				query = "SELECT m.hydroId, m.nachname, p.projektId,p.projektName,a.aktivitaetNr,a.aktivitaetText,b.taetigkeiten,b.datum,b.min "
+						+ "FROM Buchung b, Mitarbeiter m, Projekt p, Aktivitaet a WHERE b.mitarbeiter.id = m.id and b.projekt.id = p.id and b.aktivitaet.id = a.id and FUNCTION('month',b.datum) = :month AND FUNCTION('year',b.datum) = :year" ),
 		@NamedQuery( name = "buchung.find.all", query = "SELECT b FROM Buchung AS b" ),
 		@NamedQuery( name = "buchung.find.duration.by.date",
 				query = "SELECT sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id "
@@ -42,13 +46,13 @@ import javax.servlet.http.HttpServletRequest;
 				query = "SELECT b.datum,sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month group by b.datum order by b.datum" ),
 		@NamedQuery(
 				name = "buchung.find.duration.by.mitarbeiter.and.day",
-				query = "SELECT sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month AND FUNCTION('day_of_month',b.datum) = :day" ),
+				query = "SELECT sum(b.min) FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month AND FUNCTION('day_of_month',b.datum) = :day AND FUNCTION('year',b.datum) = :year" ),
 		@NamedQuery(
 				name = "buchung.find.duration.by.projekt.and.mitarbeiter",
 				query = "SELECT p.projektId,sum(b.min) FROM Buchung AS b, Mitarbeiter m, Projekt p WHERE b.mitarbeiter.id = m.id AND b.projekt.id = p.id AND m.hydroId  = :hydroid group by p.projektId" ),
 		@NamedQuery(
-				name = "buchung.find.duration.by.projekt.and.mitarbeiter.and.month",
-				query = "SELECT p.projektId, sum(b.min) FROM Buchung AS b, Mitarbeiter m, Projekt p WHERE b.mitarbeiter.id = m.id AND b.projekt.id = p.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month group by p.projektId" ),
+				name = "buchung.find.duration.by.projekt.and.mitarbeiter.and.month.and.year",
+				query = "SELECT p.projektId, sum(b.min) FROM Buchung AS b, Mitarbeiter m, Projekt p WHERE b.mitarbeiter.id = m.id AND b.projekt.id = p.id AND m.hydroId  = :hydroid AND FUNCTION('month',b.datum) = :month AND FUNCTION('year',b.datum) = :year group by p.projektId" ),
 		@NamedQuery(
 				name = "buchung.find.by.date",
 				query = "SELECT b FROM Buchung AS b, Mitarbeiter m WHERE b.mitarbeiter.id = m.id AND m.hydroId = :hydroid and b.datum = :datum" ),

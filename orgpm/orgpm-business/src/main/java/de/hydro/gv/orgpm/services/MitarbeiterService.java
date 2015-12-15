@@ -26,6 +26,10 @@ public class MitarbeiterService {
 		return this.mitarbeiterDao.readAllMitarbeiter();
 	}
 
+	public Collection<Mitarbeiter> getAlleITMitarbeiter() throws Exception {
+		return this.mitarbeiterDao.readAlleMitarbeiter();
+	}
+
 	public void deleteMitarbeiter( Mitarbeiter m ) throws Exception {
 		this.mitarbeiterDao.deleteMitarbeiter( m );
 	};

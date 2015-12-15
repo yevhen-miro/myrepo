@@ -141,6 +141,18 @@ button {
 	visibility: collapse;
 }
 
+.green {
+	background-color: lightgreen;
+	visibility: collapse;
+	width:100%;
+}
+
+.red {
+	/*background-color: lightcoral;*/
+	visibility: visible;
+	width:100%;
+}
+
 .tableView table, .tableView a.ui-datepicker-prev, .tableView a.ui-datepicker-next
 	{
 	display: none;

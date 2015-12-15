@@ -19,6 +19,10 @@ public class ProjektService {
 		return this.projektDao.readAlleProjekte();
 	}
 
+	public Collection<Projekt> getAlleAktiveProjekte() throws Exception {
+		return this.projektDao.readAlleAktiveProjekte();
+	}
+
 	public void deleteProjekt( Projekt p ) throws Exception {
 		this.projektDao.deleteProjekt( p );
 	};

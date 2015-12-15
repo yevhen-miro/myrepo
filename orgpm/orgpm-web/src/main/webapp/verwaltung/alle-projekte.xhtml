@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+
+	<ui:define name="content">
+
+		<p:dataTable value="#{projektAktionen.alleProjekte}"
+			var="actProjekt" editable="false" resizableColumns="false" rows="10"
+			paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+			<f:facet name="header">
+           Aktuelle Projekte
+       </f:facet>
+
+			<p:column headerText="Projektname" sortBy="#{actProjekt.projektId}"
+				style="width:11%">
+				<p:commandLink value="#{actProjekt.projektId}" action="projekt-edit">
+					<f:setPropertyActionListener value="#{actProjekt}"
+						target="#{projektAktionen.projekt}" />
+					<f:param name="projektId" value="#{actProjekt.id}" />
+					<f:param name="faces-redirect" value="true" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column headerText="Aufwand" sortBy="#{actProjekt.planaufwand}"
+				style="width:10%">
+				<h:outputText value="#{actProjekt.planaufwand}" />
+			</p:column>
+
+			<p:column headerText="Name" style="width:27%">
+				<h:outputText value="#{actProjekt.projektName}" />
+			</p:column>
+
+			<p:column headerText="Gruppe" sortBy="#{actProjekt.projektGruppe}"
+				style="width:10%">
+				<h:outputText value="#{actProjekt.projektGruppe}" />
+			</p:column>
+
+			<p:column headerText="Projektleiter"
+				sortBy="#{actProjekt.projektLeiter}" style="width:13%">
+				<h:outputText value="#{actProjekt.projektLeiter}" />
+			</p:column>
+
+			<p:column headerText="Start" sortBy="#{actProjekt.projektstart}"
+				style="width:8%">
+				<h:outputText value="#{actProjekt.projektstart}">
+					<f:convertDateTime pattern="dd.MM.yyyy" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Ende" sortBy="#{actProjekt.projektende}">
+				<h:outputText value="#{actProjekt.projektende}" style="width:8%">
+					<f:convertDateTime pattern="dd.MM.yyyy" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Bemerkung" style="width:10%">
+				<h:outputText value="#{actProjekt.bemerkung}" />
+			</p:column>
+			<ui:remove>
+				<p:column headerText="Wartung">
+					<h:outputText value="#{actProjekt.wartungsprojekt}" />
+				</p:column>
+
+				<p:column headerText="Storno">
+					<h:outputText value="#{actProjekt.storniertesProjekt}" />
+				</p:column>
+			</ui:remove>
+			<p:column style="width:3%">
+				<p:commandLink value="" action="#{projektAktionen.removeProjekt()}"
+					ajax="false" styleClass="ui-icon ui-icon-trash">
+					<f:setPropertyActionListener value="#{actProjekt}"
+						target="#{projektAktionen.projekt}" />
+				</p:commandLink>
+			</p:column>
+
+		</p:dataTable>
+
+
+
+	</ui:define>
+	<ui:define name="action">
+		<p:commandButton value="Hinzufügen"
+			action="#{projektAktionen.addNewProjekt()}" ajax="false" />
+		<p:commandButton value="Zurück"
+			action="projekte.xhtml" ajax="false" />
+	</ui:define>
+
+</ui:composition>
+
+
+
+</html>

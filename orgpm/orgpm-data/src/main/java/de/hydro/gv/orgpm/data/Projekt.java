@@ -21,6 +21,8 @@ import javax.persistence.Table;
 @Table( name = "projekte" )
 @NamedQueries( {
 
+		@NamedQuery( name = "projekt.alle.active",
+				query = "SELECT p FROM Projekt AS p WHERE p.storniertesProjekt = false" ),
 		@NamedQuery( name = "projekt.alle", query = "SELECT p FROM Projekt AS p" ),
 		@NamedQuery( name = "proejekt.delete.all", query = "DELETE FROM Projekt" ),
 		@NamedQuery( name = "projekt.find.all", query = "SELECT p FROM Projekt AS p" ),

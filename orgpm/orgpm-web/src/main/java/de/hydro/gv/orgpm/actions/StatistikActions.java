@@ -6,6 +6,7 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,17 +60,29 @@ public class StatistikActions implements Serializable {
 	}
 
 	private Date filterMonth = new Date();
+	private Date today = new Date();
+	private Calendar cal = Calendar.getInstance();
 
 	DateFormat df = new SimpleDateFormat( "dd.MM.yyyy" );
 
-	private Integer monthNum = 10;
+	private Integer monthNum = this.cal.get( Calendar.MONTH ) + 1;
+
+	private Integer yearNum = this.cal.get( Calendar.YEAR );
 
 	public Integer getMonthNum() {
-		return this.monthNum;
+		return this.getMonthNum();
 	}
 
 	public void setMonthNum( Integer monthNum ) {
 		this.monthNum = monthNum;
+	}
+
+	public Integer getYearNum() {
+		return this.getYearNum();
+	}
+
+	public void setYearNum( Integer yearNum ) {
+		this.yearNum = yearNum;
 	}
 
 	public Date getFilterMonth() {
@@ -197,11 +210,12 @@ public class StatistikActions implements Serializable {
 
 		Map<String, Number> buchungMap = new HashMap<String, Number>();
 		if( this.buchungService.getDauerByProjektUndMitarbeiterAndMonth(
-				this.securityService.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum ).size() == 0 ) {
+				this.securityService.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum, this.yearNum )
+				.size() == 0 ) {
 			buchungMap.put( "Keine Buchungen gefunden", 0 );
 		}
 		for ( Object[] b : this.buchungService.getDauerByProjektUndMitarbeiterAndMonth( this.securityService
-				.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum ) ) {
+				.getSecurityPrincipalForLoggedInUser().toUpperCase(), this.monthNum, this.yearNum ) ) {
 			buchungMap.put( (String) b[0], (Long) b[1] );
 		}
 
@@ -213,6 +227,7 @@ public class StatistikActions implements Serializable {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime( filterDate );
 		this.monthNum = cal.get( Calendar.MONTH ) + 1;
+		this.yearNum = cal.get( Calendar.YEAR );
 		this.initModel();
 		;
 	}
@@ -228,6 +243,7 @@ public class StatistikActions implements Serializable {
 		this.filterMonth.setTime( c.getTimeInMillis() );
 		this.monthNum = c.get( Calendar.MONTH );
 		this.monthNum = this.monthNum + 1;
+		this.yearNum = c.get( Calendar.YEAR );
 		this.initModel();
 		// ... business logic to update date dependent data
 	}
@@ -242,6 +258,7 @@ public class StatistikActions implements Serializable {
 		this.filterMonth.setTime( c.getTimeInMillis() );
 		this.monthNum = c.get( Calendar.MONTH );
 		this.monthNum = this.monthNum + 1;
+		this.yearNum = c.get( Calendar.YEAR );
 		this.initModel();
 		// ... business logic to update date dependent data
 	}
@@ -278,14 +295,43 @@ public class StatistikActions implements Serializable {
 	}
 
 	public Long getDauerByMitarbeiterAndDay( String hydroid, String day ) throws Exception {
+		Long retVal = null;
 		int dom = this.getDayOfMonthNumber( day );
+		int year = Integer.parseInt( this.getMonthAndYear().substring( this.getMonthAndYear().length() - 4 ) );
 		int month = this.monthNum;
-		return this.buchungService.getDauerByMitarbeiterAndDay( hydroid, dom, month );
+		if( this.buchungService.getDauerByMitarbeiterAndDay( hydroid, dom, month, year ) == null ) {
+			retVal = 0L;
+		} else {
+			retVal = this.buchungService.getDauerByMitarbeiterAndDay( hydroid, dom, month, year );
+		}
+		return retVal;
 
+	}
+
+	public Boolean isGebucht( String hydroid, String day ) throws Exception {
+		Boolean retVal = false;
+
+		if( this.getDauerByMitarbeiterAndDay( hydroid, day ) >= 240L ) {
+			retVal = true;
+		} else {
+			retVal = false;
+		}
+		return retVal;
 	}
 
 	public Integer getDayOfMonthNumber( String strMonth ) {
 		int day = Integer.parseInt( strMonth.substring( 0, 2 ) );
 		return day;
+	}
+
+	public Integer getYear( String strMonth ) {
+		int year = Integer.parseInt( strMonth.substring( 0, 2 ) );
+		return year;
+	}
+
+	public Collection<Object> readAlleBuchungenByMonth() throws Exception {
+		Collection<Object> retVal = this.buchungService.getAlleBuchungenByMonth( this.monthNum, this.yearNum );
+		return retVal;
+
 	}
 }

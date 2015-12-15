@@ -52,6 +52,11 @@ public class MitarbeiterDao {
 	}
 
 	@SuppressWarnings( "unchecked" )
+	public List<Mitarbeiter> readAlleMitarbeiter() {
+		return this.entityManager.createNamedQuery( "mitarbeiter.find.alle.mitarbeiter" ).getResultList();
+	}
+
+	@SuppressWarnings( "unchecked" )
 	public List<RolleEnum> readAllRollen() {
 		return this.entityManager.createQuery( "select r FROM " + RolleEnum.class.getName() + " r" ).getResultList();
 	}

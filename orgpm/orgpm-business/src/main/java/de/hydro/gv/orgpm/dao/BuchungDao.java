@@ -59,6 +59,12 @@ public class BuchungDao {
 		return this.em.createQuery( "SELECT b FROM Buchung b", Buchung.class ).getResultList();
 	}
 
+	@SuppressWarnings( "unchecked" )
+	public List<Object> readAlleBuchungenByMonth( Integer month, Integer year ) {
+		return this.em.createNamedQuery( "buchung.find.all.by.month" ).setParameter( "month", month )
+				.setParameter( "year", year ).getResultList();
+	}
+
 	public void removeAlleBuchungen() {
 		this.em.createQuery( "DELETE FROM Buchungen" ).executeUpdate();
 
@@ -115,10 +121,10 @@ public class BuchungDao {
 		return buchungen;
 	}
 
-	public Long getDauerByMitarbeiterAndDay( String hydroid, Integer day, Integer month ) {
+	public Long getDauerByMitarbeiterAndDay( String hydroid, Integer day, Integer month, Integer year ) {
 		return (Long) this.em.createNamedQuery( "buchung.find.duration.by.mitarbeiter.and.day" )
 				.setParameter( "hydroid", hydroid ).setParameter( "day", day ).setParameter( "month", month )
-				.getSingleResult();
+				.setParameter( "year", year ).getSingleResult();
 	}
 
 	// @SuppressWarnings( "unchecked" )
@@ -142,12 +148,13 @@ public class BuchungDao {
 		return buchungen;
 	}
 
-	public List<Object[]> getDauerByProjektUndMitarbeiterAndMonth( String _hydroid, Integer _month ) {
+	public List<Object[]> getDauerByProjektUndMitarbeiterAndMonth( String _hydroid, Integer _month, Integer _year ) {
 
 		@SuppressWarnings( "unchecked" )
 		List<Object[]> buchungen = this.em
-				.createNamedQuery( "buchung.find.duration.by.projekt.and.mitarbeiter.and.month" )
-				.setParameter( "hydroid", _hydroid ).setParameter( "month", _month ).getResultList();
+				.createNamedQuery( "buchung.find.duration.by.projekt.and.mitarbeiter.and.month.and.year" )
+				.setParameter( "hydroid", _hydroid ).setParameter( "month", _month ).setParameter( "year", _year )
+				.getResultList();
 
 		return buchungen;
 	}
