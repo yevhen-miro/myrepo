@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+
+<!-- INTERFACE -->
+<cc:interface>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+
+	<h:panelGrid columns="2" style="margin-top:10px;width:80%">
+		<!-- Left column -->
+		<h:panelGrid title="Average monthly value of exposure [T€]:"
+			columns="4" style="float:left">
+			<h5>Average monthly value of exposure [T€]:</h5>
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+
+			<h:outputLink id="receivables">
+				<p:outputLabel value="Receivables[T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="receivalblesValue" />
+			<p:tooltip id="treceivables" for="receivables"
+				value="This is a mouseover effect for Receivables" trackMouse="true" />
+
+			<h:outputLink id="consignment">
+				<p:outputLabel value="Consignment (incl. in transit) [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="consignmentValue" />
+			<p:tooltip id="tconsignment" for="consignment"
+				value="This is a mouseover effect for Consignment (incl. in transit)"
+				trackMouse="true" />
+
+			<h:outputLink id="calloff">
+				<p:outputLabel value="Call-Off [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="calloffValue" />
+			<p:tooltip id="tcalloff" for="calloff"
+				value="This is a mouseover effect for Call-off" trackMouse="true" />
+
+			<h:outputLink id="exposure">
+				<p:outputLabel value="Total exposure incl. surcharge [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="exposureValue" />
+			<p:tooltip id="texposure" for="exposure"
+				value="This is a mouseover effect for total exposure"
+				trackMouse="true" />
+
+			<h:outputLink id="extcreditlimit">
+				<p:outputLabel value="External credit limit [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="extcreditlimitValue"
+				value="#{contractActions.actContract.externalcreditlimit}">
+				<f:convertNumber pattern="00" />
+			</p:inputText>
+			<p:tooltip id="tetcreditlimit" for="extcreditlimit"
+				value="This is a mouseover effect for external credit limit"
+				trackMouse="true" />
+
+			<h:outputLink id="intcreditlimit">
+				<p:outputLabel value="Internal credit limit [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="intcreditlimitValue"
+				value="#{contractActions.actContract.internalCreditLimit}">
+				<f:convertNumber pattern="00" />
+			</p:inputText>
+			<p:tooltip id="tintcreditlimit" for="intcreditlimit"
+				value="This is a mouseover effect for internal credit limit"
+				trackMouse="true" />
+
+			<h:outputLink id="totalcreditlimit">
+				<p:outputLabel value="Total credit limit [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="totalcreditlimitValue" />
+			<p:tooltip id="ttotalcreditlimit" for="totalcreditlimit"
+				value="This is a mouseover effect for total credit limit"
+				trackMouse="true" />
+
+
+			<h:outputLink id="exposureforrp">
+				<p:outputLabel value="Net exposure for RP [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="exposureforrpvalue" />
+			<p:tooltip id="texposureforrp" for="exposureforrp"
+				value="This is a mouseover effect for exposure for RP"
+				trackMouse="true" />
+
+			<h:outputLink id="stdcontract">
+				<p:outputLabel value="RP standard contract used?:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="stdcontractvalue"
+				value="#{contractActions.actContract.standardcontract}" />
+			<p:tooltip id="tstdcontract" for="stdcontract"
+				value="This is a mouseover effect for RP standard contract"
+				trackMouse="true" />
+
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+
+
+		</h:panelGrid>
+
+
+		<!-- Rightcolumn -->
+		<h:panelGrid title="Currency conversion and customer ratings: "
+			columns="4" style="float:right">
+			<h5>Currency and customer ratings:</h5>
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+
+			<h:outputLink id="currconversion">
+				<p:outputLabel value="Currency Conversion:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="currconversionValue"
+				value="#{contractActions.actContract.conversioncurrencyid.id}" />
+			<p:tooltip id="tcurrconversion" for="currconversion"
+				value="This is a mouseover effect for Currency Conversion"
+				trackMouse="true" />
+
+			<h:outputLink id="assumedrate">
+				<p:outputLabel value="Assumed Rate [EUR/EUR]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="assumedrateValue"
+				value="#{contractActions.actContract.assumedcurrencyrate}">
+				<f:convertNumber pattern="0.0000" />
+			</p:inputText>
+			<p:tooltip id="tassumedrate" for="assumedrate"
+				value="This is a mouseover effect for assumed currency rate"
+				trackMouse="true" />
+
+			<h:outputLink id="convamount">
+				<p:outputLabel value="Conversion amount [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="convamountValue" />
+			<p:tooltip id="tconvamount" for="convamount"
+				value="This is a mouseover effect for conversion amount"
+				trackMouse="true" />
+
+			<h:outputLink id="fixprice">
+				<p:outputLabel value="Already price fixed" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="fixpriceValue" />
+			<p:tooltip id="tfixprice" for="fixprice"
+				value="This is a mouseover effect for fixed price" trackMouse="true" />
+
+			<p:outputLabel value="Customer ratings" />
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+
+			<h:outputLink id="atradius">
+				<p:outputLabel value="Atradius [T€]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="atradiusvalue"
+				value="#{contractActions.actContract.ratingatradiusid}">
+			</p:inputText>
+			<p:tooltip id="tatradius" for="atradius"
+				value="This is a mouseover effect for atradius" trackMouse="true" />
+
+			<h:outputLink id="moody">
+				<p:outputLabel value="Moody's [text]:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="moodyvalue"
+				value="#{contractActions.actContract.ratingmoodys}" />
+			<p:tooltip id="tmoodyvalue" for="moody"
+				value="This is a mouseover effect for Moody Ranking"
+				trackMouse="true" />
+
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+			<h:outputText value="&#160;" />
+
+			<h:outputLink id="who">
+				<p:outputLabel value="Who [text]?:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:inputText id="whovalue"
+				value="#{contractActions.actContract.legalwho}" />
+			<p:tooltip id="twho" for="who"
+				value="This is a mouseover effect for who" trackMouse="true" />
+
+			<h:outputLink id="when">
+				<p:outputLabel value="When:" />
+			</h:outputLink>
+			<h:outputText value="&#160;" />
+			<p:calendar id="whenvalue"
+				value="#{contractActions.actContract.legalwhen}"
+				pattern="dd.MM.yyyy">
+			</p:calendar>
+			<p:tooltip id="twhen" for="when"
+				value="This is a mouseover effect for when" trackMouse="true" />
+
+		</h:panelGrid>
+
+
+	</h:panelGrid>
+
+<h:panelGrid layout="grid" columns="2" style="width:80%">
+	<p:outputLabel value="Comments from legal department"></p:outputLabel>
+	<p:inputTextarea value="#{contractActions.actContract.legalcomment}" style="width:100%">
+	</p:inputTextarea>
+</h:panelGrid>
+</cc:implementation>
+
+</html>

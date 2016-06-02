@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<!-- INTERFACE -->
+<cc:interface>
+
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+	<p:panelGrid style="margin-top:20px">
+
+		<f:facet name="header">
+			<p:row>
+				<p:column>Product Info</p:column>
+				<p:column style="width:4%">ST</p:column>
+				<p:column>Value</p:column>
+				<p:column>Current Year</p:column>
+				<p:column>Contract Year</p:column>
+			</p:row>
+		</f:facet>
+		
+		<ui:repeat var="i" value="#{contractActions.item}">
+			<p:row>
+				<p:column>#{i.prodInfoName}</p:column>
+				<p:column>#{i.scrapTypeCode}</p:column>
+				<p:column>#{i.volume}</p:column>
+				<p:column>#{i.ctp}</p:column>
+				<p:column>#{i.volume}</p:column>
+
+			</p:row>
+		</ui:repeat>
+
+
+
+
+
+	</p:panelGrid>
+
+</cc:implementation>
+
+</html>

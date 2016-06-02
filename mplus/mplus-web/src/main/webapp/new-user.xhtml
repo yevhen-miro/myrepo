@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+
+<ui:decorate template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+	
+<p:panelGrid columns="2">
+
+<p:outputLabel value="User name"></p:outputLabel>
+<p:inputText value="#{systemUserActions.actUser.name}"></p:inputText>
+
+<p:outputLabel value="User Full name"></p:outputLabel>
+<p:inputText value="#{systemUserActions.actUser.fullName}"></p:inputText>
+
+<p:outputLabel value="Email"></p:outputLabel>
+<p:inputText value="#{systemUserActions.actUser.email}"></p:inputText>
+
+<p:outputLabel value="User enabled"></p:outputLabel>
+<p:inputSwitch value="#{systemUserActions.actUser.isEnabled}"></p:inputSwitch> 
+
+
+
+
+
+
+
+<p:commandButton value="Add User" action="#{systemUserActions.addUser}">
+</p:commandButton>
+<p:commandButton value="Update User" action="#{systemUserActions.updateUser}">
+</p:commandButton>
+</p:panelGrid>
+	</ui:define>
+</ui:decorate>
+</html>

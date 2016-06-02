@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet library="scripts/css" name="styles.css"></h:outputStylesheet>
+</h:head>
+
+<h:body>
+	<h:form id="templateForm" prependId="false">
+		<h:panelGroup id="main" layout="block">
+			<h:panelGroup id="header" layout="block">
+
+			</h:panelGroup>
+
+			<h:panelGroup id="navigation" layout="block">
+				<ui:insert name="navigation">
+
+
+
+
+					<p:tabMenu activeIndex="#{param.i}">
+
+					</p:tabMenu>
+
+				</ui:insert>
+			</h:panelGroup>
+
+			<h:panelGroup id="content" layout="block">
+				<ui:insert name="content">
+					<h:outputText value="Platzhalter für Content" />
+				</ui:insert>
+			</h:panelGroup>
+
+			<h:panelGroup id="footer" layout="block">
+				<ui:insert name="footer">
+					<h:outputText value="(c) Hydro 2016" />
+				</ui:insert>
+			</h:panelGroup>
+		</h:panelGroup>
+
+		<h:messages />
+	</h:form>
+</h:body>
+</html>

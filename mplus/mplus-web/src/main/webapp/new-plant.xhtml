@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+
+<ui:decorate template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+	
+<p:panelGrid columns="2">
+
+<p:outputLabel value="Plant name"></p:outputLabel>
+<p:inputText value="#{plantActions.actPlant.plantName}"></p:inputText>
+
+<p:outputLabel value="CTX id"></p:outputLabel>
+<p:inputText value="#{plantActions.actPlant.ctxId}"></p:inputText>
+
+<p:outputLabel value="Plant enabled"></p:outputLabel>
+<p:inputSwitch value="#{plantActions.actPlant.plantEnabled}"></p:inputSwitch> 
+
+<p:outputLabel value="Plant Wide"></p:outputLabel>
+<p:inputText value="#{plantActions.actPlant.plantWideMinWidth}"></p:inputText>
+
+<p:outputLabel value="Cost Change"></p:outputLabel>
+<p:inputText value="#{plantActions.actPlant.grossCostChange}"></p:inputText>
+
+
+
+
+
+
+<p:commandButton value="Add plant" action="#{plantActions.addPlant}">
+</p:commandButton>
+<p:commandButton value="Update plant" action="#{plantActions.updatePlant}">
+</p:commandButton>
+</p:panelGrid>
+	</ui:define>
+</ui:decorate>
+</html>

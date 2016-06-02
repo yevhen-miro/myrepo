@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+
+<!-- INTERFACE -->
+<cc:interface>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+
+<p:panelGrid columns="3" layout="grid" >
+
+<p:panel header="General Clauses">
+		<p:selectManyCheckbox id="general" layout="grid" columns="1"
+			value="#{contractActions.actContract.clauses}">
+			<f:selectItem id="clause1" itemLabel="#{contractActions.clauses.get(0)}" itemValue="#{contractActions.clauses.get(0)}" itemDescription="Overdues clause. Here you should be able to read some clause description"/>
+			<f:selectItem id="clause2" itemLabel="#{contractActions.clauses.get(1)}" itemValue="#{contractActions.clauses.get(1)}" />
+			<f:selectItem id="clause3" itemLabel="#{contractActions.clauses.get(2)}" itemValue="#{contractActions.clauses.get(2)}" />
+			<f:selectItem id="clause4" itemLabel="#{contractActions.clauses.get(3)}" itemValue="#{contractActions.clauses.get(3)}" />
+			<f:selectItem id="clause5" itemLabel="#{contractActions.clauses.get(4)}" itemValue="#{contractActions.clauses.get(4)}" />
+			<f:selectItem id="clause6" itemLabel="#{contractActions.clauses.get(5)}" itemValue="#{contractActions.clauses.get(5)}" />
+			<f:selectItem id="clause7" itemLabel="#{contractActions.clauses.get(6)}" itemValue="#{contractActions.clauses.get(6)}" />
+			<f:selectItem id="clause8" itemLabel="#{contractActions.clauses.get(7)}" itemValue="#{contractActions.clauses.get(7)}" />
+			<f:selectItem id="clause9" itemLabel="#{contractActions.clauses.get(8)}" itemValue="#{contractActions.clauses.get(8)}" />
+
+		</p:selectManyCheckbox>
+</p:panel>
+
+<p:panel header="Inflation Clauses">
+		<p:selectManyCheckbox id="inflation" layout="grid" columns="1"
+			value="#{contractActions.actContract.clauses}">
+			<f:selectItem itemLabel="#{contractActions.clauses.get(9)}" itemValue="#{contractActions.clauses.get(9)}" />
+			<f:selectItem itemLabel="#{contractActions.clauses.get(10)}" itemValue="#{contractActions.clauses.get(10)}" />
+			<f:selectItem itemLabel="#{contractActions.clauses.get(11)}" itemValue="#{contractActions.clauses.get(11)}" />
+			<f:selectItem itemLabel="#{contractActions.clauses.get(12)}" itemValue="#{contractActions.clauses.get(12)}" />
+		</p:selectManyCheckbox>
+</p:panel>
+
+<p:panel header="Other Clauses" >
+		<p:selectManyCheckbox id="other" layout="grid" columns="1"
+			value="#{contractActions.actContract.clauses}">
+			<f:selectItem itemLabel="#{contractActions.clauses.get(13)}" itemValue="#{contractActions.clauses.get(13)}" />
+			<f:selectItem itemLabel="#{contractActions.clauses.get(14)}" itemValue="#{contractActions.clauses.get(14)}" />
+		</p:selectManyCheckbox>
+</p:panel>
+
+</p:panelGrid>
+
+
+</cc:implementation>
+
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://jboss.org/schema/arquillian"
+	xsi:schemaLocation="http://jboss.org/schema/arquillian http://www.jboss.org/schema/arquillian/arquillian_1_0.xsd">
+	<container qualifier="jboss" default="true">
+		<configuration>
+			<property name="managementAddress">localhost</property>
+			<property name="managementPort">9990</property>
+			<property name="username">admin</property>
+			<property name="password">adminadmin</property>
+		</configuration>
+	</container>
+</arquillian>

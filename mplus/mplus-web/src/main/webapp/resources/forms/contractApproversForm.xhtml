@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+
+<!-- INTERFACE -->
+<cc:interface>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+
+
+	<p:dataTable var="approver" id="approverTable" tableStyleClass="ui-panelgrid-cell ui-widget-header"
+		value="#{contractActions.approvers}">
+		<p:column headerText="Level" style="width:10%">
+			<h:outputText value="#{approver.signLevel}" />
+		</p:column>
+
+		<p:column headerText="Name" style="width:20%">
+			<h:outputText value="#{approver.user.fullName}" />
+		</p:column>
+
+		<p:column headerText="Email" style="width:20%">
+			<h:outputText value="#{approver.user.email}" />
+		</p:column>
+
+		<p:column headerText="Approved?" style="width:10%">
+			<p:selectBooleanCheckbox value="#{approver.isApproved}" disabled="true">
+			</p:selectBooleanCheckbox>
+		</p:column>
+
+		<p:column headerText="Finalized?" style="width:10%">
+			<p:selectBooleanCheckbox value="#{approver.isFinalized}" disabled="true">
+			</p:selectBooleanCheckbox>
+		</p:column>
+
+		<p:column headerText="Deleted?" style="width:10%">
+			<p:selectBooleanCheckbox value="#{approver.isDeleted}" disabled="true">
+			</p:selectBooleanCheckbox>
+		</p:column>
+
+		<p:column style="width:20%">
+			<p:commandButton value="Send Email" >
+			</p:commandButton>
+		</p:column>
+	</p:dataTable>
+
+
+
+
+</cc:implementation>
+
+</html>

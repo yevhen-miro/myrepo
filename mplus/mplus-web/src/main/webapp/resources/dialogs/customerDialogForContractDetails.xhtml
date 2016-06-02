@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:cc="http://java.sun.com/jsf/composite">
+
+<!-- INTERFACE -->
+<cc:interface>
+	<cc:attribute name="actButtonLabel" required="true"></cc:attribute>
+	<cc:attribute name="actButtonAction"
+		method-signature="java.lang.String action()" required="true"></cc:attribute>
+	<cc:attribute name="update" />
+	<cc:attribute name="widgetName" />
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+	<p:dialog id="Dialog" header="Find Customer" widgetVar="dialogCustomer"
+		dynamic="true" position="center center" minHeight="40"
+		resizable="false" closable="true" draggable="true" width="60%"
+		height="60%">
+		<p:ajax event="close" update="Dialog" />
+		<h:form id="dialogForm">
+			<p:panelGrid columns="2" style="height:100%">
+
+
+				<p:panel id="parents">
+					<p:outputLabel value="Parent: " />
+
+
+					<p:selectOneListbox id="parent" scrollHeight="240"
+						value="#{customerActions.actParent}" style="width:100%">
+						<p:ajax listener="#{customerActions.onParentChange}"
+							update="contract-details:templateForm:contract-details:dialog:dialogForm:customersList"
+							styleClass=".ui-selectonemenu-label" />
+						<f:converter converterId="customerParentConverter" />
+
+						<f:selectItems var="parents"
+							value="#{customerActions.allCustomerParents}"
+							itemLabel="#{parents.name}" />
+
+					</p:selectOneListbox>
+				</p:panel>
+				<p:panel id="customers" style="width:440px">
+					<p:outputLabel value="Customer: " />
+
+					<p:panelGrid columns="2">
+						<p:inputText id="findCustomer"
+							value="#{customerActions.customerName}" style="width:280px">
+						</p:inputText>
+						<p:commandButton value="Find" style="width:70px"
+							actionListener="#{customerActions.findCustomersByName()}"
+							update="contract-details:templateForm:contract-details:dialog:dialogForm:customersList"
+							process="@form">
+						</p:commandButton>
+					</p:panelGrid>
+
+					<p:selectOneListbox id="customersList" scrollHeight="200"
+						value="#{contractActions.customer}" style="width:400px">
+					<!-- 	<p:ajax event="change"
+							update="templateForm:dialog:dialogForm:actButton">
+							</p:ajax> 
+				     -->
+						<f:converter converterId="customerConverter" />
+						<f:selectItems var="cus" value="#{customerActions.customers}"
+							itemLabel="#{cus.customer_fullname}" />
+
+					</p:selectOneListbox>
+				</p:panel>
+
+			</p:panelGrid>
+			<p:commandButton value="New Customer" styleClass="btn btn-default"
+				style="float:right; width:32%" disabled="true"
+				oncomplete="PF('#{cc.attrs.widgetName}').hide();">
+			</p:commandButton>
+
+			<p:commandButton value="Cancel"
+				actionListener="#{customerActions.resetDialog}"
+				update="contract-details:templateForm:contract-details:dialog:dialogForm:customersList"
+				oncomplete="PF('#{cc.attrs.widgetName}').hide();"
+				styleClass="btn btn-default" style="float:right; width:32%"
+				process="@this">
+				<p:resetInput target="templateForm:dialog:dialogForm" />
+			</p:commandButton>
+
+			<p:commandButton id="actButton" value="#{cc.attrs.actButtonLabel}"
+				action="#{cc.attrs.actButtonAction}" update="#{cc.attrs.update}"
+				styleClass="btn btn-default" style="float:right; width:34%"
+				oncomplete="PF('#{cc.attrs.widgetName}').hide();"
+				process="@form">
+				
+			<!-- 	disabled="#{empty customerActions.customers}" -->
+			</p:commandButton>
+
+
+
+
+
+
+
+
+		</h:form>
+	</p:dialog>
+
+</cc:implementation>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:panelGrid columns="7" id="panelContent" style="width:100%">
+
+			<!-- Filter elements panel -->
+			
+			<p:outputLabel value="Number: " />
+			<p:inputText id="inputId" value="#{contractActions.id}"
+				style="width:100%"></p:inputText>
+				
+			<p:outputLabel value="Status: " />
+			<h:selectOneMenu id="status"
+				value="#{contractActions.contractStatus}" style="width:100%">
+				<f:selectItem itemLabel="" itemValue="" />
+				<f:selectItem itemLabel="Deleted" itemValue="-1" />
+				<f:selectItem itemLabel="New" itemValue="0" />
+				<f:selectItem itemLabel="Unapproved" itemValue="1" />
+				<f:selectItem itemLabel="Approved" itemValue="3" />
+				<f:selectItem itemLabel="Cancelled" itemValue="7" />
+				<f:selectItem itemLabel="Pending Approval" itemValue="2" />
+				<f:selectItem itemLabel="Finalized" itemValue="5" />
+			</h:selectOneMenu>
+
+			<p:outputLabel value="Customer: " />
+			<p:inputText id="customerInput" value="#{contractActions.customer}" style="width:100%">
+				<f:converter converterId="customerConverter" />
+			</p:inputText>
+			<p:commandButton value="Find Customer" type="button"
+				style="width:100%" icon="ui-icon-search"
+				onclick="PF('dialogCustomer').show();">
+			</p:commandButton>
+
+
+			<p:outputLabel value="BU: " />
+			<h:selectOneMenu id="bu" value="#{contractActions.bu}"
+				style="width:100%">
+				<p:ajax listener="#{contractActions.onBUChange}"
+					update="templateForm:cbu" styleClass=".ui-selectonemenu-label" />
+				<f:selectItem itemLabel="" itemValue="#{contractActions.bu}" />
+				<f:converter converterId="BUConverter" />
+				<f:selectItems var="bu" value="#{BUActions.allBUs}"
+					itemLabel="#{bu.name}" />
+			</h:selectOneMenu>
+			
+			<p:outputLabel value="CBU: " />
+			<h:selectOneMenu id="cbu" value="#{contractActions.cbu}"
+				style="width:100%">
+				<f:selectItem itemLabel="" itemValue="#{contractActions.cbu}" />
+				<f:converter converterId="CBUConverter" />
+				<f:selectItems var="cbu" value="#{contractActions.cbuList}"
+					itemLabel="#{cbu.name}" />
+			</h:selectOneMenu>
+			
+			<p:outputLabel value="Plant: " />
+			<h:selectOneMenu id="plant" value="#{contractActions.plant}"
+				 style="width:100%">
+				<f:selectItem itemLabel="" itemValue="#{contractActions.plant}"/>
+				<f:converter converterId="plantConverter" />
+				<f:selectItems var="plant" value="#{contractActions.plantList}"
+					itemLabel="#{plant.plantName}" />
+			</h:selectOneMenu>
+			
+			<dialogs:customerDialog id="dialog" 
+				widgetName="dialogCustomer">
+			</dialogs:customerDialog>
+
+			<p:outputLabel value="Seller " />
+			<h:selectOneMenu id="seller" value="#{contractActions.seller}"
+				 style="width:100%">
+				<f:selectItem itemLabel=""
+					itemValue="#{contractActions.actContract.seller}"
+					 />
+				<f:converter converterId="systemUserConverter" />
+				<f:selectItems var="user" value="#{contractActions.userList}"
+					itemLabel="#{user.fullName}"  />
+			</h:selectOneMenu>
+
+			<h:outputText value="&#160;" />
+			
+			<h:outputText value="&#160;" />
+			
+			<p:outputLabel value="Approver: " />
+			<h:selectOneMenu id="approver" value="#{contractActions.approver}"
+				styleClass="noupdate" style="width:100%">
+				<f:selectItem itemLabel="" itemValue="#{contractActions.approver}"
+					styleClass="noupdate" />
+				<f:converter converterId="UserConverter" />
+				<f:selectItems var="approver" value="#{contractActions.userList}"
+					itemLabel="#{approver.fullName}" styleClass="noupdate" />
+			</h:selectOneMenu>
+			
+			<h:outputText value="&#160;" />
+			
+		</p:panelGrid>
+
+		<p:separator>
+		</p:separator>
+
+		<!-- Contracts Data table -->
+		
+		<p:dataTable id="contractsTable" styleClass="contracts"
+			value="#{contractActions.allContracts}" widgetVar="Table"
+			selectionMode="single" var="contract" sortMode="single"
+			selection="#{contractActions.actContract}" resizableColumns="false"
+			rows="10" paginator="true" rowKey="#{contract.id}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+			<p:ajax event="rowDblselect"
+				listener="#{contractActions.onRowDblClckSelect}"
+				update=":templateForm:messages">
+			</p:ajax>
+
+			<p:column headerText="ID" sortBy="#{contract.id}" style="width:8%">
+				<h:outputText value="#{contract.id}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Status" sortBy="#{contract.statusId}"
+				style="width:12%">
+				<h:outputText value="#{contract.statusId}">
+					<f:converter converterId="ContractStatusConverter" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Customer Name"
+				sortBy="#{contract.customer.customer_name}" style="width:30%">
+				<h:outputText value="#{contract.customer.customer_fullname}" />
+			</p:column>
+
+			<p:column headerText="Seller Name" style="width:20%"
+				sortBy="#{contract.seller.fullName}">
+				<h:outputText value="#{contract.seller.fullName}" />
+			</p:column>
+
+			<p:column headerText="Start"
+				sortBy="#{contract.startdateid.dateFull}" style="width:8%">
+				<h:outputText value="#{contract.startdateid.dateFull}">
+					<f:convertDateTime pattern="YYYY.MM" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="End" sortBy="#{contract.enddateid.dateFull}"
+				style="width:8%">
+				<h:outputText value="#{contract.enddateid.dateFull}">
+					<f:convertDateTime pattern="YYYY.MM" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="CBU" style="width:10%"
+				sortBy="#{contract.cbu.name}">
+				<h:outputText value="#{contract.cbu.name}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Plant" style="width:10%"
+				sortBy="#{contract.plant}">
+				<h:outputText value="#{contract.plant}">
+				</h:outputText>
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+
+
+	<!-- Action Buttons panel -->
+
+	<ui:define name="action">
+
+		<p:commandButton value="Create New" 
+			icon="ui-icon-pencil" 
+			styleClass="ui-button"
+			onclick="PF('dialogContract').show();">
+		</p:commandButton>
+
+		<p:commandButton value="Copy" icon="ui-icon-copy"
+			styleClass="button"
+			disabled="true"
+			update=":templateForm:contractsTable :templateForm:inputId">
+		</p:commandButton>
+
+		<p:commandButton value="Search" icon="ui-icon-search"
+			styleClass="button"
+			actionListener="#{contractActions.searchContracts()}" ajax="true"
+			update="templateForm:contractsTable">
+		</p:commandButton>
+		
+		<h:commandButton value="   Reset" icon="ui-icon-arrowrefresh-1-w"
+			style="height:30px;width:90%"
+			actionListener="#{contractActions.reset}"
+			styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button">
+			<f:ajax
+				render="templateForm:contractsTable templateForm:panelContent templateForm:customerInput templateForm:plant"
+				resetValues="true" />
+			<i class="ui-icon-arrowrefresh-1-w"></i>
+		</h:commandButton>
+
+		<dialogs:contractDialog id="contractDialog"
+		  						widgetName="dialogContract">
+		</dialogs:contractDialog>
+
+	<!-- Skin Switcher utility is deactivated. Should be activated only for demo purposes -->
+		<ui:remove>
+			<h:form id="switcher">
+				<h:panelGrid columns="2" cellpadding="10">
+					<p:outputLabel for="basic" value="Basic:" />
+					<p:themeSwitcher id="basic" style="width:165px">
+						<f:selectItem itemLabel="Choose Theme" itemValue="" />
+						<f:selectItems value="#{themeSwitcher.themes}" />
+					</p:themeSwitcher>
+				</h:panelGrid>
+			</h:form>
+		</ui:remove>
+
+	</ui:define>
+
+</ui:composition>
+
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+
+		<p:dataTable id="customersTable"
+			value="#{customerActions.customersByParent}" widgetVar="Table"
+			var="customer" editable="false" editMode="row"
+			resizableColumns="false" filteredValue="#{customer}" rows="10"
+			paginator="true" rowKey="#{actBuchungen.id}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+			<f:facet name="header">
+				 Customers
+				</f:facet>
+
+			<p:column headerText="ID" sortBy="#{customer.customer_id}"
+				style="width:10%">
+				<h:outputText value="#{customer.customer_id}" />
+			</p:column>
+
+			<p:column headerText="Customer Type"
+				sortBy="#{customer.customer_type.customertype_name}"
+				style="width:10%">
+				<h:outputText value="#{customer.customer_type.customertype_name}" />
+			</p:column>
+
+
+			<p:column headerText="Customer Name"
+				sortBy="#{customer.customer_name}" style="width:10%">
+				<h:outputText value="#{customer.customer_name}" />
+			</p:column>
+
+			<p:column headerText="Customer Full Name"
+				sortBy="#{customer.customer_fullname}" style="width:10%">
+				<h:outputText value="#{customer.customer_fullname}" />
+			</p:column>
+
+			<p:column headerText="Customer Rank"
+				sortBy="#{customer.customer_rank}" style="width:10%">
+				<h:outputText value="#{customer.customer_rank}" />
+			</p:column>
+
+			<p:column headerText="Customer Parent"
+				sortBy="#{customer.parent_id.id}" style="width:10%">
+				<h:outputText value="#{customer.parent_id.name}" />
+			</p:column>
+
+			<p:column headerText="Customer City" sortBy="#{customer.city}"
+				style="width:10%">
+				<h:outputText value="#{customer.city}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+
+	<ui:define name="action">
+
+		<p:outputLabel value="Customer Parent: " />
+		<h:selectOneMenu id="status" value="#{customerActions.actParent}"
+			style="width:100%">
+			<p:ajax listener="#{customerActions.customersByParent}"
+						update="templateForm:customersTable"
+						styleClass=".ui-selectonemenu-label" />
+            <f:selectItems value="#{customerActions.allCustomerParents}" />
+		</h:selectOneMenu>
+
+	</ui:define>
+
+
+</ui:composition>
+
+</html>

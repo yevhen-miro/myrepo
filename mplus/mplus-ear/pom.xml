@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>de.hydro.gv</groupId>
+    <artifactId>mplus</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>mplus-ear</artifactId>
+  <packaging>ear</packaging>
+  <name>mplus-ear</name>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>mplus-data</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>mplus-business</artifactId>
+			<version>${project.parent.version}</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>mplus-web</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+
+<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+					<generateApplicationXml>true</generateApplicationXml>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<fileNameMapping>no-version</fileNameMapping>
+					<libraryDirectoryMode>NONE</libraryDirectoryMode>
+					<modules>
+						<jarModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>mplus-data</artifactId>
+							<bundleFileName>mplus-data.jar</bundleFileName>
+						</jarModule>
+						<ejbModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>mplus-business</artifactId>
+						</ejbModule>
+						<webModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>mplus-web</artifactId>
+							<contextRoot>/mplus</contextRoot>
+						</webModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>	
+
+</project>

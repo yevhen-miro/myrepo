@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+
+<!-- INTERFACE -->
+<cc:interface>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+
+	<h:panelGrid columns="2" style="margin-top:10px;width:80%">
+
+		<h:panelGrid columns="3" style="float:left">
+
+			<p:outputLabel value="Gross Margin [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="gm" />
+
+			<p:outputLabel value="Change vs. previous year [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="changepy" />
+
+			<p:outputLabel value="If multi-year, change 2nd year [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="secondyearchange" />
+
+			<p:outputLabel value="If multi-year, change 3rd year [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="thirdyearchange" />
+
+			<p:outputLabel value="Gross cost change vs PY [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="grosscostchangepy" />
+
+			<p:outputLabel value="Net effect [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="netteffect" />
+
+			<p:outputLabel value="Expected CTP [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="ctp" />
+
+			<p:outputLabel value="Expected EBIT [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="ebit" />
+
+			<p:outputLabel value="Currency Metal:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="currencymet"
+				value="#{contractActions.actContract.metalcurrencyid}" />
+
+			<p:outputLabel value="Assumed Rate [EUR/EUR]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="assumedrate"
+				value="#{contractActions.actContract.assumedusdrate}" />
+
+			<p:outputLabel value="If fixed metal premium, fixed at:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="fixedpremium"
+				value="#{contractActions.actContract.fixedmetalpremium}" />
+
+			<p:outputLabel value="If fixed metal freight, fixed at:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="fixedfreight"
+				value="#{contractActions.actContract.fixedmetalfreight}" />
+
+			<p:outputLabel value="Metal price fixing:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="mpricefixing" value="Formula" />
+
+			<p:outputLabel value="If formula, formula type:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="formulatype"
+				value="#{contractActions.actContract.formulatype}" />
+
+			<p:outputLabel value="Max. metal price fixing vol. > M-2: [t]" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="maxpricefixing" value="" />
+
+		</h:panelGrid>
+
+		<!-- Dummy -->
+
+
+		<!-- Right part -->
+
+		<h:panelGrid columns="3" style="float:right">
+
+			<p:outputLabel value="Sales Volume [t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="salesvolume" value="" />
+
+			<p:outputLabel value="Sales Volume Tolerance [%]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="salesvolumetolerance"
+				value="#{contractActions.actContract.volumetolerance}" />
+
+			<p:outputLabel value="Bonus [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="bonus" value="#{contractActions.actContract.bonus}" />
+
+			<p:outputLabel value="Cash Discount [%]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="cashdiscount"
+				value="#{contractActions.actContract.cashdiscount}" />
+
+			<p:outputLabel value="External Agent" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="extagent"
+				value="#{contractActions.actContract.agentid}" />
+
+			<p:outputLabel value="Commision [€/t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="comission"
+				value="#{contractActions.actContract.commission}" />
+
+			<p:outputLabel value="Max. consignment stock [t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="maxstock"
+				value="#{contractActions.actContract.maxconsignmentstock}" />
+
+			<p:outputLabel value="Max. consignment days:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="maxconsignmentdays"
+				value="#{contractActions.actContract.maxconsignmentdays}" />
+
+			<p:outputLabel value="Consignment in transit [t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="consintransit"
+				value="#{contractActions.actContract.consignmentInTransit}" />
+
+			<p:outputLabel value="Max. call-off volume [t]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="calloffvolume"
+				value="#{contractActions.actContract.maxcalloffvolume}" />
+
+			<p:outputLabel value="Payment Term:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="paymentterm"
+				value="#{contractActions.actContract.paymentterm}" />
+
+			<p:outputLabel value="Payment terms description:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="paytermtext"
+				value="#{contractActions.actContract.paymentterm.description}" />
+
+			<p:outputLabel value="Payment terms [days]:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="paytermsdays"
+				value="#{contractActions.actContract.paymenttermdays}" />
+
+			<p:outputLabel value="Incoterms (2010):" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="incoterms"
+				value="#{contractActions.actContract.incotermid}" />
+
+			<p:outputLabel value="Dummy:" />
+			<h:outputText value="&#160;" />
+			<p:inputText id="dummy" value="" />
+
+
+		</h:panelGrid>
+
+	</h:panelGrid>
+
+
+</cc:implementation>
+
+</html>

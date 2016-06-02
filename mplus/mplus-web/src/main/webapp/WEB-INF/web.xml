@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+
+	<display-name>mplus</display-name>
+
+	<listener>
+		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/login.xhtml?faces-redirect=true</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.faces.FacesException</exception-type>
+		<location>/login.xhtml?faces-redirect=true</location>
+	</error-page>
+
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>client</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>afternoon</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>facelets.SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<session-config>
+		<session-timeout>480</session-timeout>
+	</session-config>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>/contracts.xhtml</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/index.xhtml?faces-redirect=true</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.enterprise.context.NonexistentConversationException</exception-type>
+		<location>/index.xhtml?nocid=true</location>
+	</error-page>
+
+	<context-param>
+		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	
+
+	<!-- Protected Areas -->
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Angemeldete Benutzer</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Administrator</role-name>
+			<role-name>Product Manager</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-role>
+		<role-name>Administrator</role-name>
+	</security-role>
+	
+		<security-role>
+		<role-name>Product Manager</role-name>
+	</security-role>
+
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Allesoffen</web-resource-name>
+			<url-pattern>/javax.faces.resource/*</url-pattern>
+			<url-pattern>/resource/*</url-pattern>
+			<url-pattern>/resource/mobile/*</url-pattern>
+			<url-pattern>/resources/css/*</url-pattern>
+			<url-pattern>/resources/images/*</url-pattern>
+			<url-pattern>/resources/img/*</url-pattern>
+			<url-pattern>/resources/js/*</url-pattern>
+			<url-pattern>/resources/bootstrap/*</url-pattern>
+			<url-pattern>/login.xhtml</url-pattern>
+			<url-pattern>/loginError.xhtml</url-pattern>
+		</web-resource-collection>
+		<!-- alles offen -->
+	</security-constraint>
+
+
+
+	<!-- Validation By Form -->
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.xhtml</form-login-page>
+			<form-error-page>/loginError.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
+
+
+
+
+</web-app>

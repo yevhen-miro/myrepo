@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<!-- INTERFACE -->
+<cc:interface>
+
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+	<p:panelGrid style="margin-top:20px">
+
+		<f:facet name="header">
+			<p:row>
+				<p:column>Product Info</p:column>
+				<p:column style="width:4%">ST</p:column>
+				<p:column>Value</p:column>
+				<p:column>Current Year</p:column>
+				<p:column>Contract Year</p:column>
+			</p:row>
+		</f:facet>
+
+		<p:row>
+			<p:column style="width:8%">
+				<h:outputText value="#{contractActions.item.get(0).prodInfoName}">
+				</h:outputText>
+			</p:column>
+
+			<p:column style="width:4%">
+				<h:outputText value="#{contractActions.actContract.scraptypeid}">
+				</h:outputText>
+			</p:column>
+
+			<p:column style="width:8%">
+				<h:outputText value="Sales Volume [t]">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(1).volume}">
+				</p:inputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(0).volume}">
+				</p:inputText>
+			</p:column>
+		</p:row>
+
+		<!-- 2nd row  -->
+		<p:row>
+			<p:column headerText="Product Info" style="width:8%">
+				<h:outputText value="#{contractActions.item.get(1).prodInfoName}">
+				</h:outputText>
+			</p:column>
+
+
+			<p:column headerText="ST" style="width:4%">
+				<h:outputText value="#{contractActions.actContract.scraptypeid}">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Value" style="width:8%">
+				<h:outputText value="Gross Margin [€/t]:">
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Current Year" style="width:8%">
+				<p:inputText value="#{contractActions.item.get(1).gm}">
+				</p:inputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(0).gm}">
+				</p:inputText>
+			</p:column>
+		</p:row>
+		
+				<!-- 3rd row  -->
+		<p:row>
+			<p:column style="width:8%">
+				<h:outputText value="#{contractActions.item.get(1).prodInfoName}">
+				</h:outputText>
+			</p:column>
+
+
+			<p:column style="width:4%">
+				<h:outputText value="#{contractActions.actContract.scraptypeid}">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<h:outputText value="CTP [t]">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(1).ctp}">
+				</p:inputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(0).ctp}">
+				</p:inputText>
+			</p:column>
+		</p:row>
+		
+				<!-- 4th row  -->
+		<p:row>
+			<p:column style="width:8%">
+				<h:outputText value="#{contractActions.item.get(1).prodInfoName}">
+				</h:outputText>
+			</p:column>
+
+
+			<p:column style="width:4%">
+				<h:outputText value="#{contractActions.actContract.scraptypeid}">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<h:outputText value="Cost Change [€/t]">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(1).costChange}">
+				</p:inputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(0).costChange}">
+				</p:inputText>
+			</p:column>
+		</p:row>
+		
+						<!-- 5th row  -->
+		<p:row>
+			<p:column style="width:8%">
+				<h:outputText value="#{contractActions.item.get(1).prodInfoName}">
+				</h:outputText>
+			</p:column>
+
+
+			<p:column style="width:4%">
+				<h:outputText value="#{contractActions.actContract.scraptypeid}">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<h:outputText value="Net Effect [€/t]">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(1).netEffect}">
+				</p:inputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(0).netEffect}">
+				</p:inputText>
+			</p:column>
+		</p:row>
+		
+						<!-- 5th row  -->
+		<p:row>
+			<p:column style="width:8%">
+				<h:outputText value="#{contractActions.item.get(1).prodInfoName}">
+				</h:outputText>
+			</p:column>
+
+
+			<p:column style="width:4%">
+				<h:outputText value="#{contractActions.actContract.scraptypeid}">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<h:outputText value="EBIT [€/t]">
+				</h:outputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(1).ebit}">
+				</p:inputText>
+			</p:column>
+
+			<p:column  style="width:8%">
+				<p:inputText value="#{contractActions.item.get(0).ebit}">
+				</p:inputText>
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+
+	<ui:remove>
+		<p:panelGrid columns="6">
+
+			<p:outputLabel value="Gross Margin [€/t]:" />
+			<p:inputText id="ci-gm" value="#{contractActions.item.gm}"
+				requiredMessage="Please provide gross margin" />
+			<h:outputText value="&#160;" />
+			<p:outputLabel value="Sales Volume [t]:" />
+			<p:inputText id="ci-sv" value="#{contractActions.item.get(0).volume}"
+				requiredMessage="Please provide sales volume" />
+			<h:outputText value="&#160;" />
+
+		</p:panelGrid>
+	</ui:remove>
+
+</cc:implementation>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 
+	<h:outputScript name="bootstrap/js/bootstrap.js" />
+	<h:outputScript name="js/custom-validators.js" />
+	<ui:insert name="customHeader" />
+	<script type="text/javascript">
+		$(document).ready(function () {
+		    $(".content").hide(); // hides the content DIV
+		});
+
+		$(window).load(function () {
+		    $(".loading").fadeOut("slow"); // loading DIV fades out
+		    $(".content").fadeIn("slow"); // content DIV fades in
+		});
+  </script>
+ -->
+</h:head>
+<h:body>
+	<f:facet name="last">
+		<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+		<h:outputStylesheet name="css/hydro.css" />
+	</f:facet>
+	<f:view>
+
+<!--  
+		<div class="loading">
+			<p:graphicImage name="img/ajax-loader.gif" />
+		</div>
+-->
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<p:graphicImage name="img/ajax-loader.gif" />
+		</p:dialog>
+
+		<ui:insert name="metadata" />
+		<h:form id="templateForm">
+
+			<p:graphicImage name="img/logo_marginplus.gif"
+				style="width:10%;margin-bottom:10px;float:left;margin-left:36px">
+			</p:graphicImage>
+
+			<p:graphicImage name="img/Hydro_logo.png"
+				style="width:8%;margin-bottom:10px;float:right;margin-right:15px">
+			</p:graphicImage>
+
+
+			<div class="col-lg-9 col-md-9">
+				<ui:insert name="header">
+
+					<p:menubar style="width:100%;margin-left:6%">
+						<p:submenu label="Standard Reports">
+						</p:submenu>
+
+						<p:submenu label="Other Reports">
+						</p:submenu>
+
+						<p:submenu label="Ad Hoc">
+						</p:submenu>
+
+						<p:submenu label="Entities">
+							<p:menuitem value="Customer" url="" />
+							<p:menuitem value="Seller" url="" />
+							<p:menuitem value="Contract" url="/contracts.xhtml" />
+						</p:submenu>
+
+						<p:submenu label="Admin">
+						</p:submenu>
+
+						<p:submenu label="Help">
+							<p:submenu label="Look&amp;Feel">
+
+							</p:submenu>
+						</p:submenu>
+
+						<f:facet name="options">
+							<h:panelGrid columns="3"
+								style="font-size:small;display:inline-block;position:relative;left: -50%; ">
+								<p:outputLabel value="User: "></p:outputLabel>
+								<h:outputText value="&#160;" />
+								<h:outputLabel value="#{securityActions.mitarbeiterByHydroId}"
+									style="font-weight:normal"></h:outputLabel>
+
+								<p:outputLabel value="Privileges: "></p:outputLabel>
+								<h:outputText value="&#160;" />
+								<h:outputLabel
+									value="#{securityActions.mitarbeiterRolleByHydroId}"
+									style="font-weight:normal"></h:outputLabel>
+
+								<p:outputLabel value="Official Month: "></p:outputLabel>
+								<h:outputText value="&#160;" />
+								<h:outputLabel value="March 2016" style="font-weight:normal"></h:outputLabel>
+							</h:panelGrid>
+
+						</f:facet>
+
+						<f:facet name="options">
+							<h:commandButton class="btn btn-default button" immediate="true"
+								value="Logout" action="#{securityActions.logout()}"
+								style="float:right;" />
+						</f:facet>
+					</p:menubar>
+
+
+
+					<div class="action  col-lg-2 col-md-2"></div>
+					<div class="content col-lg-8 col-md-8">
+
+						<h:outputLabel
+							style="float:left;font-size:22px;font-style:italic;font-weight:bold;margin-right:25px;">
+							<ui:insert name="content-title" />
+						</h:outputLabel>
+					</div>
+					<div class="right  col-lg-2 col-md-2"></div>
+				</ui:insert>
+			</div>
+
+			<div class="action  col-lg-2 col-md-2" style="margin: auto;">
+				<ui:insert name="action">
+				</ui:insert>
+			</div>
+			<div class="content col-lg-9 col-md-9">
+				<ui:insert name="content">
+				</ui:insert>
+			</div>
+
+			<div class="footer col-lg-12 col-md-12">
+				<ui:insert name="footer">
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+				</ui:insert>
+			</div>
+
+
+
+		</h:form>
+	</f:view>
+</h:body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+
+<!-- INTERFACE -->
+<cc:interface>
+	<cc:attribute name="contentTitle" required="true" />
+	<cc:attribute name="disableForUpdate" required="true" />
+	<cc:attribute name="disableProjekte" required="true" />
+	<cc:attribute name="disableAjax" required="true" />
+	<cc:attribute name="buttonLabel1" required="true"></cc:attribute>
+	<cc:attribute name="buttonAction1"
+		method-signature="java.lang.String action()" required="true"></cc:attribute>
+	<cc:attribute name="buttonLabel2" required="true"></cc:attribute>
+	<cc:attribute name="buttonAction2"
+		method-signature="java.lang.String action()" required="true"></cc:attribute>
+	<cc:attribute name="buttonLabel3" required="true"></cc:attribute>
+	<cc:attribute name="buttonAction3"
+		method-signature="java.lang.String action()" required="true"></cc:attribute>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+	<ui:decorate template="/WEB-INF/template.xhtml">
+		<ui:define name="content">
+			<p:tabView id="contract-details">
+
+				<p:tab title="Contract Details">
+					<p:outputLabel value="#{cc.attrs.contentTitle}" />
+
+
+					<h:panelGrid columns="2" style="width:50%">
+
+						<h:panelGrid columns="3">
+
+							<p:outputLabel value="Number:" />
+							<h:outputText value="&#160;" />
+							<p:inputText id="c-number"
+								value="#{contractDetialActions.actContract.id}" required="true"
+								disabled="#{cc.attrs.disableForUpdate}" />
+
+
+							<p:outputLabel value="Customer:" />
+							<h:outputText value="&#160;" />
+							<p:inputText id="c-customer"
+								value="#{contractDetialActions.actContract.customer.customer_fullname}"
+								style="width:350px">
+
+							</p:inputText>
+
+							<dialogs:customerDialogForContractDetails id="dialog"
+								actButtonAction="#{contractDetialActions.onCustomerForDetailsChanged()}"
+								actButtonLabel="OK"
+								update="contract-details:templateForm:contract-details:c-customer contract-details:templateForm:contract-details:c-parent"
+								widgetName="dialogCustomer">
+							</dialogs:customerDialogForContractDetails>
+							<h:outputText value="&#160;" />
+							<p:commandButton value="Find Customer..." type="button"
+								style="width:100%" icon="ui-icon-search"
+								onclick="PF('dialogCustomer').show();">
+							</p:commandButton>
+
+
+							<p:outputLabel value="Duration:" />
+							<h:outputText value="&#160;" />
+
+							<p:panelGrid columns="4">
+								<p:outputLabel value="Start:" />
+								<p:calendar id="c-start"
+									value="#{contractDetialActions.contractStart}" style="width:100px"
+									pattern="dd.MM.yyyy">
+
+								</p:calendar>
+								<p:outputLabel value="End:" />
+								<p:calendar id="c-end" value="#{contractDetialActions.contractEnd}"
+									style="width:100px" pattern="dd.MM.yyyy">
+
+								</p:calendar>
+							</p:panelGrid>
+
+							<p:outputLabel value="BU: " />
+							<h:outputText value="&#160;" />
+							<h:selectOneMenu id="bu" value="#{contractDetialActions.bu}"
+								style="width:100%">
+								<p:ajax listener="#{contractDetialActions.onBUChange}"
+									update="contract-details:templateForm:contract-details:cbu"
+									styleClass=".ui-selectonemenu-label" />
+
+								<f:converter converterId="BUConverter" />
+								<f:selectItems var="bu" value="#{BUActions.allBUs}"
+									itemLabel="#{bu.name}" />
+							</h:selectOneMenu>
+
+							<p:outputLabel value="CBU: " />
+							<h:outputText value="&#160;" />
+							<h:selectOneMenu id="cbu"
+								value="#{contractDetialActions.actContract.cbu}" style="width:100%">
+								<f:converter converterId="CBUConverter" />
+								<f:selectItems var="cbu" value="#{contractDetialActions.cbuList}"
+									itemLabel="#{cbu.name}" />
+							</h:selectOneMenu>
+
+							<p:outputLabel value="Plant: " />
+							<h:outputText value="&#160;" />
+							<h:selectOneMenu id="plant"
+								value="#{contractDetialActions.actContract.plant}"
+								style="width:100%">
+								<f:converter converterId="plantConverter" />
+								<f:selectItems var="plant" value="#{contractDetialActions.plantList}"
+									itemLabel="#{plant.plantName}" />
+							</h:selectOneMenu>
+
+							<p:outputLabel value="Seller " />
+							<h:outputText value="&#160;" />
+							<h:selectOneMenu id="seller"
+								value="#{contractDetialActions.actContract.seller}" style="width:100%">
+								<f:converter converterId="UserConverter" />
+								<f:selectItems var="user" value="#{contractDetialActions.userList}"
+									itemLabel="#{user.fullName}" />
+							</h:selectOneMenu>
+
+						</h:panelGrid>
+
+						<h:panelGrid columns="3" style="margin-left:10%">
+
+							<p:outputLabel value="Status:" />
+							<h:outputText value="&#160;" />
+							<p:inputText id="c-status"
+								value="#{contractDetialActions.actContract.statusId}"
+								disabled="#{cc.attrs.disableForUpdate}">
+								<f:converter converterId="ContractStatusConverter" />
+							</p:inputText>
+
+							<p:outputLabel value="Parent:" />
+							<h:outputText value="&#160;" />
+							<p:outputLabel id="c-parent"
+								value="#{contractDetialActions.actContract.customer.parent_id.name}">
+							</p:outputLabel>
+
+							<p:outputLabel value="Months:" />
+							<h:outputText value="&#160;" />
+							<p:inputText id="c-months" value="#{contractDetialActions.monthsdiff}">
+							</p:inputText>
+
+
+
+
+
+							<p:outputLabel value="Assumed LME [€/t]:" style="width:210px" />
+							<h:outputText value="&#160;" />
+							<p:inputText id="tf-aslme"
+								value="#{contractDetialActions.actContract.assumedlme}"
+								requiredMessage="Please provide assumed LME" />
+
+							<p:outputLabel value="Assumed Premium [€/t]:" />
+							<h:outputText value="&#160;" />
+							<p:inputText id="tf-asp"
+								value="#{contractDetialActions.actContract.assumedpremium}"
+								requiredMessage="Please provide assumed premium" />
+
+							<p:outputLabel value="Assumed Metal Freight [€/t]:" />
+							<h:outputText value="&#160;" />
+							<p:inputText id="tf-asmf"
+								value="#{contractDetialActions.actContract.assumedmetalfreight}"
+								requiredMessage="Please provide assumed metal freight" />
+
+						</h:panelGrid>
+
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+
+
+			<p:tabView id="details">
+
+<ui:remove>
+				<p:tab title="Items">
+					<comps:contractItemsFormNew>
+					</comps:contractItemsFormNew>
+				</p:tab>
+
+
+				<p:tab title="General">
+					<comps:contractGeneralForm>
+					</comps:contractGeneralForm>
+				</p:tab>
+
+
+				<p:tab title="Exposure">
+					<comps:contractExposureForm>
+					</comps:contractExposureForm>
+				</p:tab>
+
+
+				<p:tab title="Clauses">
+					<comps:contractClausesForm>
+					</comps:contractClausesForm>
+				</p:tab>
+
+
+				<p:tab title="Comments">
+					<p:panel>
+						<p:inputTextarea rows="10" cols="100"
+							value="#{contractDetialActions.actContract.comments}" />
+					</p:panel>
+				</p:tab>
+
+
+				<p:tab title="Activities">
+					<comps:contractActivitiesForm>
+					</comps:contractActivitiesForm>
+				</p:tab>
+
+
+				<p:tab title="Approvers">
+					<comps:contractApproversForm>
+					</comps:contractApproversForm>
+				</p:tab>
+
+
+				<p:tab title="Files">
+
+					<p:panel style="width:100%">
+						<p:fileUpload fileUploadListener="#{contractDetialActions.upload}"
+							skinSimple="true" allowTypes="/(\.|\/)(xml|jpe?g|png)$/"
+							sizeLimit="100000" description="Select Files" style="width:20% " />
+
+						<ui:remove>
+							<p:commandButton value="Submit" ajax="true"
+								actionListener="#{contractDetialActions.upload}">
+							</p:commandButton>
+						</ui:remove>
+					</p:panel>
+				</p:tab>
+				
+				</ui:remove>
+			</p:tabView>
+		</ui:define>
+
+		<ui:define name="action">
+		
+					<p:commandButton id="OK" value="Save changes"
+				action="#{contractDetialActions.updateContract()}"
+				validateClient="true"
+				styleClass="ui-button" >
+
+			</p:commandButton>
+		
+		
+			<p:commandButton action="#{cc.attrs.buttonAction1}"
+				value="#{cc.attrs.buttonLabel1}" ajax="false" />
+
+			<p:commandButton action="#{cc.attrs.buttonAction2}"
+				value="#{cc.attrs.buttonLabel2}" ajax="false" />
+
+			<p:commandButton action="#{cc.attrs.buttonAction3}"
+				value="#{cc.attrs.buttonLabel3}" ajax="false" />
+
+			<p:commandButton action="contracts.xhtml?faces-redirect=true"
+				icon="ui-icon-triangle-1-w" value="Back to contracts"
+				immediate="true" />
+		</ui:define>
+	</ui:decorate>
+</cc:implementation>
+
+</html>

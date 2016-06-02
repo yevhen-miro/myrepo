@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:comps="http://java.sun.com/jsf/composite/forms">
+
+<!-- INTERFACE -->
+<cc:interface>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+
+
+
+	<p:dataTable var="activity" id="activitiyTable"
+		value="#{contractActions.activities}">
+		<p:column headerText="Id" style="width:3%">
+			<h:outputText value="#{activity.activityId}" />
+		</p:column>
+
+		<p:column headerText="Type" style="width:10%">
+			<h:outputText value="#{activity.activityType}">
+			<f:converter converterId="ActivityTypeConverter"/>
+			</h:outputText> 
+		</p:column>
+
+		<p:column headerText="Message" style="width:15%">
+			<h:outputText value="#{activity.message}" />
+		</p:column>
+
+		<p:column headerText="Meta Data" style="width:50%">
+			<h:outputText value="#{activity.metaData}" />
+		</p:column>
+
+		<p:column headerText="Created" style="width:10%">
+		<h:outputText value="#{activity.created}">
+		<f:convertDateTime pattern="dd.MM.yyyy"/>
+		</h:outputText>
+		</p:column>
+
+		<p:column headerText="Created By" style="width:15%">
+			<h:outputText value="#{activity.createdByName}" />
+		</p:column>
+
+	</p:dataTable>
+
+
+
+
+</cc:implementation>
+
+</html>

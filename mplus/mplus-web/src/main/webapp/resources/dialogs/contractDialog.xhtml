@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dialogs="http://java.sun.com/jsf/composite/dialogs"
+	xmlns:cc="http://java.sun.com/jsf/composite">
+
+<!-- INTERFACE -->
+<cc:interface>
+	<cc:attribute name="widgetName" />
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+	<p:dialog id="dialogContract" header="Create New Contract"
+		widgetVar="dialogContract" dynamic="true" position="center center"
+		minHeight="40" resizable="false" closable="true" draggable="true"
+		width="41%" height="60%">
+		<p:ajax event="close" update="dialogContract" />
+		<h:form id="dialogForm">
+
+			<p:panelGrid columns="3" style="height:100%">
+
+				<p:outputLabel value="Customer: " />
+				<dialogs:customerDialogForNewContract id="dialog"
+					widgetName="dialogCustomerForContract">
+				</dialogs:customerDialogForNewContract>
+				<p:inputText id="customerInput" value="#{contractActions.customer}"
+					style="width:100%" required="true"
+					requiredMessage="Customer field can not be empty">
+					<f:converter converterId="customerConverter" />
+				</p:inputText>
+				<h:outputText value="&#160;" />
+				<h:outputText value="&#160;" />
+
+				<p:commandButton value="Find Customer" type="button"
+					style="width:100%" icon="ui-icon-search"
+					onclick="PF('dialogCustomerForContract').show();">
+				</p:commandButton>
+
+
+
+
+				<p:outputLabel value="Duration:" />
+				<h:outputText value="&#160;" />
+
+				<p:panelGrid columns="4" >
+					<p:outputLabel value="Start:" />
+					<p:calendar id="c-start" value="#{contractActions.contractStart}"
+						style="width:100px" pattern="dd.MM.yyyy" required="true"
+						requiredMessage="Start date can not be empty">
+					</p:calendar>
+					<p:outputLabel value="End:" />
+					<p:calendar id="c-end" value="#{contractActions.contractEnd}"
+						required="true" requiredMessage="End date can not be empty"
+						pattern="dd.MM.yyyy" style="width:100px">
+					</p:calendar>
+				</p:panelGrid>
+
+				<p:outputLabel value="Months: " />
+				<h:outputText value="&#160;" />
+				<p:outputLabel value=""></p:outputLabel>
+
+				<p:outputLabel value="BU: " />
+				<h:outputText value="&#160;" />
+				<h:selectOneMenu id="bu" value="#{contractActions.bu}"
+					required="true" requiredMessage="Please select a BU"
+					style="width:100%">
+					<p:ajax listener="#{contractActions.onBUChange}"
+						update="templateForm:contractDialog:dialogForm:cbu"
+						styleClass=".ui-selectonemenu-label" />
+					<f:selectItem itemLabel="" itemValue="#{contractActions.bu}" />
+					<f:converter converterId="BUConverter" />
+					<f:selectItems var="bu" value="#{BUActions.allBUs}"
+						itemLabel="#{bu.name}" />
+				</h:selectOneMenu>
+
+
+				<p:outputLabel value="CBU: " />
+				<h:outputText value="&#160;" />
+				<h:selectOneMenu id="cbu" value="#{contractActions.cbu}"
+					required="true" requiredMessage="Please select a CBU"
+					style="width:100%">
+					<f:selectItem itemLabel="" itemValue="#{contractActions.cbu}" />
+					<f:converter converterId="CBUConverter" />
+					<f:selectItems var="cbu" value="#{contractActions.cbuList}"
+						itemLabel="#{cbu.name}" />
+				</h:selectOneMenu>
+
+				<p:outputLabel value="Plant: " />
+				<h:outputText value="&#160;" />
+				<h:selectOneMenu id="plant" value="#{contractActions.plant}"
+					required="true" requiredMessage="Please select a plant"
+					style="width:100%">
+					<f:selectItem itemLabel="" value="#{contractActions.plant}" />
+					<f:converter converterId="plantConverter" />
+					<f:selectItems var="plant" value="#{contractActions.plantList}"
+						itemLabel="#{plant.plantName}" />
+				</h:selectOneMenu>
+
+
+
+			</p:panelGrid>
+
+			<p:commandButton id="OK" value="Save"
+				action="#{contractActions.createNewContract()}"
+				validateClient="true"
+				update="templateForm:contractDialog:dialogForm :templateForm:messages"
+				styleClass="ui-button" style="height:40px;width:49%"
+				oncomplete="PF('#{cc.attrs.widgetName}').hide();" process="@form">
+
+				<!-- 	disabled="#{empty customerActions.customers}" -->
+			</p:commandButton>
+
+
+
+
+			<h:commandButton value="Cancel" icon="ui-icon-arrowrefresh-1-w"
+				style="height:40px;width:49%"
+				actionListener="#{contractActions.reset}"
+				styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button">
+				<f:ajax render="templateForm:contractDialog:dialogContract"
+					resetValues="true" />
+				<i class="ui-icon-arrowrefresh-1-w"></i>
+			</h:commandButton>
+
+		</h:form>
+	</p:dialog>
+
+</cc:implementation>
+</html>
